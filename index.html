@@ -85,22 +85,56 @@ input, select, textarea { font-family:inherit; }
 .flight-arrow { color:var(--amber); font-size:1.4rem; flex-shrink:0; opacity:0.7; }
 
 /* Itinerary */
-.itinerary-table { width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-.itinerary-table th { background:var(--surface3); padding:12px 8px; font-weight:700; font-size:0.78rem; color:var(--text-dim); text-align:center; border:1px solid var(--border); }
-.itinerary-table th .day-date { font-size:0.65rem; font-weight:400; color:var(--text-dim); margin-top:2px; }
-.itinerary-table td { border:1px solid var(--border); padding:0; vertical-align:stretch; }
-.itin-time { background:var(--surface2); padding:10px 6px; font-size:0.63rem; font-weight:600; color:var(--amber); text-align:center; width:90px; }
-.slot { padding:10px 10px; font-size:0.72rem; line-height:1.35; text-align:center; height:100%; display:flex; align-items:center; justify-content:center; }
-.slot.sleep { background:rgba(100,100,130,0.12); color:#7a7a96; }
-.slot.travel { background:rgba(66,153,225,0.1); color:var(--blue); border-left:3px solid var(--blue); }
-.slot.activity { background:rgba(72,187,120,0.1); color:var(--green); border-left:3px solid var(--green); }
-.slot.eating { background:rgba(237,137,54,0.1); color:var(--orange); border-left:3px solid var(--orange); }
-.slot.free { background:rgba(159,122,234,0.1); color:var(--purple); border-left:3px solid var(--purple); }
-.slot.prep { background:rgba(160,160,184,0.08); color:var(--text-dim); border-left:3px solid var(--text-dim); }
-.slot.empty { background:transparent; }
-.itinerary-legend { display:flex; gap:18px; margin-top:14px; flex-wrap:wrap; }
-.legend-item { display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-dim); }
-.legend-dot { width:10px; height:10px; border-radius:3px; }
+.itinerary-table { width:100%; border-collapse:separate; border-spacing:3px 3px; }
+.itinerary-table thead th {
+  background:linear-gradient(180deg, var(--surface3), var(--surface2));
+  padding:16px 10px 14px; font-weight:700; font-size:0.82rem; color:var(--amber);
+  text-align:center; border-radius:10px; border:none;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+.itinerary-table thead th:first-child { background:transparent; box-shadow:none; color:var(--text-dim); font-size:0.7rem; }
+.itinerary-table thead th .day-date { font-size:0.66rem; font-weight:400; color:var(--text-dim); margin-top:3px; }
+.itinerary-table td { border:none; padding:2px; vertical-align:stretch; height:1px; }
+.itin-time {
+  background:var(--surface2); padding:10px 6px; font-size:0.6rem; font-weight:600;
+  color:var(--text-dim); text-align:center; width:76px;
+  border-radius:8px; letter-spacing:0.2px; opacity:0.8;
+}
+.slot {
+  padding:12px 10px; font-size:0.7rem; line-height:1.4; text-align:center;
+  height:100%; display:flex; align-items:center; justify-content:center;
+  border-radius:10px; transition:transform .2s ease, box-shadow .2s ease;
+  font-weight:500; letter-spacing:-0.1px;
+}
+.slot:hover { transform:scale(1.03); box-shadow:0 4px 16px rgba(0,0,0,0.35); z-index:2; position:relative; }
+.slot.sleep {
+  background:linear-gradient(135deg, rgba(55,55,80,0.25), rgba(45,45,70,0.15));
+  color:#6e6e8e; font-style:italic; font-weight:400;
+}
+.slot.travel {
+  background:linear-gradient(135deg, rgba(99,179,237,0.15), rgba(66,153,225,0.08));
+  color:#7cc4f5; border-left:3px solid rgba(99,179,237,0.5);
+}
+.slot.activity {
+  background:linear-gradient(135deg, rgba(104,211,145,0.15), rgba(72,187,120,0.08));
+  color:#7ee8a8; border-left:3px solid rgba(104,211,145,0.5);
+}
+.slot.eating {
+  background:linear-gradient(135deg, rgba(246,173,85,0.15), rgba(237,137,54,0.08));
+  color:#f6ad55; border-left:3px solid rgba(246,173,85,0.5);
+}
+.slot.free {
+  background:linear-gradient(135deg, rgba(183,148,244,0.15), rgba(159,122,234,0.08));
+  color:#c4a8f7; border-left:3px solid rgba(183,148,244,0.5);
+}
+.slot.prep {
+  background:linear-gradient(135deg, rgba(160,160,190,0.1), rgba(140,140,170,0.05));
+  color:#9898b0; border-left:3px solid rgba(160,160,190,0.3);
+}
+.slot.empty { background:rgba(255,255,255,0.01); }
+.itinerary-legend { display:flex; gap:18px; margin-top:18px; flex-wrap:wrap; padding:12px 16px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border); }
+.legend-item { display:flex; align-items:center; gap:7px; font-size:0.72rem; color:var(--text-secondary); }
+.legend-dot { width:10px; height:10px; border-radius:4px; }
 
 /* Travelers */
 .travelers-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
@@ -127,6 +161,28 @@ input, select, textarea { font-family:inherit; }
 .modal .form-group input { width:100%; padding:10px 12px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); font-size:0.88rem; transition:border-color .2s, box-shadow .2s; }
 .modal .form-group input:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 3px var(--amber-glow); }
 .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+
+/* Directions Modal */
+.dir-modal { max-width:480px; padding:0; overflow:hidden; position:relative; }
+.dir-close { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--text-dim); font-size:1.4rem; z-index:5; line-height:1; padding:4px 8px; border-radius:6px; transition:all .2s; }
+.dir-close:hover { color:var(--text); background:rgba(255,255,255,0.08); }
+.dir-header { padding:24px 24px 16px; }
+.dir-route { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.dir-loc { font-size:0.82rem; font-weight:600; color:var(--text); }
+.dir-arrow { color:var(--amber); font-size:1rem; flex-shrink:0; }
+.dir-badges { display:flex; gap:8px; flex-wrap:wrap; }
+.dir-badge { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:600; }
+.dir-badge.method { background:var(--amber-glow); color:var(--amber); border:1px solid rgba(232,168,56,0.2); }
+.dir-badge.time { background:var(--teal-glow); color:var(--teal); border:1px solid rgba(56,178,172,0.2); }
+.dir-badge.cost { background:rgba(72,187,120,0.1); color:#7ee8a8; border:1px solid rgba(72,187,120,0.2); }
+.dir-steps { padding:0 24px 24px; }
+.dir-steps ol { list-style:none; counter-reset:step; padding:0; margin:0; }
+.dir-steps li { counter-increment:step; padding:12px 0 12px 40px; position:relative; font-size:0.8rem; color:var(--text-secondary); line-height:1.55; border-bottom:1px solid var(--border); }
+.dir-steps li:last-child { border-bottom:none; }
+.dir-steps li::before { content:counter(step); position:absolute; left:0; top:12px; width:26px; height:26px; background:var(--surface3); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:700; color:var(--amber); }
+.slot.clickable { cursor:pointer; position:relative; }
+.slot.clickable::after { content:"\1F9ED"; position:absolute; top:4px; right:6px; font-size:0.55rem; opacity:0.5; }
+.slot.clickable:hover::after { opacity:1; }
 
 /* Buttons */
 .btn { padding:9px 18px; border-radius:var(--radius-sm); border:none; font-size:0.82rem; font-weight:600; transition:all .2s; }
@@ -310,12 +366,12 @@ tr:hover td { background:rgba(255,255,255,0.025); }
     <div class="section-title"><span class="icon">&#128197;</span> 6-Day Itinerary</div>
     <div style="overflow-x:auto"><table class="itinerary-table" id="itineraryGrid"></table></div>
     <div class="itinerary-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#7a7a96"></div>Sleep</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Travel</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Activity</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Eating</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Free Time</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--text-dim)"></div>Prep</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6e6e8e"></div>Sleep</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7cc4f5"></div>Travel</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7ee8a8"></div>Activity</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f6ad55"></div>Eating</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c4a8f7"></div>Free Time</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#9898b0"></div>Prep</div>
     </div>
     <div style="margin-top:14px;"><a href="https://www.google.com/maps/d/u/0/edit?mid=1b000Titzrj3lhr3ksDZC26xUmX0qvAI&usp=sharing" target="_blank" style="color:var(--teal);font-size:0.82rem;text-decoration:none;font-weight:500;">&#128205; Open Trip Map in Google Maps &rarr;</a></div>
   </div>
@@ -475,6 +531,13 @@ function doPost(e) {
   </div>
 </div>
 
+<div class="modal-overlay" id="directionsModal" onclick="if(event.target===this)closeDirections()">
+  <div class="modal dir-modal">
+    <button class="dir-close" onclick="closeDirections()">&times;</button>
+    <div id="dirContent"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -519,6 +582,46 @@ const DEFAULT_DATA = {
     ["10–11 PM",["Go to Airbnb","travel",1],["Go to Airbnb","travel",1],null,null,["Zzz","sleep",1],["","empty",1]],
     ["11 PM–12 AM",["Zzz","sleep",1],["Zzz","sleep",1],["Zzz","sleep",1],null,["Zzz","sleep",1],["","empty",1]]
   ],
+  directions:{
+    // DAY 1 (col 1) — row-col keys
+    "1-1":{from:"Suvarnabhumi Airport",to:"Airbnb (Ratchathewi)",method:"ARL + BTS",time:"45–50 min",cost:"~62 THB",steps:["Take Airport Rail Link (City Line) from Suvarnabhumi to Phaya Thai station (26 min, 45 THB)","Transfer to BTS Sukhumvit Line at Phaya Thai (N2), ride 1 stop south to Ratchathewi (N1) (17 THB)","Walk to Airbnb from Ratchathewi station"]},
+    "4-1":{from:"Airbnb (Ratchathewi)",to:"Chinatown (Yaowarat)",method:"Grab / Taxi",time:"15–25 min",cost:"~70–100 THB",steps:["Book a Grab or taxi from Ratchathewi directly to Yaowarat Road","Alternative: BTS Ratchathewi → Siam → Sukhumvit Line to Asok → MRT Blue Line to Wat Mangkon (Chinatown station)"]},
+    "6-1":{from:"Chinatown (Yaowarat)",to:"Lunch spot nearby",method:"Walk",time:"5–10 min",cost:"Free",steps:["Walk along Yaowarat Road — street food stalls and restaurants are everywhere","Pick any spot that looks good along the main strip or side sois"]},
+    "8-1":{from:"Chinatown",to:"Song Wat + Talat Noi",method:"Walk",time:"10–15 min",cost:"Free",steps:["From Yaowarat Road, walk south toward the river along Charoen Krung Road","Turn onto Song Wat Road and continue into the Talat Noi neighborhood","The entire area is a connected walking district from Chinatown"]},
+    "11-1":{from:"Song Wat + Talat Noi",to:"Airbnb (Ratchathewi)",method:"Grab / Taxi",time:"15–25 min",cost:"~80–120 THB",steps:["Book a Grab from Talat Noi directly back to Ratchathewi","Alternative: Walk to MRT Wat Mangkon or Hua Lamphong → MRT to Sukhumvit → BTS to Ratchathewi (~45 min)"]},
+    "14-1":{from:"Airbnb (Ratchathewi)",to:"Asiatique The Riverfront",method:"BTS + Free Boat",time:"40–45 min",cost:"~35–44 THB",steps:["BTS Ratchathewi (N1) → Siam (CEN), transfer to BTS Silom Line","Ride to Saphan Taksin (S6), exit at Exit 2","Walk to Sathorn Pier and board the free Asiatique shuttle boat (runs 16:00–23:30, every 30 min)"]},
+    "17-1":{from:"Asiatique The Riverfront",to:"Airbnb (Ratchathewi)",method:"Free Boat + BTS",time:"40–45 min",cost:"~35–44 THB",steps:["Take the free shuttle boat from Asiatique back to Sathorn Pier (last boat ~23:30)","BTS Saphan Taksin (S6) → Siam (CEN), transfer to Sukhumvit Line","Ride 1 stop north to Ratchathewi (N1)"]},
+
+    // DAY 2 (col 2)
+    "4-2":{from:"Airbnb (Ratchathewi)",to:"Grand Palace + Wat Pho",method:"Grab / Taxi",time:"20–40 min",cost:"~80–150 THB",steps:["Grab directly to Grand Palace — go early before 8 AM to beat traffic","Alternative: BTS to Saphan Taksin → Chao Phraya Express Boat to Tha Chang Pier (N9) → 5 min walk to entrance"]},
+    "7-2":{from:"Grand Palace + Wat Pho",to:"Lunch spot nearby",method:"Walk",time:"5–10 min",cost:"Free",steps:["Many restaurants along Maharaj Road near the Grand Palace","Tha Tien area has great local food stalls and riverside restaurants"]},
+    "9-2":{from:"Grand Palace area",to:"Wat Arun",method:"Cross-river Ferry",time:"10–15 min",cost:"8 THB",steps:["Walk from Grand Palace south to Tha Tien Pier (~10 min, passing Wat Pho)","Take the cross-river ferry directly to Wat Arun pier (5 min, 8 THB)","Ferries depart every 10–15 min, 06:00–21:00"]},
+    "11-2":{from:"Wat Arun",to:"Airbnb (Ratchathewi)",method:"Grab / Taxi",time:"25–40 min",cost:"~100–150 THB",steps:["Book a Grab from Wat Arun directly to Ratchathewi","Alternative: Cross-river ferry back → Chao Phraya Boat to Sathorn Pier → BTS to Ratchathewi (~60 min)"]},
+    "13-2":{from:"Airbnb (Ratchathewi)",to:"Pratunam Area (Platinum / CentralWorld)",method:"Walk",time:"10–15 min",cost:"Free",steps:["Walk south/southeast from Ratchathewi BTS station","Platinum Fashion Mall is ~10 min via the skywalk system","CentralWorld is a further 10 min south, or 1 BTS stop to Chit Lom (E1)"]},
+    "17-2":{from:"Pratunam Area",to:"Airbnb (Ratchathewi)",method:"Walk",time:"10–15 min",cost:"Free",steps:["Walk back north to Ratchathewi BTS via the skywalk or street level","Pratunam is in the same neighborhood as your Airbnb"]},
+
+    // DAY 3 (col 3)
+    "3-3":{from:"Airbnb (Ratchathewi)",to:"Ancient City (Muang Boran)",method:"BTS + Grab",time:"~1.5 hours",cost:"~145–165 THB",steps:["BTS Ratchathewi (N1) → Siam (CEN) → Sukhumvit Line all the way to Kheha (E24) terminus (~50 min)","From Kheha station, take a Grab/taxi to Ancient City entrance (~15 min, ~80–100 THB)","Tip: Get a Rabbit Card for convenient BTS tap-and-go"]},
+    "7-3":{from:"Ancient City",to:"Lunch spot",method:"Inside Ancient City",time:"N/A",cost:"Included",steps:["Several food stalls and restaurants inside Ancient City grounds","Main food court near the central area of the park"]},
+    "9-3":{from:"Lunch",to:"Ancient City (cont.)",method:"Continue exploring",time:"N/A",cost:"N/A",steps:["Continue exploring the park after lunch","Rent a bike (~50 THB) to cover more ground — the park is huge (80 hectares)"]},
+    "12-3":{from:"Ancient City",to:"Airbnb (Ratchathewi)",method:"Grab + BTS",time:"~1.5 hours",cost:"~145–165 THB",steps:["Grab/taxi from Ancient City back to Kheha BTS (E24)","BTS Kheha → Siam → Ratchathewi (N1)"]},
+    "14-3":{from:"Airbnb (Ratchathewi)",to:"Akara Sky Hanuman",method:"BTS",time:"10–15 min",cost:"~17–25 THB",steps:["BTS Ratchathewi (N1) → Siam (CEN) → 2 stops east to Phloen Chit (E2)","Exit and walk via skywalk into One City Centre building (548 Ploenchit Rd)","Take elevator to 61st floor — opens at 16:30, reservations recommended"]},
+
+    // DAY 4 (col 4)
+    "3-4":{from:"Airbnb (Ratchathewi)",to:"Chatuchak Weekend Market",method:"BTS",time:"~15 min",cost:"~30–35 THB",steps:["BTS Ratchathewi (N1) northbound to Mo Chit (N8) — 7 stops, ~13 min","Exit Mo Chit (Exit 1), walk 5 min to market","Pro tip: MRT Kamphaeng Phet Exit 2 drops you right inside the market"]},
+    "8-4":{from:"Chatuchak",to:"Bang Sue Junction + Ace Jolun",method:"BTS",time:"~10 min",cost:"~17–25 THB",steps:["BTS Mo Chit (N8) → 3 stops south to Ari (N5)","Ace Jolun is near Phaholyothin Soi 2, short walk from Ari BTS"]},
+    "10-4":{from:"Ari area",to:"ICONSIAM",method:"BTS + Gold Line",time:"40–50 min",cost:"~44–50 THB",steps:["BTS Ari (N5) → Siam (CEN), transfer to Silom Line","Ride to Krung Thon Buri (S7), transfer to Gold Line monorail","Gold Line to Charoen Nakhon — ICONSIAM connected via covered walkway","Alternative: BTS to Saphan Taksin → free ICONSIAM shuttle boat (every 15 min)"]},
+    "12-4":{from:"ICONSIAM",to:"Khao San Road",method:"Grab / Taxi",time:"15–25 min",cost:"~60–100 THB",steps:["Book a Grab from ICONSIAM to Khao San Road (~5 km)","No practical public transit for this route — Grab is fastest"]},
+    "16-4":{from:"Khao San Road",to:"Airbnb (Ratchathewi)",method:"Grab / Taxi",time:"15–25 min",cost:"~60–80 THB",steps:["Book a Grab or hail a metered taxi from Khao San Road","No direct rail connection to Khao San — taxi/Grab is best, especially at night"]},
+
+    // DAY 5 (col 5)
+    "3-5":{from:"Airbnb (Ratchathewi)",to:"Khlong Lat Mayom Floating Market",method:"BTS + Grab",time:"45–60 min",cost:"~120–200 THB",steps:["Option A: BTS Ratchathewi → Siam → Silom Line to Bang Wa (S12) terminus, then taxi (~15 min, 75–100 THB)","Option B: Direct Grab from Ratchathewi (~30–45 min, ~200 THB)","Tip: Free shuttle bus from MRT Bang Khun Non Exit 3 on weekends (every 20–30 min, 09:00–16:30)"]},
+    "6-5":{from:"Khlong Lat Mayom",to:"Early Lunch",method:"Inside market",time:"N/A",cost:"N/A",steps:["Amazing food stalls inside the floating market","Try the boat noodles and grilled seafood — eat at the canal-side tables"]},
+    "7-5":{from:"Khlong Lat Mayom / Airbnb",to:"Free Time Activities",method:"Varies",time:"Varies",cost:"Varies",steps:["To Seacon Bangkae: Grab from market (~15–20 min, ~80–120 THB)","To return to Airbnb: Grab or taxi + BTS Bang Wa to Ratchathewi (~120–145 THB)","Seacon Bangkae is near MRT Phasi Charoen (BL36) for return via Blue Line"]},
+
+    // DAY 6 (col 6)
+    "3-6":{from:"Airbnb (Ratchathewi)",to:"Suvarnabhumi Airport",method:"BTS + ARL",time:"45–50 min",cost:"~62 THB",steps:["BTS Ratchathewi (N1) → 1 stop north to Phaya Thai (N2)","Transfer to Airport Rail Link at Phaya Thai station","ARL City Line to Suvarnabhumi Airport (26 min, 45 THB)","Tip: Allow 2+ hours before flight. If before 6 AM, take Grab instead (~250–350 THB)"]}
+  },
   expenses: [
     {id:"exp_preset_1",description:"Flight Booking (Roundtrip)",amount:44985.55,currency:"PHP",paidBy:"eduard",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"equal",customSplits:null,date:"2026-01-15",category:"transport",status:"paid",comments:""},
     {id:"exp_preset_2",description:"Airbnb",amount:26685.61,currency:"PHP",paidBy:"kerr",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"custom",customSplits:{eduard:5487.12,kerr:5187.12,justin:5487.12,anwell:5487.12,august:5487.12},date:"2026-01-20",category:"accommodation",status:"paid",comments:""}
@@ -576,19 +679,52 @@ function updateCountdown() {
 
 // Itinerary
 function renderItinerary() {
-  const hdr=`<thead><tr><th>Time</th>${data.itinerary.map(d=>`<th>${d.label}<div class="day-date">${new Date(d.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></th>`).join("")}</tr></thead>`;
-  const rows=data.itinGrid.map(row=>{
+  const icons={sleep:"\u{1F634}",travel:"\u{1F695}",activity:"\u{2B50}",eating:"\u{1F374}",free:"\u{1F3B2}",prep:"\u{1F9F3}",empty:""};
+  const dirs=data.directions||{};
+  const hdr=`<thead><tr><th></th>${data.itinerary.map(d=>`<th>${d.label}<div class="day-date">${new Date(d.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></th>`).join("")}</tr></thead>`;
+  const rows=data.itinGrid.map((row,ri)=>{
     const time=row[0];
     let cells="";
     for(let i=1;i<=6;i++){
       const c=row[i];
       if(c===null) continue;
       const [act,type,span]=c;
-      cells+=`<td${span>1?' rowspan="'+span+'"':''} style="padding:0"><div class="slot ${type}">${act}</div></td>`;
+      const icon=act?(icons[type]||""):"";
+      const label=act?`${icon?icon+" ":""}${act}`:"";
+      const hasDir=!!dirs[ri+"-"+i];
+      const click=hasDir?` clickable" onclick="showDirections(${ri},${i})`:'"';
+      cells+=`<td${span>1?' rowspan="'+span+'"':''}><div class="slot ${type}${hasDir?' clickable':''}"${hasDir?' onclick="showDirections('+ri+','+i+')"':''}>${label}</div></td>`;
     }
     return `<tr><td class="itin-time">${time}</td>${cells}</tr>`;
   }).join("");
   document.getElementById("itineraryGrid").innerHTML=hdr+"<tbody>"+rows+"</tbody>";
+}
+
+function showDirections(row,col){
+  const d=(data.directions||{})[row+"-"+col];
+  if(!d)return;
+  const html=`
+    <div class="dir-header">
+      <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;font-weight:600">\u{1F9ED} Getting There</div>
+      <div class="dir-route">
+        <span class="dir-loc">${d.from}</span>
+        <span class="dir-arrow">\u2192</span>
+        <span class="dir-loc">${d.to}</span>
+      </div>
+      <div class="dir-badges">
+        <span class="dir-badge method">\u{1F68C} ${d.method}</span>
+        <span class="dir-badge time">\u{1F552} ${d.time}</span>
+        <span class="dir-badge cost">\u{1F4B0} ${d.cost}</span>
+      </div>
+    </div>
+    <div class="dir-steps">
+      <ol>${d.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+    </div>`;
+  document.getElementById("dirContent").innerHTML=html;
+  document.getElementById("directionsModal").classList.add("show");
+}
+function closeDirections(){
+  document.getElementById("directionsModal").classList.remove("show");
 }
 
 // Travelers
