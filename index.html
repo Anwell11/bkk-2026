@@ -408,32 +408,36 @@ tr:hover td { background:rgba(255,255,255,0.025); }
         <div style="margin-top:8px;font-size:0.82rem;line-height:1.6;color:var(--text-secondary)">
           <p><b>Step 1: Create a Google Sheet</b><br/>Create a new blank Google Sheet. Copy the ID from the URL — it's the long string between <code>/d/</code> and <code>/edit</code>. Share the sheet: click Share → Anyone with the link → Editor.</p>
           <p><b>Step 2: Add the Apps Script</b><br/>In your Google Sheet click <b>Extensions → Apps Script</b>. Delete all existing code, paste the script below, save, then click <b>Deploy → New deployment → Web app</b>. Set Execute as: Me, Who has access: Anyone. Copy the Web App URL.</p>
-          <pre style="background:#1c1c32;color:#e8a838;padding:10px;border-radius:6px;font-size:0.75rem;overflow-x:auto;white-space:pre-wrap">// ⚠️ Replace YOUR_SECRET_TOKEN with any random password you choose (e.g. "bkk2026abc")
-// Set the same token in the dashboard Settings → Secret Token field
-var SECRET = "YOUR_SECRET_TOKEN";
+          <pre style="background:#1c1c32;color:#e8a838;padding:10px;border-radius:6px;font-size:0.75rem;overflow-x:auto;white-space:pre-wrap">// ⚠️ Replace bkk2026abc with your own secret password
+// Enter the same password in the dashboard Settings → Secret Token field
+var SECRET = "bkk2026abc";
 
-function doPost(e){
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  var sh=ss.getSheetByName("SyncData")||ss.insertSheet("SyncData");
+function doPost(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName("SyncData") || ss.insertSheet("SyncData");
   try {
-    var b=JSON.parse(e.postData.contents);
-    if(b.token !== SECRET){
-      return ContentService.createTextOutput(JSON.stringify({ok:false,error:"Unauthorized"}))
+    var b = JSON.parse(e.postData.contents);
+    if (b.token !== SECRET) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ok:false,error:"Unauthorized"}))
         .setMimeType(ContentService.MimeType.JSON);
     }
-    if(b.action==="write"){
+    if (b.action === "write") {
       sh.getRange("A1").setValue(b.data);
-      return ContentService.createTextOutput(JSON.stringify({ok:true}))
+      return ContentService
+        .createTextOutput(JSON.stringify({ok:true}))
         .setMimeType(ContentService.MimeType.JSON);
     }
   } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({ok:false,error:err.message}))
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:false,error:err.message}))
       .setMimeType(ContentService.MimeType.JSON);
   }
-  return ContentService.createTextOutput(JSON.stringify({ok:false,error:"unknown action"}))
+  return ContentService
+    .createTextOutput(JSON.stringify({ok:false,error:"unknown action"}))
     .setMimeType(ContentService.MimeType.JSON);
 }</pre>
-          <p><b>Important:</b> Replace <code>YOUR_SECRET_TOKEN</code> in the script with any password you choose (e.g. <b>bkk2026abc</b>). Then deploy with <b>Execute as: Me</b> and <b>Who has access: Anyone with Google Account</b>. Enter the same token in the Secret Token field above.</p>
+          <p><b>Important:</b> Replace <code>bkk2026abc</code> with your own secret password. Deploy with <b>Execute as: Me</b> and <b>Who has access: Anyone with Google Account</b>. Enter the same password in the Secret Token field above. After updating this code, always create a <b>New Version</b> when redeploying.</p>
           <p><b>Step 3: Get a Google API Key</b><br/>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--amber)">Google Cloud Console</a> → Create Project → Enable "Google Sheets API" → Create Credentials → API Key.</p>
           <p><b>Step 4: Configure &amp; connect</b><br/>Paste your Spreadsheet ID, API Key, Apps Script URL, and Secret Token into the fields above. Click Save Config → Test Connection → Manual Sync.</p>
           <p style="color:var(--orange)"><b>Note:</b> The "SyncData" sheet tab is created automatically on the first write. After setting up, do a Manual Sync first to initialise, then enable Auto-Sync.</p>
@@ -885,20 +889,28 @@ async function gsWrite(payload) {
   if (!webAppUrl) throw new Error("NO_WEBAPP");
 
   const body = JSON.stringify({ action: "write", token: syncToken || "", data: JSON.stringify(payload) });
-  const isLocalFile = location.protocol === "file:";
 
-  if (isLocalFile) {
-    // file:// origin: use no-cors so the browser doesn't block it.
-    // The write lands in the sheet but we get an opaque response (can't read it).
-    await fetch(webAppUrl, { method: "POST", mode: "no-cors", body });
-    // Assume success — verify by checking A1 in the sheet after sync.
+  // IMPORTANT: Use Content-Type: text/plain so the browser treats this as a "simple request"
+  // and skips the CORS preflight. Apps Script does not handle OPTIONS preflight requests,
+  // causing "Failed to fetch" if any other Content-Type is used. This works on both
+  // file:// and https:// origins without needing mode: "no-cors".
+  const res = await fetch(webAppUrl, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body
+  });
+
+  // Apps Script always returns HTTP 200 — check the JSON body for actual errors
+  const text = await res.text();
+  try {
+    const json = JSON.parse(text);
+    if (json.ok === false) throw new Error(json.error || "Write failed");
+    return json;
+  } catch(e) {
+    if (e.message.includes("Write failed") || e.message.includes("Unauthorized")) throw e;
+    // Response wasn't parseable JSON but request went through — treat as success
     return { ok: true };
   }
-
-  // Hosted (http/https): normal fetch, we can read the response
-  const res = await fetch(webAppUrl, { method: "POST", body });
-  if (!res.ok) throw new Error(`Write failed: HTTP ${res.status}`);
-  return await res.json();
 }
 
 async function testGsheetsConnection() {
