@@ -85,20 +85,19 @@ input, select, textarea { font-family:inherit; }
 .flight-arrow { color:var(--amber); font-size:1.4rem; flex-shrink:0; opacity:0.7; }
 
 /* Itinerary */
-.itinerary-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
-.day-col { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-.day-header { background:var(--surface2); padding:12px; text-align:center; border-bottom:1px solid var(--border); }
-.day-header .day-name { font-weight:700; font-size:0.9rem; }
-.day-header .day-date { font-size:0.72rem; color:var(--text-dim); margin-top:2px; }
-.day-slots { padding:8px; display:flex; flex-direction:column; gap:5px; }
-.slot { padding:10px 12px; border-radius:var(--radius-sm); font-size:0.73rem; line-height:1.35; transition:transform .15s, box-shadow .15s; cursor:default; }
-.slot:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+.itinerary-table { width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.itinerary-table th { background:var(--surface3); padding:12px 8px; font-weight:700; font-size:0.78rem; color:var(--text-dim); text-align:center; border:1px solid var(--border); }
+.itinerary-table th .day-date { font-size:0.65rem; font-weight:400; color:var(--text-dim); margin-top:2px; }
+.itinerary-table td { border:1px solid var(--border); padding:0; vertical-align:stretch; }
+.itin-time { background:var(--surface2); padding:10px 6px; font-size:0.63rem; font-weight:600; color:var(--amber); text-align:center; width:90px; }
+.slot { padding:10px 10px; font-size:0.72rem; line-height:1.35; text-align:center; height:100%; display:flex; align-items:center; justify-content:center; }
 .slot.sleep { background:rgba(100,100,130,0.12); color:#7a7a96; }
 .slot.travel { background:rgba(66,153,225,0.1); color:var(--blue); border-left:3px solid var(--blue); }
 .slot.activity { background:rgba(72,187,120,0.1); color:var(--green); border-left:3px solid var(--green); }
 .slot.eating { background:rgba(237,137,54,0.1); color:var(--orange); border-left:3px solid var(--orange); }
 .slot.free { background:rgba(159,122,234,0.1); color:var(--purple); border-left:3px solid var(--purple); }
 .slot.prep { background:rgba(160,160,184,0.08); color:var(--text-dim); border-left:3px solid var(--text-dim); }
+.slot.empty { background:transparent; }
 .itinerary-legend { display:flex; gap:18px; margin-top:14px; flex-wrap:wrap; }
 .legend-item { display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-dim); }
 .legend-dot { width:10px; height:10px; border-radius:3px; }
@@ -309,7 +308,7 @@ tr:hover td { background:rgba(255,255,255,0.025); }
       </div>
     </div>
     <div class="section-title"><span class="icon">&#128197;</span> 6-Day Itinerary</div>
-    <div class="itinerary-grid" id="itineraryGrid"></div>
+    <div style="overflow-x:auto"><table class="itinerary-table" id="itineraryGrid"></table></div>
     <div class="itinerary-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#7a7a96"></div>Sleep</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Travel</div>
@@ -491,39 +490,34 @@ const DEFAULT_DATA = {
     {id:"august",firstName:"August",middleName:"",lastName:"",birthDate:"",passportNumber:""}
   ],
   itinerary: [
-    {day:1,date:"2026-03-25",dayOfWeek:"Wednesday",label:"Day 1 (Wed)",slots:[
-      {activity:"Arrival (2:45 AM)",type:"travel"},{activity:"Check-in + Rest",type:"sleep"},
-      {activity:"Prep",type:"prep"},{activity:"Chinatown + Stroll",type:"activity"},
-      {activity:"Lunch Break",type:"eating"},{activity:"Song Wat + Talat Noi",type:"activity"},
-      {activity:"Rest",type:"free"},{activity:"Prep",type:"prep"},{activity:"Asiatique Dinner Cruise",type:"eating"}
-    ]},
-    {day:2,date:"2026-03-26",dayOfWeek:"Thursday",label:"Day 2 (Thu)",slots:[
-      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
-      {activity:"Grand Palace + Wat Pho",type:"activity"},{activity:"Lunch Break",type:"eating"},
-      {activity:"Wat Arun",type:"activity"},{activity:"Rest",type:"free"},
-      {activity:"Pratunam Mall Hop (Platinum + December + Big C + CentralwOrld) + Dinner",type:"activity"}
-    ]},
-    {day:3,date:"2026-03-27",dayOfWeek:"Friday",label:"Day 3 (Fri)",slots:[
-      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
-      {activity:"Travel to Ancient City",type:"travel"},{activity:"Ancient City",type:"activity"},
-      {activity:"Lunch Break",type:"eating"},{activity:"Ancient City (cont.)",type:"activity"},
-      {activity:"Rest",type:"free"},{activity:"Akara Sky Hanuman Dinner + Drinks",type:"eating"}
-    ]},
-    {day:4,date:"2026-03-28",dayOfWeek:"Saturday",label:"Day 4 (Sat)",slots:[
-      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie + Head to Chatuchak",type:"eating"},
-      {activity:"Chatuchak Weekend Market Stroll",type:"activity"},{activity:"Lunch Break",type:"eating"},
-      {activity:"Bang Sue Junction + Ace Jolun",type:"activity"},{activity:"Go to ICONSIAM + Stroll + Palamig",type:"activity"},
-      {activity:"Khao San Road + Stroll + Dinner (Michelin Spot)",type:"eating"},{activity:"Optional: Khao San Drinks",type:"free"}
-    ]},
-    {day:5,date:"2026-03-29",dayOfWeek:"Sunday",label:"Day 5 (Sun)",slots:[
-      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
-      {activity:"Khlong Lat Floating Market",type:"activity"},{activity:"Early Lunch",type:"eating"},
-      {activity:"FREE TIME: Seacon Bangkae + Space Time / Return to Hotel / Last-minute Shopping / Revisit favorites",type:"free"}
-    ]},
-    {day:6,date:"2026-03-30",dayOfWeek:"Monday",label:"Day 6 (Mon)",slots:[
-      {activity:"Prep + Breakfast",type:"eating"},{activity:"Head to Suvarnabhumi",type:"travel"},
-      {activity:"Flight 5J 930 departs 11:25 AM",type:"travel"}
-    ]}
+    {day:1,date:"2026-03-25",label:"Day 1 (Wed)"},
+    {day:2,date:"2026-03-26",label:"Day 2 (Thu)"},
+    {day:3,date:"2026-03-27",label:"Day 3 (Fri)"},
+    {day:4,date:"2026-03-28",label:"Day 4 (Sat)"},
+    {day:5,date:"2026-03-29",label:"Day 5 (Sun)"},
+    {day:6,date:"2026-03-30",label:"Day 6 (Mon)"}
+  ],
+  // Each cell: [activity, type, rowspan]. null = skip (covered by rowspan above)
+  itinGrid:[
+    ["5–6 AM",  ["Arrival","travel",1],["Zzz","sleep",1],["Zzz","sleep",1],["Zzz","sleep",1],["Zzz","sleep",1],["Zzz","sleep",1]],
+    ["6–7 AM",  ["Check-in + Rest","sleep",2],["Zzz","sleep",1],["Wakey + Prep","prep",1],["Zzz","sleep",1],["Wakey + Prep","prep",1],["Zzz","sleep",1]],
+    ["7–8 AM",  null,["Wakey + Prep","prep",1],["Quick Brekkie","eating",1],["Wakey + Prep","prep",1],["Quick Brekkie","eating",1],["Prep + Breakfast","eating",1]],
+    ["8–9 AM",  ["Prep","prep",1],["Quick Brekkie","eating",1],["Travel to AC","travel",1],["Quick Brekkie + Head to Chatuchak","eating",1],["Khlong Lat Floating Market","activity",3],["Head to Suvarnabhumi","travel",1]],
+    ["9–10 AM", ["Chinatown + Stroll","activity",2],["Grand Palace + Wat Pho","activity",3],["Ancient City","activity",3],["Chatuchak Weekend Market Stroll","activity",3],null,["","empty",1]],
+    ["10–11 AM",null,null,null,null,null,["","empty",1]],
+    ["11 AM–12 PM",["Lunch Break","eating",2],null,null,null,["Early Lunch","eating",1],["","empty",1]],
+    ["12–1 PM", null,["Lunch Break","eating",2],["Lunch Break","eating",2],["Lunch Break","eating",1],["FREE TIME: Seacon Bangkae + Space Time / Return to Hotel / Last-minute Shopping / Revisit favorites","free",10],["","empty",1]],
+    ["1–2 PM",  ["Song Wat + Talat Noi","activity",3],null,null,["Bang Sue Junction + Ace Jolun","activity",2],null,["","empty",1]],
+    ["2–3 PM",  null,["Wat Arun","activity",2],["Ancient City","activity",3],null,null,["","empty",1]],
+    ["3–4 PM",  null,null,null,["Go to ICONSIAM + Stroll + Palamig from Chatuchak","activity",2],null,["","empty",1]],
+    ["4–5 PM",  ["Go to Airbnb","travel",1],["Go to Airbnb","travel",1],null,null,null,["","empty",1]],
+    ["5–6 PM",  ["Rest","free",1],["Rest","free",1],["Go to Airbnb","travel",1],["Go to Khao San Road + Stroll + Dinner (Find Michelin Spot)","eating",4],null,["","empty",1]],
+    ["6–7 PM",  ["Prep","prep",1],["Pratunam Area Mall Hop (Platinum + December + Big C + CentralWorld) + Dinner","activity",4],["Rest","free",1],null,null,["","empty",1]],
+    ["7–8 PM",  ["Asiatique Dinner Cruise","eating",3],null,["Akara Sky Hanuman Dinner + Drinks","eating",4],null,null,["","empty",1]],
+    ["8–9 PM",  null,null,null,null,null,["","empty",1]],
+    ["9–10 PM", null,null,null,["Optional: Khao San Drinks. Else: Uwi","free",3],null,["","empty",1]],
+    ["10–11 PM",["Go to Airbnb","travel",1],["Go to Airbnb","travel",1],null,null,["Zzz","sleep",1],["","empty",1]],
+    ["11 PM–12 AM",["Zzz","sleep",1],["Zzz","sleep",1],["Zzz","sleep",1],null,["Zzz","sleep",1],["","empty",1]]
   ],
   expenses: [
     {id:"exp_preset_1",description:"Flight Booking (Roundtrip)",amount:44985.55,currency:"PHP",paidBy:"eduard",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"equal",customSplits:null,date:"2026-01-15",category:"transport",status:"paid",comments:""},
@@ -582,9 +576,19 @@ function updateCountdown() {
 
 // Itinerary
 function renderItinerary() {
-  document.getElementById("itineraryGrid").innerHTML=data.itinerary.map(day=>`
-    <div class="day-col"><div class="day-header"><div class="day-name">${day.label}</div><div class="day-date">${new Date(day.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></div>
-    <div class="day-slots">${day.slots.map(s=>`<div class="slot ${s.type}">${s.activity}</div>`).join("")}</div></div>`).join("");
+  const hdr=`<thead><tr><th>Time</th>${data.itinerary.map(d=>`<th>${d.label}<div class="day-date">${new Date(d.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></th>`).join("")}</tr></thead>`;
+  const rows=data.itinGrid.map(row=>{
+    const time=row[0];
+    let cells="";
+    for(let i=1;i<=6;i++){
+      const c=row[i];
+      if(c===null) continue;
+      const [act,type,span]=c;
+      cells+=`<td${span>1?' rowspan="'+span+'"':''} style="padding:0"><div class="slot ${type}">${act}</div></td>`;
+    }
+    return `<tr><td class="itin-time">${time}</td>${cells}</tr>`;
+  }).join("");
+  document.getElementById("itineraryGrid").innerHTML=hdr+"<tbody>"+rows+"</tbody>";
 }
 
 // Travelers
@@ -936,15 +940,8 @@ async function manualSync() {
     if (remote && remote.meta?.lastUpdated) {
       const remoteTime = new Date(remote.meta.lastUpdated);
       const localTime = new Date(data.meta.lastUpdated || 0);
-      if (remoteTime > localTime) {
-        // Remote is newer — pull it
-        if (!remote.payments || Array.isArray(remote.payments)) remote.payments = {};
-        data = remote;
-        saveData();
-        renderAll();
-        showToast("Pulled latest data from Google Sheets!");
-      } else if (localTime > remoteTime) {
-        // Local is newer — try to push
+      if (localTime > remoteTime) {
+        // Local is strictly newer — push
         try {
           await gsWrite(data);
           showToast("Pushed local data to Google Sheets!");
@@ -954,7 +951,16 @@ async function manualSync() {
           } else throw we;
         }
       } else {
-        showToast("Already in sync!");
+        // Remote is same age or newer — always pull so other sessions' changes appear
+        if (!remote.payments || Array.isArray(remote.payments)) remote.payments = {};
+        data = remote;
+        saveDataLocal();
+        renderAll();
+        if (remoteTime > localTime) {
+          showToast("Pulled latest data from Google Sheets!");
+        } else {
+          showToast("Up to date!");
+        }
       }
     } else {
       // Nothing in sheet yet (tab missing or empty) — push our data
