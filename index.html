@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BKK 2026</title>
+<style>
+:root {
+  --bg: #0b0b14;
+  --surface: #141422;
+  --surface2: #1c1c32;
+  --surface3: #24243e;
+  --amber: #e8a838;
+  --amber-dim: #c4882a;
+  --amber-glow: rgba(232,168,56,0.12);
+  --teal: #38b2ac;
+  --teal-dim: #2c8f8a;
+  --teal-glow: rgba(56,178,172,0.12);
+  --text: #f0f0f8;
+  --text-secondary: #a0a0b8;
+  --text-dim: #6b6b8a;
+  --border: rgba(255,255,255,0.06);
+  --border-light: rgba(255,255,255,0.1);
+  --red: #f56565;
+  --red-glow: rgba(245,101,101,0.12);
+  --orange: #ed8936;
+  --green: #48bb78;
+  --blue: #4299e1;
+  --purple: #9f7aea;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:15px; line-height:1.5; }
+button { cursor:pointer; font-family:inherit; }
+input, select, textarea { font-family:inherit; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--surface3); border-radius:3px; }
+
+.header {
+  background:rgba(20,20,34,0.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  padding:14px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+  border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
+}
+.header-left { display:flex; align-items:center; gap:12px; }
+.logo { width:36px; height:36px; background:linear-gradient(135deg, var(--amber), #f0c060); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:#0b0b14; }
+.header-title { font-size:1.35rem; font-weight:700; color:var(--text); letter-spacing:-0.3px; }
+.header-title span { color:var(--text-dim); font-size:0.8rem; font-weight:400; margin-left:6px; }
+.countdown { display:flex; gap:6px; align-items:center; }
+.cd-box { background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:6px 10px; text-align:center; min-width:48px; }
+.cd-num { font-size:1.2rem; font-weight:700; color:var(--amber); font-variant-numeric:tabular-nums; }
+.cd-label { font-size:0.55rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; margin-top:1px; }
+.header-rate { display:flex; align-items:center; gap:6px; font-size:0.82rem; color:var(--text-secondary); background:var(--surface2); border:1px solid var(--border); border-radius:20px; padding:5px 14px 5px 12px; }
+.header-rate input { width:54px; background:transparent; border:none; color:var(--amber); padding:0; text-align:center; font-size:0.85rem; font-weight:600; outline:none; }
+
+.tabs { display:flex; background:var(--surface); border-bottom:1px solid var(--border); padding:0 20px; overflow-x:auto; gap:4px; }
+.tab { padding:13px 20px; color:var(--text-dim); font-size:0.85rem; font-weight:500; border:none; background:none; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
+.tab:hover { color:var(--text-secondary); }
+.tab.active { color:var(--amber); border-bottom-color:var(--amber); }
+
+.content { max-width:1240px; margin:0 auto; padding:24px; }
+.tab-content { display:none; animation:fadeIn .3s ease; }
+.tab-content.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.section-title { font-size:0.95rem; font-weight:600; color:var(--text-secondary); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.section-title .icon { font-size:1rem; }
+
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); }
+
+/* Flights */
+.flights { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:28px; }
+.flight-card { background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--amber); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); }
+.flight-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:2.5px; color:var(--amber); margin-bottom:8px; font-weight:600; }
+.flight-route { font-size:1.5rem; font-weight:700; margin-bottom:2px; letter-spacing:-0.5px; }
+.flight-num { font-size:0.82rem; color:var(--text-dim); margin-bottom:16px; }
+.flight-times { display:flex; align-items:center; gap:16px; }
+.flight-point { flex:1; }
+.flight-point .airport { font-size:0.75rem; color:var(--text-dim); margin-bottom:2px; }
+.flight-point .time { font-size:1.3rem; font-weight:700; letter-spacing:-0.5px; }
+.flight-point .date { font-size:0.78rem; color:var(--text-secondary); margin-top:2px; }
+.flight-arrow { color:var(--amber); font-size:1.4rem; flex-shrink:0; opacity:0.7; }
+
+/* Itinerary */
+.itinerary-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.day-col { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.day-header { background:var(--surface2); padding:12px; text-align:center; border-bottom:1px solid var(--border); }
+.day-header .day-name { font-weight:700; font-size:0.9rem; }
+.day-header .day-date { font-size:0.72rem; color:var(--text-dim); margin-top:2px; }
+.day-slots { padding:8px; display:flex; flex-direction:column; gap:5px; }
+.slot { padding:10px 12px; border-radius:var(--radius-sm); font-size:0.73rem; line-height:1.35; transition:transform .15s, box-shadow .15s; cursor:default; }
+.slot:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+.slot.sleep { background:rgba(100,100,130,0.12); color:#7a7a96; }
+.slot.travel { background:rgba(66,153,225,0.1); color:var(--blue); border-left:3px solid var(--blue); }
+.slot.activity { background:rgba(72,187,120,0.1); color:var(--green); border-left:3px solid var(--green); }
+.slot.eating { background:rgba(237,137,54,0.1); color:var(--orange); border-left:3px solid var(--orange); }
+.slot.free { background:rgba(159,122,234,0.1); color:var(--purple); border-left:3px solid var(--purple); }
+.slot.prep { background:rgba(160,160,184,0.08); color:var(--text-dim); border-left:3px solid var(--text-dim); }
+.itinerary-legend { display:flex; gap:18px; margin-top:14px; flex-wrap:wrap; }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-dim); }
+.legend-dot { width:10px; height:10px; border-radius:3px; }
+
+/* Travelers */
+.travelers-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
+.traveler-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); position:relative; transition:border-color .2s; }
+.traveler-card:hover { border-color:var(--border-light); }
+.traveler-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, var(--amber), #f0c060); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; color:#0b0b14; margin-bottom:12px; }
+.traveler-name { font-size:1.1rem; font-weight:700; margin-bottom:2px; }
+.traveler-detail { font-size:0.82rem; color:var(--text-dim); margin-top:10px; display:flex; justify-content:space-between; align-items:center; }
+.traveler-detail label { font-size:0.65rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); font-weight:500; }
+.traveler-detail .value { font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:0.82rem; }
+.passport-toggle { background:none; border:none; color:var(--teal); font-size:0.72rem; padding:2px 6px; font-weight:500; }
+.passport-toggle:hover { color:var(--amber); }
+.traveler-edit-btn { position:absolute; top:14px; right:14px; background:var(--surface2); border:1px solid var(--border); color:var(--text-dim); padding:5px 12px; border-radius:6px; font-size:0.72rem; font-weight:500; transition:all .2s; }
+.traveler-edit-btn:hover { color:var(--amber); border-color:var(--amber); background:var(--amber-glow); }
+
+/* Modal */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; }
+.modal-overlay.show { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px; width:90%; max-width:440px; box-shadow:var(--shadow-lg); animation:slideUp .25s ease; }
+@keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.modal h3 { margin-bottom:20px; color:var(--amber); font-size:1.05rem; }
+.modal .form-group { margin-bottom:14px; }
+.modal .form-group label { display:block; font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); margin-bottom:5px; font-weight:500; }
+.modal .form-group input { width:100%; padding:10px 12px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); font-size:0.88rem; transition:border-color .2s, box-shadow .2s; }
+.modal .form-group input:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 3px var(--amber-glow); }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+
+/* Buttons */
+.btn { padding:9px 18px; border-radius:var(--radius-sm); border:none; font-size:0.82rem; font-weight:600; transition:all .2s; }
+.btn:hover { transform:translateY(-1px); }
+.btn-primary { background:var(--amber); color:#0b0b14; }
+.btn-primary:hover { background:#f0b444; box-shadow:0 4px 12px rgba(232,168,56,0.3); }
+.btn-secondary { background:var(--surface2); color:var(--text-secondary); border:1px solid var(--border); }
+.btn-secondary:hover { border-color:var(--text-dim); }
+.btn-teal { background:var(--teal); color:#fff; }
+.btn-teal:hover { background:#3fc2bc; box-shadow:0 4px 12px rgba(56,178,172,0.3); }
+.btn-danger { background:rgba(245,101,101,0.12); color:var(--red); border:1px solid rgba(245,101,101,0.2); }
+.btn-danger:hover { background:rgba(245,101,101,0.2); }
+.btn-sm { padding:5px 12px; font-size:0.72rem; }
+.btn-xs { padding:3px 8px; font-size:0.68rem; border-radius:5px; }
+
+/* Expense Form */
+.expense-form { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; margin-bottom:24px; box-shadow:var(--shadow); }
+.expense-form h3 { color:var(--amber); margin-bottom:18px; font-size:1rem; }
+.form-row { display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+.form-group { display:flex; flex-direction:column; gap:5px; flex:1; min-width:140px; }
+.form-group label { font-size:0.68rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); font-weight:500; }
+.form-group input, .form-group select { padding:10px 12px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); font-size:0.88rem; transition:border-color .2s, box-shadow .2s; }
+.form-group input:focus, .form-group select:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 3px var(--amber-glow); }
+.form-group select { cursor:pointer; }
+.form-group select option { background:var(--surface2); color:var(--text); }
+.checkbox-group { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.checkbox-label { display:flex; align-items:center; gap:6px; font-size:0.82rem; cursor:pointer; padding:6px 14px; background:var(--surface2); border-radius:20px; border:1px solid var(--border); transition:all .2s; user-select:none; }
+.checkbox-label:hover { border-color:var(--border-light); }
+.checkbox-label:has(input:checked) { border-color:var(--amber); background:var(--amber-glow); color:var(--amber); }
+.checkbox-label input { display:none; }
+.checkbox-label .check-dot { width:8px; height:8px; border-radius:50%; border:2px solid var(--text-dim); transition:all .2s; }
+.checkbox-label:has(input:checked) .check-dot { background:var(--amber); border-color:var(--amber); }
+.split-type-toggle { display:flex; gap:6px; margin-bottom:14px; }
+.split-type-btn { padding:7px 16px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text-dim); font-size:0.78rem; font-weight:500; transition:all .2s; }
+.split-type-btn.active { border-color:var(--amber); color:var(--amber); background:var(--amber-glow); }
+.custom-splits { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+.custom-split-input { display:flex; align-items:center; gap:6px; }
+.custom-split-input label { font-size:0.78rem; min-width:55px; color:var(--text-secondary); }
+.custom-split-input input { width:90px; padding:7px 10px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); font-size:0.82rem; }
+
+/* Table */
+.expense-table-wrap { overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface); }
+table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+th { text-align:left; padding:12px 14px; background:var(--surface2); color:var(--text-dim); font-size:0.65rem; text-transform:uppercase; letter-spacing:1.2px; font-weight:600; }
+th:first-child { border-radius:var(--radius) 0 0 0; }
+th:last-child { border-radius:0 var(--radius) 0 0; }
+td { padding:12px 14px; border-bottom:1px solid var(--border); }
+tr:nth-child(even) td { background:rgba(255,255,255,0.01); }
+tr:hover td { background:rgba(255,255,255,0.025); }
+.amount-cell { font-family:'SF Mono','Fira Code','Courier New',monospace; font-weight:600; font-size:0.82rem; }
+.cat-icon { margin-right:4px; }
+.status-badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.65rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; cursor:pointer; }
+.status-paid { background:rgba(72,187,120,0.12); color:var(--green); }
+.status-pending { background:rgba(237,137,54,0.12); color:var(--orange); }
+.actions-cell { display:flex; gap:4px; }
+
+/* Summary Cards */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; margin-bottom:24px; }
+.summary-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; text-align:center; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+.summary-card .accent-bar { position:absolute; top:0; left:0; right:0; height:3px; }
+.summary-card .accent-bar.positive { background:linear-gradient(90deg, var(--teal), #5ed4ce); }
+.summary-card .accent-bar.negative { background:linear-gradient(90deg, var(--red), #fc8181); }
+.summary-card .accent-bar.zero { background:var(--border); }
+.summary-avatar { width:36px; height:36px; border-radius:50%; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; color:var(--amber); margin:0 auto 10px; }
+.summary-name { font-weight:600; margin-bottom:10px; font-size:0.88rem; }
+.summary-row { display:flex; justify-content:space-between; font-size:0.78rem; margin-top:5px; }
+.summary-row .label { color:var(--text-dim); }
+.summary-net { font-size:1.1rem; font-weight:700; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
+.net-positive { color:var(--teal); }
+.net-negative { color:var(--red); }
+.net-zero { color:var(--text-dim); }
+
+/* Who Owes Whom — Person tabs */
+.wow-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; margin-top:24px; box-shadow:var(--shadow); }
+.wow-section h3 { color:var(--amber); margin-bottom:16px; font-size:1rem; display:flex; align-items:center; gap:8px; }
+.person-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+.person-tab { padding:8px 18px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text-dim); font-size:0.82rem; font-weight:600; transition:all .2s; position:relative; }
+.person-tab:hover { border-color:var(--border-light); color:var(--text-secondary); }
+.person-tab.active { border-color:var(--amber); color:var(--amber); background:var(--amber-glow); }
+.person-tab .tab-badge { position:absolute; top:-4px; right:-4px; width:16px; height:16px; border-radius:50%; font-size:0.55rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+.person-tab .tab-badge.has-debt { background:var(--red); color:#fff; }
+.person-tab .tab-badge.settled { background:var(--green); color:#fff; }
+
+.person-detail { display:none; animation:fadeIn .25s ease; }
+.person-detail.active { display:block; }
+.person-summary-bar { display:flex; gap:16px; margin-bottom:16px; padding:14px 18px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); flex-wrap:wrap; }
+.psb-item { text-align:center; flex:1; min-width:100px; }
+.psb-label { font-size:0.62rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); margin-bottom:2px; }
+.psb-value { font-size:1rem; font-weight:700; font-family:'SF Mono','Fira Code','Courier New',monospace; }
+
+.debt-item { display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px; transition:border-color .2s; }
+.debt-item:hover { border-color:var(--border-light); }
+.debt-item.is-paid { opacity:0.45; }
+.debt-icon { font-size:1.1rem; flex-shrink:0; }
+.debt-info { flex:1; min-width:0; }
+.debt-desc { font-weight:600; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.debt-sub { font-size:0.72rem; color:var(--text-dim); margin-top:2px; }
+.debt-amount { font-family:'SF Mono','Fira Code','Courier New',monospace; font-weight:700; font-size:0.92rem; color:var(--amber); text-align:right; min-width:100px; flex-shrink:0; }
+.debt-amount.paid { color:var(--green); text-decoration:line-through; opacity:0.6; }
+.debt-actions { display:flex; gap:6px; align-items:center; flex-shrink:0; }
+.paid-check { color:var(--green); font-size:1.1rem; }
+
+.no-debts { text-align:center; padding:20px; color:var(--text-dim); font-size:0.88rem; }
+
+/* Settings */
+.settings-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:24px; margin-bottom:16px; box-shadow:var(--shadow); }
+.settings-section h3 { color:var(--amber); margin-bottom:14px; font-size:1rem; }
+.settings-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+.settings-row label { font-size:0.85rem; min-width:80px; color:var(--text-secondary); }
+.settings-row input { padding:9px 12px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); width:100px; }
+
+/* Toast */
+.toast { position:fixed; bottom:24px; right:24px; background:var(--surface2); color:var(--text); border:1px solid var(--border); border-left:3px solid var(--green); padding:14px 22px; border-radius:var(--radius); box-shadow:var(--shadow-lg); transform:translateY(100px); opacity:0; transition:all .35s cubic-bezier(.4,0,.2,1); z-index:300; font-size:0.85rem; }
+.toast.show { transform:translateY(0); opacity:1; }
+.toast.error { border-left-color:var(--red); }
+
+@media(max-width:768px) {
+  .header { padding:12px 16px; } .header-title { font-size:1.1rem; } .content { padding:14px; }
+  .flights { grid-template-columns:1fr; } .itinerary-grid { grid-template-columns:1fr 1fr; }
+  .form-row { flex-direction:column; } .form-group { min-width:auto; }
+  .tabs { padding:0 10px; } .tab { padding:11px 14px; font-size:0.78rem; }
+  .summary-grid { grid-template-columns:1fr 1fr; }
+  .person-summary-bar { gap:8px; }
+}
+@media(max-width:480px) {
+  .itinerary-grid { grid-template-columns:1fr; } .summary-grid { grid-template-columns:1fr; }
+  .flight-times { flex-direction:column; gap:10px; }
+  .countdown { gap:4px; } .cd-box { min-width:40px; padding:4px 6px; }
+  .debt-item { flex-wrap:wrap; } .debt-amount { min-width:auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">BK</div>
+    <div class="header-title">BKK 2026 <span>Bangkok</span></div>
+  </div>
+  <div class="countdown" id="countdown"></div>
+  <div class="header-rate">
+    <span>1 THB</span> =
+    <input type="number" id="rateInput" step="0.01" min="0">
+    <span>PHP</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="overview">Overview</button>
+  <button class="tab" data-tab="travelers">Travelers</button>
+  <button class="tab" data-tab="expenses">Expenses</button>
+  <button class="tab" data-tab="settings">Settings</button>
+</div>
+
+<div class="content">
+  <!-- OVERVIEW -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="section-title"><span class="icon">&#9992;</span> Flight Details</div>
+    <div class="flights">
+      <div class="flight-card">
+        <div class="flight-label">Departure</div>
+        <div class="flight-route">MNL &rarr; BKK</div>
+        <div class="flight-num">5J 931 &middot; Cebu Pacific</div>
+        <div class="flight-times">
+          <div class="flight-point"><div class="airport">NAIA Terminal 3</div><div class="time">11:45 PM</div><div class="date">March 24, 2026 (Tue)</div></div>
+          <div class="flight-arrow">&#9992;</div>
+          <div class="flight-point" style="text-align:right"><div class="airport">Suvarnabhumi Airport</div><div class="time">2:45 AM</div><div class="date">March 25, 2026 (Wed)</div></div>
+        </div>
+      </div>
+      <div class="flight-card">
+        <div class="flight-label">Return</div>
+        <div class="flight-route">BKK &rarr; MNL</div>
+        <div class="flight-num">5J 930 &middot; Cebu Pacific</div>
+        <div class="flight-times">
+          <div class="flight-point"><div class="airport">Suvarnabhumi Airport</div><div class="time">11:25 AM</div><div class="date">March 30, 2026 (Mon)</div></div>
+          <div class="flight-arrow">&#9992;</div>
+          <div class="flight-point" style="text-align:right"><div class="airport">NAIA Terminal 3</div><div class="time">4:15 PM</div><div class="date">March 30, 2026 (Mon)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-title"><span class="icon">&#128197;</span> 6-Day Itinerary</div>
+    <div class="itinerary-grid" id="itineraryGrid"></div>
+    <div class="itinerary-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7a7a96"></div>Sleep</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Travel</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Activity</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Eating</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Free Time</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--text-dim)"></div>Prep</div>
+    </div>
+    <div style="margin-top:14px;"><a href="https://www.google.com/maps/d/u/0/edit?mid=1b000Titzrj3lhr3ksDZC26xUmX0qvAI&usp=sharing" target="_blank" style="color:var(--teal);font-size:0.82rem;text-decoration:none;font-weight:500;">&#128205; Open Trip Map in Google Maps &rarr;</a></div>
+  </div>
+
+  <!-- TRAVELERS -->
+  <div class="tab-content" id="tab-travelers">
+    <div class="section-title"><span class="icon">&#128100;</span> Travelers</div>
+    <div class="travelers-grid" id="travelersGrid"></div>
+  </div>
+
+  <!-- EXPENSES -->
+  <div class="tab-content" id="tab-expenses">
+    <div class="expense-form" id="expenseForm">
+      <h3 id="formTitle">&#10010; Add Expense</h3>
+      <input type="hidden" id="editExpenseId">
+      <div class="form-row">
+        <div class="form-group" style="flex:2"><label>Description</label><input type="text" id="expDesc" placeholder="e.g. Grab to Chatuchak"></div>
+        <div class="form-group"><label>Amount</label><input type="number" id="expAmount" step="0.01" min="0" placeholder="0.00"></div>
+        <div class="form-group" style="flex:0.5;min-width:80px"><label>Currency</label><select id="expCurrency"><option value="PHP">PHP</option><option value="THB">THB</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Paid By</label><select id="expPaidBy"></select></div>
+        <div class="form-group"><label>Category</label><select id="expCategory"><option value="food">&#127860; Food</option><option value="transport">&#128663; Transport</option><option value="accommodation">&#127968; Accommodation</option><option value="activity">&#127915; Activity</option><option value="shopping">&#128717; Shopping</option><option value="other">&#128178; Other</option></select></div>
+        <div class="form-group"><label>Date</label><input type="date" id="expDate"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:14px"><label>Split Among</label><div class="checkbox-group" id="splitCheckboxes"></div></div>
+      <div class="split-type-toggle">
+        <button class="split-type-btn active" data-split="equal">Equal Split</button>
+        <button class="split-type-btn" data-split="custom">Custom Split</button>
+      </div>
+      <div class="custom-splits" id="customSplits" style="display:none"></div>
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="btn btn-primary" onclick="saveExpense()">Save Expense</button>
+        <button class="btn btn-secondary" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="section-title"><span class="icon">&#128200;</span> Summary</div>
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <div class="section-title"><span class="icon">&#128203;</span> All Expenses</div>
+    <div class="expense-table-wrap">
+      <table><thead><tr><th>Description</th><th>Amount</th><th>Paid By</th><th>Split Among</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="expenseTableBody"></tbody></table>
+    </div>
+
+    <div class="wow-section">
+      <h3>&#128176; Who Owes Whom</h3>
+      <div class="person-tabs" id="personTabs"></div>
+      <div id="personDetails"></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tab-content" id="tab-settings">
+    <div class="section-title"><span class="icon">&#9881;</span> Settings</div>
+
+    <div class="settings-section">
+      <h3>&#128202; Google Sheets Sync</h3>
+      <div id="syncStatus" style="margin-bottom:12px;padding:10px;border-radius:8px;font-size:0.85rem;"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-teal btn-sm" onclick="testGsheetsConnection()">&#128270; Test Connection</button>
+        <button class="btn btn-secondary btn-sm" onclick="manualSync()">&#128260; Manual Sync</button>
+        <button class="btn btn-secondary btn-sm" onclick="toggleAutoSync()"><span id="autoSyncBtnText">&#9654; Enable Auto-Sync</span></button>
+      </div>
+      <details>
+        <summary style="color:var(--text-dim);font-size:0.78rem;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:4px">&#9881; Edit sync credentials <span style="font-size:0.65rem">(admin only)</span></summary>
+        <div style="margin-top:10px">
+          <div class="settings-row">
+            <label style="min-width:140px">Spreadsheet ID</label>
+            <input type="text" id="spreadsheetId" placeholder="Paste your Google Sheets ID" style="flex:1;max-width:400px">
+          </div>
+          <div class="settings-row">
+            <label style="min-width:140px">API Key</label>
+            <input type="password" id="apiKey" placeholder="Paste your API key" style="flex:1;max-width:400px">
+          </div>
+          <div class="settings-row">
+            <label style="min-width:140px">Apps Script URL</label>
+            <input type="text" id="webAppUrl" placeholder="Paste your Apps Script Web App URL (for writes)" style="flex:1;max-width:400px">
+          </div>
+          <div class="settings-row">
+            <label style="min-width:140px">Secret Token</label>
+            <input type="password" id="syncToken" placeholder="Same token as in your Apps Script code" style="flex:1;max-width:400px">
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:4px" onclick="saveGsheetsConfig()">&#128190; Save Config</button>
+        </div>
+      </details>
+      <details style="margin-top:14px;cursor:pointer">
+        <summary style="color:var(--teal);font-size:0.85rem;font-weight:600">&#128161; How to set up Google Sheets sync</summary>
+        <div style="margin-top:8px;font-size:0.82rem;line-height:1.6;color:var(--text-secondary)">
+          <p><b>Step 1: Create a Google Sheet</b><br/>Create a new blank Google Sheet. Copy the ID from the URL — it's the long string between <code>/d/</code> and <code>/edit</code>. Share the sheet: click Share → Anyone with the link → Editor.</p>
+          <p><b>Step 2: Add the Apps Script</b><br/>In your Google Sheet click <b>Extensions → Apps Script</b>. Delete all existing code, paste the script below, save, then click <b>Deploy → New deployment → Web app</b>. Set Execute as: Me, Who has access: Anyone. Copy the Web App URL.</p>
+          <pre style="background:#1c1c32;color:#e8a838;padding:10px;border-radius:6px;font-size:0.75rem;overflow-x:auto;white-space:pre-wrap">// ⚠️ Replace YOUR_SECRET_TOKEN with any random password you choose (e.g. "bkk2026abc")
+// Set the same token in the dashboard Settings → Secret Token field
+var SECRET = "YOUR_SECRET_TOKEN";
+
+function doPost(e){
+  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  var sh=ss.getSheetByName("SyncData")||ss.insertSheet("SyncData");
+  try {
+    var b=JSON.parse(e.postData.contents);
+    if(b.token !== SECRET){
+      return ContentService.createTextOutput(JSON.stringify({ok:false,error:"Unauthorized"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    if(b.action==="write"){
+      sh.getRange("A1").setValue(b.data);
+      return ContentService.createTextOutput(JSON.stringify({ok:true}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({ok:false,error:err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ok:false,error:"unknown action"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+          <p><b>Important:</b> Replace <code>YOUR_SECRET_TOKEN</code> in the script with any password you choose (e.g. <b>bkk2026abc</b>). Then deploy with <b>Execute as: Me</b> and <b>Who has access: Anyone with Google Account</b>. Enter the same token in the Secret Token field above.</p>
+          <p><b>Step 3: Get a Google API Key</b><br/>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--amber)">Google Cloud Console</a> → Create Project → Enable "Google Sheets API" → Create Credentials → API Key.</p>
+          <p><b>Step 4: Configure &amp; connect</b><br/>Paste your Spreadsheet ID, API Key, Apps Script URL, and Secret Token into the fields above. Click Save Config → Test Connection → Manual Sync.</p>
+          <p style="color:var(--orange)"><b>Note:</b> The "SyncData" sheet tab is created automatically on the first write. After setting up, do a Manual Sync first to initialise, then enable Auto-Sync.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="settings-section">
+      <h3>Exchange Rate</h3>
+      <div class="settings-row"><label>1 THB =</label><input type="number" id="settingsRate" step="0.01" min="0"> <span style="color:var(--text-secondary)">PHP</span></div>
+      <button class="btn btn-primary btn-sm" onclick="updateRate()">Update Rate</button>
+    </div>
+    <div class="settings-section">
+      <h3>Data Management</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-secondary" onclick="exportData()">&#128190; Export JSON</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">&#128194; Import JSON</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="btn btn-danger" onclick="resetData()">&#128465; Reset All Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Traveler Modal -->
+<div class="modal-overlay" id="travelerModal">
+  <div class="modal">
+    <h3>Edit Traveler</h3>
+    <input type="hidden" id="editTravelerId">
+    <div class="form-group"><label>First Name</label><input type="text" id="editFirstName"></div>
+    <div class="form-group"><label>Middle Name</label><input type="text" id="editMiddleName"></div>
+    <div class="form-group"><label>Last Name</label><input type="text" id="editLastName"></div>
+    <div class="form-group"><label>Birth Date</label><input type="text" id="editBirthDate" placeholder="e.g. August 18, 1998"></div>
+    <div class="form-group"><label>Passport #</label><input type="text" id="editPassport"></div>
+    <div class="modal-actions"><button class="btn btn-secondary" onclick="closeTravelerModal()">Cancel</button><button class="btn btn-primary" onclick="saveTraveler()">Save</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CAT_ICONS = {food:"\u{1F374}",transport:"\u{1F697}",accommodation:"\u{1F3E0}",activity:"\u{1F3AB}",shopping:"\u{1F6CD}",other:"\u{1F4B2}"};
+
+const DEFAULT_DATA = {
+  meta: { exchangeRate:1.55, primaryCurrency:"PHP", lastUpdated:new Date().toISOString() },
+  travelers: [
+    {id:"eduard",firstName:"Eduard Martin",middleName:"Legaspi",lastName:"Carlos",birthDate:"August 18, 1998",passportNumber:"P0609973B"},
+    {id:"anwell",firstName:"Anwell Joseph",middleName:"Valencia",lastName:"Patdu",birthDate:"August 11, 1999",passportNumber:"P9430398B"},
+    {id:"justin",firstName:"Justin Gabriel",middleName:"Fortaleza",lastName:"Reamillo",birthDate:"July 20, 1997",passportNumber:"P8799117A"},
+    {id:"kerr",firstName:"Kerr Lorenzo",middleName:"Co",lastName:"Picazo",birthDate:"November 24, 1997",passportNumber:"P5280022C"},
+    {id:"august",firstName:"August",middleName:"",lastName:"",birthDate:"",passportNumber:""}
+  ],
+  itinerary: [
+    {day:1,date:"2026-03-25",dayOfWeek:"Wednesday",label:"Day 1 (Wed)",slots:[
+      {activity:"Arrival (2:45 AM)",type:"travel"},{activity:"Check-in + Rest",type:"sleep"},
+      {activity:"Prep",type:"prep"},{activity:"Chinatown + Stroll",type:"activity"},
+      {activity:"Lunch Break",type:"eating"},{activity:"Song Wat + Talat Noi",type:"activity"},
+      {activity:"Rest",type:"free"},{activity:"Prep",type:"prep"},{activity:"Asiatique Dinner Cruise",type:"eating"}
+    ]},
+    {day:2,date:"2026-03-26",dayOfWeek:"Thursday",label:"Day 2 (Thu)",slots:[
+      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
+      {activity:"Grand Palace + Wat Pho",type:"activity"},{activity:"Lunch Break",type:"eating"},
+      {activity:"Wat Arun",type:"activity"},{activity:"Rest",type:"free"},
+      {activity:"Pratunam Mall Hop (Platinum + December + Big C + CentralwOrld) + Dinner",type:"activity"}
+    ]},
+    {day:3,date:"2026-03-27",dayOfWeek:"Friday",label:"Day 3 (Fri)",slots:[
+      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
+      {activity:"Travel to Ancient City",type:"travel"},{activity:"Ancient City",type:"activity"},
+      {activity:"Lunch Break",type:"eating"},{activity:"Ancient City (cont.)",type:"activity"},
+      {activity:"Rest",type:"free"},{activity:"Akara Sky Hanuman Dinner + Drinks",type:"eating"}
+    ]},
+    {day:4,date:"2026-03-28",dayOfWeek:"Saturday",label:"Day 4 (Sat)",slots:[
+      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie + Head to Chatuchak",type:"eating"},
+      {activity:"Chatuchak Weekend Market Stroll",type:"activity"},{activity:"Lunch Break",type:"eating"},
+      {activity:"Bang Sue Junction + Ace Jolun",type:"activity"},{activity:"Go to ICONSIAM + Stroll + Palamig",type:"activity"},
+      {activity:"Khao San Road + Stroll + Dinner (Michelin Spot)",type:"eating"},{activity:"Optional: Khao San Drinks",type:"free"}
+    ]},
+    {day:5,date:"2026-03-29",dayOfWeek:"Sunday",label:"Day 5 (Sun)",slots:[
+      {activity:"Wakey + Prep",type:"prep"},{activity:"Quick Brekkie",type:"eating"},
+      {activity:"Khlong Lat Floating Market",type:"activity"},{activity:"Early Lunch",type:"eating"},
+      {activity:"FREE TIME: Seacon Bangkae + Space Time / Return to Hotel / Last-minute Shopping / Revisit favorites",type:"free"}
+    ]},
+    {day:6,date:"2026-03-30",dayOfWeek:"Monday",label:"Day 6 (Mon)",slots:[
+      {activity:"Prep + Breakfast",type:"eating"},{activity:"Head to Suvarnabhumi",type:"travel"},
+      {activity:"Flight 5J 930 departs 11:25 AM",type:"travel"}
+    ]}
+  ],
+  expenses: [
+    {id:"exp_preset_1",description:"Flight Booking (Roundtrip)",amount:44985.55,currency:"PHP",paidBy:"eduard",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"equal",customSplits:null,date:"2026-01-15",category:"transport",status:"paid",comments:""},
+    {id:"exp_preset_2",description:"Airbnb",amount:26685.61,currency:"PHP",paidBy:"kerr",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"custom",customSplits:{eduard:5487.12,kerr:5187.12,justin:5487.12,anwell:5487.12,august:5487.12},date:"2026-01-20",category:"accommodation",status:"paid",comments:""}
+  ],
+  // payments keyed by "personId:expenseId" → { paid:true, date, note }
+  payments: {}
+};
+
+let data;
+const STORAGE_KEY = "bkk2026_v2";
+
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) { try { data = JSON.parse(saved); if (!data.payments || Array.isArray(data.payments)) data.payments = {}; return; } catch(e) {} }
+  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  saveData();
+}
+function saveDataLocal() { data.meta.lastUpdated = new Date().toISOString(); localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+function saveData() {
+  saveDataLocal();
+  if (autoSyncEnabled && !isSyncing) {
+    clearTimeout(saveData._pushTimer);
+    saveData._pushTimer = setTimeout(async () => {
+      try {
+        await gsWrite(data);
+        lastSyncTime = new Date().toLocaleTimeString();
+        updateSyncStatusUI();
+      } catch(e) { /* silent — no webapp or not connected yet */ }
+    }, 1500);
+  }
+}
+function showToast(msg, isError) { const t=document.getElementById("toast"); t.textContent=msg; t.className="toast show"+(isError?" error":""); setTimeout(()=>t.className="toast",2800); }
+function formatMoney(n,curr) { return (curr||"PHP")+" "+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function convertToPhp(amount,currency) { return currency==="PHP"?amount:amount*data.meta.exchangeRate; }
+function getNameShort(id) { const t=data.travelers.find(t=>t.id===id); return t?t.firstName.split(" ")[0]:id; }
+function getInitials(id) { const t=data.travelers.find(t=>t.id===id); if(!t)return"?"; return ((t.firstName?.[0]||"")+(t.lastName?.[0]||"")).toUpperCase()||id[0].toUpperCase(); }
+
+// Tabs
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("tab-"+tab.dataset.tab).classList.add("active");
+  });
+});
+
+// Countdown
+function updateCountdown() {
+  const dep=new Date("2026-03-24T23:45:00+08:00"),now=new Date(),diff=dep-now,el=document.getElementById("countdown");
+  if(diff<=0){el.innerHTML='<span style="color:var(--amber);font-weight:700;font-size:0.9rem;">\u{1F389} Trip time!</span>';return;}
+  const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+  el.innerHTML=[{n:d,l:"Days"},{n:h,l:"Hrs"},{n:m,l:"Min"},{n:s,l:"Sec"}].map(u=>`<div class="cd-box"><div class="cd-num">${String(u.n).padStart(2,"0")}</div><div class="cd-label">${u.l}</div></div>`).join("");
+}
+
+// Itinerary
+function renderItinerary() {
+  document.getElementById("itineraryGrid").innerHTML=data.itinerary.map(day=>`
+    <div class="day-col"><div class="day-header"><div class="day-name">${day.label}</div><div class="day-date">${new Date(day.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></div>
+    <div class="day-slots">${day.slots.map(s=>`<div class="slot ${s.type}">${s.activity}</div>`).join("")}</div></div>`).join("");
+}
+
+// Travelers
+let revealedPassports={};
+function renderTravelers() {
+  document.getElementById("travelersGrid").innerHTML=data.travelers.map(t=>{
+    const fn=[t.firstName,t.middleName,t.lastName].filter(Boolean).join(" ");
+    const masked=t.passportNumber?t.passportNumber.slice(0,-4).replace(/./g,"*")+t.passportNumber.slice(-4):"Not set";
+    const shown=revealedPassports[t.id];
+    return `<div class="traveler-card"><button class="traveler-edit-btn" onclick="openTravelerEdit('${t.id}')">Edit</button>
+      <div class="traveler-avatar">${getInitials(t.id)}</div><div class="traveler-name">${fn||t.id}</div>
+      <div class="traveler-detail"><label>Birthday</label><span>${t.birthDate||"Not set"}</span></div>
+      <div class="traveler-detail"><label>Passport</label><span><span class="value">${shown?(t.passportNumber||"Not set"):masked}</span>
+      ${t.passportNumber?`<button class="passport-toggle" onclick="togglePassport('${t.id}')">${shown?"Hide":"Show"}</button>`:""}</span></div></div>`;
+  }).join("");
+}
+function togglePassport(id){revealedPassports[id]=!revealedPassports[id];renderTravelers();}
+function openTravelerEdit(id){const t=data.travelers.find(x=>x.id===id);document.getElementById("editTravelerId").value=id;document.getElementById("editFirstName").value=t.firstName;document.getElementById("editMiddleName").value=t.middleName;document.getElementById("editLastName").value=t.lastName;document.getElementById("editBirthDate").value=t.birthDate;document.getElementById("editPassport").value=t.passportNumber;document.getElementById("travelerModal").classList.add("show");}
+function closeTravelerModal(){document.getElementById("travelerModal").classList.remove("show");}
+function saveTraveler(){const id=document.getElementById("editTravelerId").value;const t=data.travelers.find(x=>x.id===id);t.firstName=document.getElementById("editFirstName").value.trim();t.middleName=document.getElementById("editMiddleName").value.trim();t.lastName=document.getElementById("editLastName").value.trim();t.birthDate=document.getElementById("editBirthDate").value.trim();t.passportNumber=document.getElementById("editPassport").value.trim();saveData();renderTravelers();renderExpenseForm();closeTravelerModal();showToast("Traveler updated!");}
+
+// Expense form
+let splitType="equal";
+function renderExpenseForm(){
+  document.getElementById("expPaidBy").innerHTML=data.travelers.map(t=>`<option value="${t.id}">${getNameShort(t.id)}</option>`).join("");
+  document.getElementById("splitCheckboxes").innerHTML=data.travelers.map(t=>`<label class="checkbox-label"><input type="checkbox" value="${t.id}" checked onchange="updateCustomSplitInputs()"><span class="check-dot"></span>${getNameShort(t.id)}</label>`).join("");
+  document.getElementById("expDate").value=new Date().toISOString().slice(0,10);
+  updateCustomSplitInputs();
+}
+document.querySelectorAll(".split-type-btn").forEach(btn=>{btn.addEventListener("click",()=>{document.querySelectorAll(".split-type-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");splitType=btn.dataset.split;document.getElementById("customSplits").style.display=splitType==="custom"?"flex":"none";updateCustomSplitInputs();});});
+function getCheckedPeople(){return[...document.querySelectorAll("#splitCheckboxes input:checked")].map(c=>c.value);}
+function updateCustomSplitInputs(){const p=getCheckedPeople(),c=document.getElementById("customSplits");if(splitType!=="custom"){c.innerHTML="";return;}c.innerHTML=p.map(id=>`<div class="custom-split-input"><label>${getNameShort(id)}</label><input type="number" step="0.01" min="0" id="csplit_${id}" placeholder="0.00"></div>`).join("");}
+
+function saveExpense(){
+  const desc=document.getElementById("expDesc").value.trim(),amount=parseFloat(document.getElementById("expAmount").value),currency=document.getElementById("expCurrency").value,paidBy=document.getElementById("expPaidBy").value,category=document.getElementById("expCategory").value,date=document.getElementById("expDate").value,people=getCheckedPeople();
+  if(!desc){showToast("Enter a description",true);return;} if(!amount||amount<=0){showToast("Enter a valid amount",true);return;} if(people.length<1){showToast("Select at least 1 person",true);return;}
+  let customSplits=null;
+  if(splitType==="custom"){customSplits={};let total=0;for(const id of people){const v=parseFloat(document.getElementById("csplit_"+id)?.value||0);customSplits[id]=v;total+=v;}if(Math.abs(total-amount)>0.02){showToast(`Custom splits (${total.toFixed(2)}) must equal total (${amount.toFixed(2)})`,true);return;}}
+  const editId=document.getElementById("editExpenseId").value;
+  if(editId){const exp=data.expenses.find(e=>e.id===editId);Object.assign(exp,{description:desc,amount,currency,paidBy,splitAmong:people,splitType,customSplits,date,category});}
+  else{data.expenses.push({id:"exp_"+Date.now(),description:desc,amount,currency,paidBy,splitAmong:people,splitType,customSplits,date,category,status:"pending",comments:""});}
+  saveData();clearExpenseForm();renderExpenses();showToast(editId?"Expense updated!":"Expense added!");
+}
+function clearExpenseForm(){document.getElementById("expDesc").value="";document.getElementById("expAmount").value="";document.getElementById("editExpenseId").value="";document.getElementById("formTitle").innerHTML="\u271A Add Expense";document.getElementById("cancelEditBtn").style.display="none";document.querySelectorAll("#splitCheckboxes input").forEach(c=>c.checked=true);splitType="equal";document.querySelectorAll(".split-type-btn").forEach(b=>b.classList.toggle("active",b.dataset.split==="equal"));document.getElementById("customSplits").style.display="none";updateCustomSplitInputs();}
+function cancelEdit(){clearExpenseForm();}
+function editExpense(id){const exp=data.expenses.find(e=>e.id===id);if(!exp)return;document.getElementById("editExpenseId").value=id;document.getElementById("formTitle").innerHTML="\u270E Edit Expense";document.getElementById("cancelEditBtn").style.display="";document.getElementById("expDesc").value=exp.description;document.getElementById("expAmount").value=exp.amount;document.getElementById("expCurrency").value=exp.currency;document.getElementById("expPaidBy").value=exp.paidBy;document.getElementById("expCategory").value=exp.category;document.getElementById("expDate").value=exp.date;document.querySelectorAll("#splitCheckboxes input").forEach(c=>{c.checked=exp.splitAmong.includes(c.value);});splitType=exp.splitType;document.querySelectorAll(".split-type-btn").forEach(b=>b.classList.toggle("active",b.dataset.split===splitType));document.getElementById("customSplits").style.display=splitType==="custom"?"flex":"none";updateCustomSplitInputs();if(exp.customSplits){for(const[id,val]of Object.entries(exp.customSplits)){const el=document.getElementById("csplit_"+id);if(el)el.value=val;}}document.getElementById("expenseForm").scrollIntoView({behavior:"smooth"});}
+function deleteExpense(id){if(!confirm("Delete this expense?"))return;data.expenses=data.expenses.filter(e=>e.id!==id);saveData();renderExpenses();showToast("Expense deleted");}
+function toggleStatus(id){const exp=data.expenses.find(e=>e.id===id);exp.status=exp.status==="paid"?"pending":"paid";saveData();renderExpenses();}
+
+// ==================== DEBT COMPUTATION ====================
+// Returns array of { expenseId, description, category, owedTo, amount (PHP), paymentKey }
+function getDebtsForPerson(personId) {
+  const debts = [];
+  data.expenses.forEach(exp => {
+    if (!exp.splitAmong.includes(personId)) return;
+    if (exp.paidBy === personId) return; // you don't owe yourself
+    let share;
+    if (exp.splitType === "custom" && exp.customSplits) {
+      share = convertToPhp(exp.customSplits[personId] || 0, exp.currency);
+    } else {
+      share = convertToPhp(exp.amount, exp.currency) / exp.splitAmong.length;
+    }
+    if (share < 0.01) return;
+    const paymentKey = personId + ":" + exp.id;
+    debts.push({
+      expenseId: exp.id,
+      description: exp.description,
+      category: exp.category,
+      owedTo: exp.paidBy,
+      amount: share,
+      paymentKey
+    });
+  });
+  return debts;
+}
+
+function isDebtPaid(paymentKey) {
+  return !!(data.payments && data.payments[paymentKey]?.paid);
+}
+
+function toggleDebtPaid(paymentKey, personId) {
+  if (!data.payments) data.payments = {};
+  if (data.payments[paymentKey]?.paid) {
+    delete data.payments[paymentKey];
+  } else {
+    data.payments[paymentKey] = { paid: true, date: new Date().toISOString().slice(0,10) };
+  }
+  saveData();
+  renderExpenses();
+  // Re-select the same person tab
+  selectPersonTab(personId);
+}
+
+// ==================== RENDER ====================
+let selectedPerson = null;
+
+function selectPersonTab(id) {
+  selectedPerson = id;
+  document.querySelectorAll(".person-tab").forEach(t => t.classList.toggle("active", t.dataset.person === id));
+  document.querySelectorAll(".person-detail").forEach(d => d.classList.toggle("active", d.dataset.person === id));
+}
+
+function renderExpenses() {
+  // Table
+  document.getElementById("expenseTableBody").innerHTML = data.expenses.map(exp => `
+    <tr>
+      <td><span class="cat-icon">${CAT_ICONS[exp.category]||""}</span>${exp.description}</td>
+      <td class="amount-cell">${formatMoney(exp.amount,exp.currency)}</td>
+      <td>${getNameShort(exp.paidBy)}</td>
+      <td style="font-size:0.78rem;color:var(--text-secondary)">${exp.splitAmong.map(id=>getNameShort(id)).join(", ")}</td>
+      <td style="font-size:0.78rem;color:var(--text-dim)">${exp.date}</td>
+      <td><span class="status-badge status-${exp.status}" onclick="toggleStatus('${exp.id}')">${exp.status}</span></td>
+      <td><div class="actions-cell"><button class="btn btn-secondary btn-xs" onclick="editExpense('${exp.id}')">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteExpense('${exp.id}')">Del</button></div></td>
+    </tr>`).join("");
+
+  // Summary cards
+  const rawBalances = {};
+  data.travelers.forEach(t => { rawBalances[t.id] = {paid:0,owed:0}; });
+  data.expenses.forEach(exp => {
+    const php = convertToPhp(exp.amount, exp.currency);
+    rawBalances[exp.paidBy].paid += php;
+    exp.splitAmong.forEach(id => {
+      let share;
+      if (exp.splitType==="custom"&&exp.customSplits) share=convertToPhp(exp.customSplits[id]||0,exp.currency);
+      else share=php/exp.splitAmong.length;
+      rawBalances[id].owed += share;
+    });
+  });
+  document.getElementById("summaryGrid").innerHTML = data.travelers.map(t => {
+    const b=rawBalances[t.id], net=b.paid-b.owed;
+    const cls=net>0.01?"net-positive":net<-0.01?"net-negative":"net-zero";
+    const barCls=net>0.01?"positive":net<-0.01?"negative":"zero";
+    return `<div class="summary-card"><div class="accent-bar ${barCls}"></div><div class="summary-avatar">${getInitials(t.id)}</div>
+      <div class="summary-name">${getNameShort(t.id)}</div>
+      <div class="summary-row"><span class="label">Paid</span><span>${formatMoney(b.paid)}</span></div>
+      <div class="summary-row"><span class="label">Share</span><span>${formatMoney(b.owed)}</span></div>
+      <div class="summary-net ${cls}">${net>=0?"+":"-"}${formatMoney(Math.abs(net)).slice(4)}</div></div>`;
+  }).join("");
+
+  // Who Owes Whom — per person
+  renderWhoOwesWhom();
+}
+
+function renderWhoOwesWhom() {
+  const tabsEl = document.getElementById("personTabs");
+  const detailsEl = document.getElementById("personDetails");
+
+  let tabsHtml = "";
+  let detailsHtml = "";
+
+  data.travelers.forEach(t => {
+    const debts = getDebtsForPerson(t.id);
+    const unpaidCount = debts.filter(d => !isDebtPaid(d.paymentKey)).length;
+    const totalUnpaid = debts.filter(d => !isDebtPaid(d.paymentKey)).reduce((s,d) => s+d.amount, 0);
+    const totalAll = debts.reduce((s,d) => s+d.amount, 0);
+    const totalPaid = debts.filter(d => isDebtPaid(d.paymentKey)).reduce((s,d) => s+d.amount, 0);
+    const allPaid = debts.length > 0 && unpaidCount === 0;
+
+    let badgeHtml = "";
+    if (debts.length > 0) {
+      badgeHtml = allPaid
+        ? `<span class="tab-badge settled">\u2713</span>`
+        : `<span class="tab-badge has-debt">${unpaidCount}</span>`;
+    }
+
+    tabsHtml += `<button class="person-tab${selectedPerson===t.id?" active":""}" data-person="${t.id}" onclick="selectPersonTab('${t.id}')">${getNameShort(t.id)}${badgeHtml}</button>`;
+
+    detailsHtml += `<div class="person-detail${selectedPerson===t.id?" active":""}" data-person="${t.id}">`;
+
+    if (debts.length === 0) {
+      detailsHtml += `<div class="no-debts">\u2705 ${getNameShort(t.id)} doesn't owe anyone!</div>`;
+    } else {
+      detailsHtml += `<div class="person-summary-bar">
+        <div class="psb-item"><div class="psb-label">Total Owed</div><div class="psb-value" style="color:var(--red)">${formatMoney(totalAll)}</div></div>
+        <div class="psb-item"><div class="psb-label">Paid</div><div class="psb-value" style="color:var(--green)">${formatMoney(totalPaid)}</div></div>
+        <div class="psb-item"><div class="psb-label">Remaining</div><div class="psb-value" style="color:${totalUnpaid<0.01?'var(--green)':'var(--amber)'}">${formatMoney(totalUnpaid)}</div></div>
+      </div>`;
+
+      debts.forEach(d => {
+        const paid = isDebtPaid(d.paymentKey);
+        detailsHtml += `
+          <div class="debt-item${paid?" is-paid":""}">
+            <div class="debt-icon">${CAT_ICONS[d.category]||"\u{1F4B2}"}</div>
+            <div class="debt-info">
+              <div class="debt-desc">${d.description}</div>
+              <div class="debt-sub">Owed to <strong>${getNameShort(d.owedTo)}</strong></div>
+            </div>
+            <div class="debt-amount${paid?" paid":""}">${formatMoney(d.amount)}</div>
+            <div class="debt-actions">
+              ${paid
+                ? `<span class="paid-check">\u2705</span><button class="btn btn-danger btn-xs" onclick="toggleDebtPaid('${d.paymentKey}','${t.id}')" title="Undo">Undo</button>`
+                : `<button class="btn btn-teal btn-sm" onclick="toggleDebtPaid('${d.paymentKey}','${t.id}')">Mark Paid</button>`
+              }
+            </div>
+          </div>`;
+      });
+    }
+    detailsHtml += `</div>`;
+  });
+
+  tabsEl.innerHTML = tabsHtml;
+  detailsEl.innerHTML = detailsHtml;
+
+  // Auto-select first person if none selected
+  if (!selectedPerson || !data.travelers.find(t=>t.id===selectedPerson)) {
+    const first = data.travelers[0];
+    if (first) selectPersonTab(first.id);
+  }
+}
+
+// Settings
+function updateRate(){const r=parseFloat(document.getElementById("settingsRate").value);if(!r||r<=0){showToast("Enter a valid rate",true);return;}data.meta.exchangeRate=r;document.getElementById("rateInput").value=r;saveData();renderExpenses();showToast("Exchange rate updated!");}
+function exportData(){const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download="bkk2026-backup.json";a.click();URL.revokeObjectURL(u);showToast("Data exported!");}
+function importData(event){const f=event.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(e){try{const imp=JSON.parse(e.target.result);if(!imp.travelers||!imp.expenses)throw new Error("Invalid format");if(!imp.payments||Array.isArray(imp.payments))imp.payments={};data=imp;saveData();renderAll();showToast("Data imported!");}catch(err){showToast("Invalid file: "+err.message,true);}};r.readAsText(f);event.target.value="";}
+function resetData(){if(!confirm("Reset ALL data to defaults? This cannot be undone."))return;if(!confirm("Are you really sure?"))return;data=JSON.parse(JSON.stringify(DEFAULT_DATA));saveData();selectedPerson=null;renderAll();showToast("Data reset to defaults");}
+
+document.getElementById("rateInput").addEventListener("change",function(){const r=parseFloat(this.value);if(r>0){data.meta.exchangeRate=r;document.getElementById("settingsRate").value=r;saveData();renderExpenses();}});
+
+function renderAll(){document.getElementById("rateInput").value=data.meta.exchangeRate;document.getElementById("settingsRate").value=data.meta.exchangeRate;renderItinerary();renderTravelers();renderExpenseForm();renderExpenses();}
+
+// ==================== GOOGLE SHEETS SYNC ====================
+const GS_CONFIG_KEY = "bkk2026_gsconfig";
+const SYNC_SHEET_NAME = "SyncData";
+const SYNC_INTERVAL_MS = 30000; // 30 seconds
+// ⬇️ FILL IN YOUR CREDENTIALS HERE before deploying — friends will auto-sync with no setup needed
+let gsConfig = {
+  spreadsheetId: "PASTE_SHEET_ID_HERE",
+  apiKey:         "PASTE_API_KEY_HERE",
+  webAppUrl:      "PASTE_APPS_SCRIPT_URL_HERE",
+  syncToken:      "PASTE_SECRET_TOKEN_HERE"
+};
+let autoSyncEnabled = false;
+let autoSyncTimer = null;
+let lastSyncTime = null;
+let isSyncing = false;
+
+function loadGsConfig() {
+  try {
+    const saved = localStorage.getItem(GS_CONFIG_KEY);
+    // Merge: baked defaults supply values, localStorage overrides any that were manually changed
+    if (saved) gsConfig = Object.assign({}, gsConfig, JSON.parse(saved));
+  } catch(e) {}
+  document.getElementById("spreadsheetId").value = gsConfig.spreadsheetId || "";
+  document.getElementById("apiKey").value = gsConfig.apiKey || "";
+  document.getElementById("webAppUrl").value = gsConfig.webAppUrl || "";
+  document.getElementById("syncToken").value = gsConfig.syncToken || "";
+  updateSyncStatusUI();
+}
+
+function saveGsheetsConfig() {
+  gsConfig.spreadsheetId = document.getElementById("spreadsheetId").value.trim();
+  gsConfig.apiKey = document.getElementById("apiKey").value.trim();
+  gsConfig.webAppUrl = document.getElementById("webAppUrl").value.trim();
+  gsConfig.syncToken = document.getElementById("syncToken").value.trim();
+  if (!gsConfig.spreadsheetId || !gsConfig.apiKey) { showToast("Enter both Spreadsheet ID and API Key", true); return; }
+  localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
+  showToast("Config saved! Click Test Connection to verify.");
+  updateSyncStatusUI();
+}
+
+function updateSyncStatusUI() {
+  const el = document.getElementById("syncStatus");
+  const btnText = document.getElementById("autoSyncBtnText");
+  if (!gsConfig.spreadsheetId || !gsConfig.apiKey) {
+    el.style.cssText = "background:rgba(107,107,138,0.12);border:1px solid rgba(107,107,138,0.2);color:var(--text-dim)";
+    el.innerHTML = "&#9889; Not configured. Enter your Spreadsheet ID and API Key below.";
+    btnText.innerHTML = "&#9654; Enable Auto-Sync";
+    return;
+  }
+  if (autoSyncEnabled) {
+    el.style.cssText = "background:rgba(56,178,172,0.1);border:1px solid rgba(56,178,172,0.25);color:var(--teal)";
+    el.innerHTML = "&#128308; Auto-Sync <b>ON</b> &mdash; syncing every 30s" + (lastSyncTime ? " &middot; Last: " + lastSyncTime : "");
+    btnText.innerHTML = "&#9646;&#9646; Disable Auto-Sync";
+  } else {
+    el.style.cssText = "background:rgba(232,168,56,0.08);border:1px solid rgba(232,168,56,0.2);color:var(--amber)";
+    el.innerHTML = "&#9711; Connected but Auto-Sync is <b>OFF</b>. Use Manual Sync or enable Auto-Sync." + (lastSyncTime ? " &middot; Last sync: " + lastSyncTime : "");
+    btnText.innerHTML = "&#9654; Enable Auto-Sync";
+  }
+}
+
+// READ from Google Sheets (public read via API key)
+async function gsRead() {
+  const { spreadsheetId, apiKey } = gsConfig;
+  const range = encodeURIComponent(SYNC_SHEET_NAME + "!A1");
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    const msg = err.error?.message || `HTTP ${res.status}`;
+    // "Unable to parse range" means the SyncData sheet tab doesn't exist yet — treat as empty
+    if (msg.includes("Unable to parse range") || msg.includes("not found")) return null;
+    throw new Error(msg);
+  }
+  const json = await res.json();
+  const val = json.values?.[0]?.[0];
+  return val ? JSON.parse(val) : null;
+}
+
+// WRITE to Google Sheets via Apps Script Web App URL (stored in config)
+async function gsWrite(payload) {
+  const { webAppUrl, syncToken } = gsConfig;
+  if (!webAppUrl) throw new Error("NO_WEBAPP");
+
+  const body = JSON.stringify({ action: "write", token: syncToken || "", data: JSON.stringify(payload) });
+  const isLocalFile = location.protocol === "file:";
+
+  if (isLocalFile) {
+    // file:// origin: use no-cors so the browser doesn't block it.
+    // The write lands in the sheet but we get an opaque response (can't read it).
+    await fetch(webAppUrl, { method: "POST", mode: "no-cors", body });
+    // Assume success — verify by checking A1 in the sheet after sync.
+    return { ok: true };
+  }
+
+  // Hosted (http/https): normal fetch, we can read the response
+  const res = await fetch(webAppUrl, { method: "POST", body });
+  if (!res.ok) throw new Error(`Write failed: HTTP ${res.status}`);
+  return await res.json();
+}
+
+async function testGsheetsConnection() {
+  if (!gsConfig.spreadsheetId || !gsConfig.apiKey) { showToast("Save your config first", true); return; }
+  showToast("Testing connection...");
+  try {
+    await gsRead();
+    showToast("Connection successful! Google Sheets is accessible.");
+    lastSyncTime = new Date().toLocaleTimeString();
+    updateSyncStatusUI();
+  } catch(e) {
+    showToast("Connection failed: " + e.message, true);
+  }
+}
+
+async function manualSync() {
+  if (!gsConfig.spreadsheetId || !gsConfig.apiKey) { showToast("Configure Google Sheets first", true); return; }
+  if (isSyncing) return;
+  isSyncing = true;
+  showToast("Syncing...");
+  try {
+    const remote = await gsRead();
+    if (remote && remote.meta?.lastUpdated) {
+      const remoteTime = new Date(remote.meta.lastUpdated);
+      const localTime = new Date(data.meta.lastUpdated || 0);
+      if (remoteTime > localTime) {
+        // Remote is newer — pull it
+        if (!remote.payments || Array.isArray(remote.payments)) remote.payments = {};
+        data = remote;
+        saveData();
+        renderAll();
+        showToast("Pulled latest data from Google Sheets!");
+      } else if (localTime > remoteTime) {
+        // Local is newer — try to push
+        try {
+          await gsWrite(data);
+          showToast("Pushed local data to Google Sheets!");
+        } catch(we) {
+          if (we.message === "NO_WEBAPP") {
+            showToast("Read-only mode: your data is newer. Set up Apps Script to push changes.", true);
+          } else throw we;
+        }
+      } else {
+        showToast("Already in sync!");
+      }
+    } else {
+      // Nothing in sheet yet (tab missing or empty) — push our data
+      try {
+        await gsWrite(data);
+        showToast("✅ Initialized! Data written to Google Sheets for the first time.");
+      } catch(we) {
+        if (we.message === "NO_WEBAPP") {
+          showToast("Sheet is empty — add your Apps Script URL to enable writing (see setup guide below).", true);
+        } else throw we;
+      }
+    }
+    lastSyncTime = new Date().toLocaleTimeString();
+    updateSyncStatusUI();
+  } catch(e) {
+    showToast("Sync error: " + e.message, true);
+  } finally {
+    isSyncing = false;
+  }
+}
+
+function toggleAutoSync() {
+  if (!gsConfig.spreadsheetId || !gsConfig.apiKey) { showToast("Configure Google Sheets first", true); return; }
+  autoSyncEnabled = !autoSyncEnabled;
+  if (autoSyncEnabled) {
+    manualSync();
+    autoSyncTimer = setInterval(manualSync, SYNC_INTERVAL_MS);
+    showToast("Auto-Sync enabled — every 30 seconds");
+  } else {
+    clearInterval(autoSyncTimer);
+    autoSyncTimer = null;
+    showToast("Auto-Sync disabled");
+  }
+  updateSyncStatusUI();
+}
+
+loadData();renderAll();updateCountdown();setInterval(updateCountdown,1000);
+loadGsConfig();
+// Auto-start sync if credentials are baked in — friends need zero setup
+const _hasCreds = gsConfig.spreadsheetId && !gsConfig.spreadsheetId.includes("PASTE")
+               && gsConfig.apiKey && !gsConfig.apiKey.includes("PASTE")
+               && gsConfig.webAppUrl && !gsConfig.webAppUrl.includes("PASTE");
+if (_hasCreds) {
+  manualSync();
+  autoSyncEnabled = true;
+  autoSyncTimer = setInterval(manualSync, SYNC_INTERVAL_MS);
+  updateSyncStatusUI();
+}
+</script>
+</body>
+</html>
