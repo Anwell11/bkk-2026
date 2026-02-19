@@ -181,8 +181,21 @@ input, select, textarea { font-family:inherit; }
 .dir-steps li:last-child { border-bottom:none; }
 .dir-steps li::before { content:counter(step); position:absolute; left:0; top:12px; width:26px; height:26px; background:var(--surface3); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:700; color:var(--amber); }
 .slot.clickable { cursor:pointer; position:relative; }
-.slot.clickable::after { content:"\1F9ED"; position:absolute; top:4px; right:6px; font-size:0.55rem; opacity:0.5; }
+.slot.clickable::after { content:"tap"; position:absolute; top:4px; right:6px; font-size:0.5rem; opacity:0; text-transform:uppercase; letter-spacing:0.5px; background:rgba(255,255,255,0.1); padding:1px 5px; border-radius:4px; color:var(--text-dim); }
 .slot.clickable:hover::after { opacity:1; }
+.food-section { padding:0 24px 20px; }
+.food-section-title { font-size:0.7rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim); font-weight:600; margin-bottom:10px; padding-top:16px; border-top:1px solid var(--border); }
+.food-section-title:first-child { border-top:none; padding-top:0; }
+.food-card { display:flex; justify-content:space-between; align-items:flex-start; padding:10px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:6px; transition:border-color .2s; }
+.food-card:hover { border-color:var(--border-light); }
+.food-name { font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:2px; }
+.food-desc { font-size:0.7rem; color:var(--text-dim); line-height:1.4; }
+.food-price { font-size:0.68rem; font-weight:700; padding:3px 8px; border-radius:12px; white-space:nowrap; flex-shrink:0; margin-left:10px; }
+.food-price.p1 { background:rgba(72,187,120,0.1); color:#7ee8a8; }
+.food-price.p2 { background:rgba(246,173,85,0.12); color:#f6ad55; }
+.food-price.p3 { background:rgba(245,101,101,0.1); color:var(--red); }
+.food-note { font-size:0.72rem; color:var(--amber); background:var(--amber-glow); padding:10px 14px; border-radius:var(--radius-sm); margin:8px 0 0; line-height:1.45; }
+.dir-modal { max-width:520px; max-height:85vh; overflow-y:auto; }
 
 /* Buttons */
 .btn { padding:9px 18px; border-radius:var(--radius-sm); border:none; font-size:0.82rem; font-weight:600; transition:all .2s; }
@@ -294,6 +307,122 @@ tr:hover td { background:rgba(255,255,255,0.025); }
 .settings-row label { font-size:0.85rem; min-width:80px; color:var(--text-secondary); }
 .settings-row input { padding:9px 12px; background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--radius-sm); width:100px; }
 
+/* Summary card clickable */
+.summary-card { cursor:pointer; transition:border-color .2s, transform .2s; }
+.summary-card:hover { border-color:var(--border-light); transform:translateY(-2px); }
+
+/* Payer Modal */
+.payer-hero { padding:24px 24px 16px; border-bottom:1px solid var(--border); }
+.payer-hero-name { font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+.payer-hero-sub { font-size:0.75rem; color:var(--text-dim); }
+.payer-stats { display:flex; gap:0; margin-top:14px; background:var(--surface2); border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border); }
+.payer-stat { flex:1; padding:12px 10px; text-align:center; border-right:1px solid var(--border); }
+.payer-stat:last-child { border-right:none; }
+.payer-stat-label { font-size:0.58rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); font-weight:600; margin-bottom:4px; }
+.payer-stat-value { font-size:0.95rem; font-weight:700; font-family:'SF Mono','Fira Code','Courier New',monospace; }
+.payer-body { padding:20px 24px 24px; }
+.payer-exp-block { margin-bottom:20px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
+.payer-exp-header { padding:12px 16px; background:rgba(255,255,255,0.03); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+.payer-exp-title { font-size:0.85rem; font-weight:600; color:var(--text); flex:1; }
+.payer-exp-amount { font-size:0.82rem; font-weight:700; font-family:'SF Mono','Fira Code','Courier New',monospace; color:var(--amber); }
+.payer-settle-row { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; border-bottom:1px solid var(--border); font-size:0.78rem; }
+.payer-settle-row:last-child { border-bottom:none; }
+.payer-settle-who { color:var(--text-secondary); }
+.payer-settle-who strong { color:var(--text); }
+.payer-settle-amount { font-family:'SF Mono','Fira Code','Courier New',monospace; font-weight:600; }
+.payer-settle-status { font-size:0.65rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-left:8px; }
+.payer-settle-status.paid { background:rgba(72,187,120,0.12); color:var(--green); }
+.payer-settle-status.unpaid { background:rgba(237,137,54,0.12); color:var(--orange); }
+.payer-exp-footer { padding:10px 16px; background:rgba(232,168,56,0.05); border-top:1px solid var(--border); display:flex; justify-content:space-between; font-size:0.75rem; }
+.payer-exp-footer .footer-label { color:var(--text-dim); }
+.payer-exp-footer .footer-val { font-weight:700; font-family:'SF Mono','Fira Code','Courier New',monospace; }
+.payer-exp-footer .footer-val.settled { color:var(--green); }
+.payer-exp-footer .footer-val.partial { color:var(--amber); }
+.payer-exp-footer .footer-val.none { color:var(--red); }
+.payer-section-title { font-size:0.65rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim); font-weight:700; margin-bottom:10px; margin-top:20px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+
+/* Total Group Expenses row */
+.expense-total-row td { padding:12px 14px; border-top:2px solid var(--border); background:rgba(232,168,56,0.05); font-weight:700; }
+.expense-total-label { color:var(--amber); font-size:0.82rem; }
+.expense-total-value { font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:0.9rem; color:var(--amber); }
+
+/* Personal Expenses */
+.pe-person-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+.pe-person-tab { padding:8px 20px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); color:var(--text-dim); font-size:0.82rem; font-weight:600; transition:all .2s; cursor:pointer; }
+.pe-person-tab:hover { border-color:var(--border-light); color:var(--text-secondary); }
+.pe-person-tab.active { border-color:var(--teal); color:var(--teal); background:var(--teal-glow); }
+
+.pe-panel { display:none; animation:fadeIn .25s ease; }
+.pe-panel.active { display:block; }
+
+.pe-summary-bar { display:flex; gap:0; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:22px; }
+.pe-stat { flex:1; padding:16px 14px; text-align:center; border-right:1px solid var(--border); }
+.pe-stat:last-child { border-right:none; }
+.pe-stat-label { font-size:0.58rem; text-transform:uppercase; letter-spacing:1.3px; color:var(--text-dim); font-weight:600; margin-bottom:5px; }
+.pe-stat-value { font-size:1.05rem; font-weight:700; font-family:'SF Mono','Fira Code','Courier New',monospace; }
+
+.pe-add-form { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; margin-bottom:22px; box-shadow:var(--shadow); }
+.pe-add-form h4 { color:var(--teal); font-size:0.9rem; margin-bottom:14px; }
+
+.pe-table-wrap { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface); }
+.pe-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+.pe-table th { text-align:left; padding:11px 14px; background:var(--surface2); color:var(--text-dim); font-size:0.63rem; text-transform:uppercase; letter-spacing:1.2px; font-weight:600; }
+.pe-table td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.pe-table tr:last-child td { border-bottom:none; }
+.pe-table tr:hover td { background:rgba(255,255,255,0.02); }
+.pe-table .pe-total-row td { border-top:2px solid var(--border); background:rgba(56,178,172,0.04); font-weight:700; border-bottom:none; }
+.pe-total-label { color:var(--teal); font-size:0.82rem; }
+.pe-total-value { font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:0.9rem; color:var(--teal); }
+.pe-empty { text-align:center; padding:32px; color:var(--text-dim); font-size:0.85rem; }
+.pe-cat-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.65rem; font-weight:600; background:var(--surface3); color:var(--text-secondary); }
+
+/* Must-Try */
+.musttry-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+.musttry-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:20px 18px; cursor:pointer; transition:all .2s; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:8px; position:relative; overflow:hidden;
+}
+.musttry-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; }
+.musttry-card.day1::before { background:linear-gradient(90deg,#63b3ed,#4299e1); }
+.musttry-card.day2::before { background:linear-gradient(90deg,#68d391,#48bb78); }
+.musttry-card.day3::before { background:linear-gradient(90deg,#f6ad55,#ed8936); }
+.musttry-card.day4::before { background:linear-gradient(90deg,#b794f4,#9f7aea); }
+.musttry-card.day5::before { background:linear-gradient(90deg,#fc8181,#f56565); }
+.musttry-card.home::before { background:linear-gradient(90deg,#e8a838,#f0b444); }
+.musttry-card:hover { border-color:var(--border-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+.musttry-card-emoji { font-size:1.8rem; line-height:1; }
+.musttry-card-name { font-size:0.88rem; font-weight:700; color:var(--text); }
+.musttry-card-day { font-size:0.65rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); font-weight:500; }
+.musttry-card-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.musttry-tag { font-size:0.6rem; padding:2px 7px; border-radius:10px; background:var(--surface2); color:var(--text-dim); border:1px solid var(--border); }
+
+/* Must-Try Area Modal */
+.mustarea-modal { max-width:580px; max-height:88vh; overflow-y:auto; padding:0; }
+.mustarea-hero { padding:28px 28px 20px; border-bottom:1px solid var(--border); }
+.mustarea-hero-top { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.mustarea-emoji { font-size:2.4rem; line-height:1; }
+.mustarea-title { font-size:1.2rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+.mustarea-day { font-size:0.7rem; text-transform:uppercase; letter-spacing:1.2px; color:var(--text-dim); font-weight:500; }
+.mustarea-desc { font-size:0.82rem; color:var(--text-secondary); line-height:1.6; }
+.mustarea-body { padding:0 28px 28px; }
+.mustarea-section { margin-top:22px; }
+.mustarea-section-title { font-size:0.65rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim); font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:6px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.mustarea-item { display:flex; justify-content:space-between; align-items:flex-start; padding:10px 14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:6px; transition:border-color .2s; gap:10px; }
+.mustarea-item:hover { border-color:var(--border-light); }
+.mustarea-item-left { flex:1; min-width:0; }
+.mustarea-item-name { font-size:0.82rem; font-weight:600; color:var(--text); margin-bottom:2px; }
+.mustarea-item-desc { font-size:0.72rem; color:var(--text-dim); line-height:1.4; }
+.mustarea-badge { font-size:0.65rem; font-weight:700; padding:3px 9px; border-radius:10px; white-space:nowrap; flex-shrink:0; }
+.mustarea-badge.p1 { background:rgba(72,187,120,0.1); color:#7ee8a8; }
+.mustarea-badge.p2 { background:rgba(246,173,85,0.12); color:#f6ad55; }
+.mustarea-badge.p3 { background:rgba(245,101,101,0.1); color:var(--red); }
+.mustarea-badge.pfree { background:rgba(56,178,172,0.1); color:var(--teal); }
+.mustarea-badge.tip { background:rgba(232,168,56,0.1); color:var(--amber); }
+.mustarea-note { font-size:0.75rem; color:var(--amber); background:var(--amber-glow); border:1px solid rgba(232,168,56,0.15); padding:10px 14px; border-radius:var(--radius-sm); line-height:1.5; margin-top:10px; }
+.mustarea-close { position:absolute; top:14px; right:16px; background:none; border:none; color:var(--text-dim); font-size:1.4rem; z-index:5; line-height:1; padding:4px 8px; border-radius:6px; transition:all .2s; }
+.mustarea-close:hover { color:var(--text); background:rgba(255,255,255,0.08); }
+
 /* Toast */
 .toast { position:fixed; bottom:24px; right:24px; background:var(--surface2); color:var(--text); border:1px solid var(--border); border-left:3px solid var(--green); padding:14px 22px; border-radius:var(--radius); box-shadow:var(--shadow-lg); transform:translateY(100px); opacity:0; transition:all .35s cubic-bezier(.4,0,.2,1); z-index:300; font-size:0.85rem; }
 .toast.show { transform:translateY(0); opacity:1; }
@@ -332,8 +461,9 @@ tr:hover td { background:rgba(255,255,255,0.025); }
 
 <div class="tabs">
   <button class="tab active" data-tab="overview">Overview</button>
-  <button class="tab" data-tab="travelers">Travelers</button>
-  <button class="tab" data-tab="expenses">Expenses</button>
+  <button class="tab" data-tab="musttry">Must-Try</button>
+  <button class="tab" data-tab="expenses">Group Expenses</button>
+  <button class="tab" data-tab="personal">Personal Expenses</button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 
@@ -376,13 +506,7 @@ tr:hover td { background:rgba(255,255,255,0.025); }
     <div style="margin-top:14px;"><a href="https://www.google.com/maps/d/u/0/edit?mid=1b000Titzrj3lhr3ksDZC26xUmX0qvAI&usp=sharing" target="_blank" style="color:var(--teal);font-size:0.82rem;text-decoration:none;font-weight:500;">&#128205; Open Trip Map in Google Maps &rarr;</a></div>
   </div>
 
-  <!-- TRAVELERS -->
-  <div class="tab-content" id="tab-travelers">
-    <div class="section-title"><span class="icon">&#128100;</span> Travelers</div>
-    <div class="travelers-grid" id="travelersGrid"></div>
-  </div>
-
-  <!-- EXPENSES -->
+  <!-- GROUP EXPENSES -->
   <div class="tab-content" id="tab-expenses">
     <div class="expense-form" id="expenseForm">
       <h3 id="formTitle">&#10010; Add Expense</h3>
@@ -409,7 +533,7 @@ tr:hover td { background:rgba(255,255,255,0.025); }
       </div>
     </div>
 
-    <div class="section-title"><span class="icon">&#128200;</span> Summary</div>
+    <div class="section-title"><span class="icon">&#128200;</span> Summary <span style="font-size:0.7rem;font-weight:400;color:var(--text-dim);margin-left:8px">— tap a card for full breakdown</span></div>
     <div class="summary-grid" id="summaryGrid"></div>
 
     <div class="section-title"><span class="icon">&#128203;</span> All Expenses</div>
@@ -418,10 +542,24 @@ tr:hover td { background:rgba(255,255,255,0.025); }
     </div>
 
     <div class="wow-section">
-      <h3>&#128176; Who Owes Whom</h3>
+      <h3>&#128176; Settlement — Who Owes Whom</h3>
+      <p style="font-size:0.78rem;color:var(--text-dim);margin-bottom:16px;margin-top:-8px">Select a person to see what they owe and mark payments as settled.</p>
       <div class="person-tabs" id="personTabs"></div>
       <div id="personDetails"></div>
     </div>
+  </div>
+
+  <!-- PERSONAL EXPENSES -->
+  <div class="tab-content" id="tab-personal">
+    <div class="section-title"><span class="icon">&#128179;</span> Personal Expenses <span style="font-size:0.7rem;font-weight:400;color:var(--text-dim);margin-left:8px">— track your own spending, separate from the group</span></div>
+    <div class="pe-person-tabs" id="pePersonTabs"></div>
+    <div id="pePanels"></div>
+  </div>
+
+  <!-- MUST-TRY -->
+  <div class="tab-content" id="tab-musttry">
+    <div class="section-title"><span class="icon">&#11088;</span> Must-Try — Click an area to explore</div>
+    <div class="musttry-grid" id="mustTryGrid"></div>
   </div>
 
   <!-- SETTINGS -->
@@ -517,24 +655,24 @@ function doPost(e) {
   </div>
 </div>
 
-<!-- Edit Traveler Modal -->
-<div class="modal-overlay" id="travelerModal">
-  <div class="modal">
-    <h3>Edit Traveler</h3>
-    <input type="hidden" id="editTravelerId">
-    <div class="form-group"><label>First Name</label><input type="text" id="editFirstName"></div>
-    <div class="form-group"><label>Middle Name</label><input type="text" id="editMiddleName"></div>
-    <div class="form-group"><label>Last Name</label><input type="text" id="editLastName"></div>
-    <div class="form-group"><label>Birth Date</label><input type="text" id="editBirthDate" placeholder="e.g. August 18, 1998"></div>
-    <div class="form-group"><label>Passport #</label><input type="text" id="editPassport"></div>
-    <div class="modal-actions"><button class="btn btn-secondary" onclick="closeTravelerModal()">Cancel</button><button class="btn btn-primary" onclick="saveTraveler()">Save</button></div>
-  </div>
-</div>
-
 <div class="modal-overlay" id="directionsModal" onclick="if(event.target===this)closeDirections()">
   <div class="modal dir-modal">
     <button class="dir-close" onclick="closeDirections()">&times;</button>
     <div id="dirContent"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="payerModal" onclick="if(event.target===this)closePayerModal()">
+  <div class="modal dir-modal" style="max-width:560px;max-height:88vh;overflow-y:auto;padding:0;">
+    <button class="dir-close" onclick="closePayerModal()" style="top:14px;right:14px">&times;</button>
+    <div id="payerModalContent"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="mustAreaModal" onclick="if(event.target===this)closeMustArea()">
+  <div class="modal dir-modal mustarea-modal">
+    <button class="mustarea-close" onclick="closeMustArea()">&times;</button>
+    <div id="mustAreaContent"></div>
   </div>
 </div>
 
@@ -622,6 +760,132 @@ const DEFAULT_DATA = {
     // DAY 6 (col 6)
     "3-6":{from:"Airbnb (Ratchathewi)",to:"Suvarnabhumi Airport",method:"BTS + ARL",time:"45–50 min",cost:"~62 THB",steps:["BTS Ratchathewi (N1) → 1 stop north to Phaya Thai (N2)","Transfer to Airport Rail Link at Phaya Thai station","ARL City Line to Suvarnabhumi Airport (26 min, 45 THB)","Tip: Allow 2+ hours before flight. If before 6 AM, take Grab instead (~250–350 THB)"]}
   },
+  // Restaurant & cafe suggestions keyed same as directions: "row-col"
+  foodGuide:{
+    // DAY 1 — Prep/Brekkie at Ratchathewi (row 3 col 1)
+    "3-1":{area:"Ratchathewi",cafes:[
+      {name:"CASA LAPIN",desc:"Specialty coffee, modern interior, great espresso",price:"$$"},
+      {name:"Mono Cafe",desc:"Scrambled eggs over rice with bacon, 100% Arabica coffee",price:"$"},
+      {name:"Caturday Cat Cafe",desc:"Cozy cat cafe near Ratchathewi BTS, good drinks",price:"$$"},
+      {name:"Piccolo Vicolo",desc:"Hidden alley cafe with greenery, quiet vibes, great lattes",price:"$$"}
+    ],restaurants:[
+      {name:"On Lok Yun",desc:"Legendary 1933 breakfast spot — toast, soft-boiled eggs, Thai iced coffee",price:"$"},
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Michelin Bib Gourmand, famous Hainanese chicken rice (10 min walk)",price:"$"}
+    ]},
+    // DAY 1 — Lunch in Chinatown (row 6 col 1)
+    "6-1":{area:"Chinatown (Yaowarat)",restaurants:[
+      {name:"Lim Lao Ngow",desc:"Michelin Bib Gourmand — Kuay Jab rolled rice noodles in peppery pork broth",price:"$"},
+      {name:"Jek Pui Curry Rice",desc:"70+ year old Michelin Bib Gourmand curry rice — pre-made curries in giant pots",price:"$"},
+      {name:"Nai Ek Roll Noodle",desc:"Famous since the 1960s, hand-rolled noodles in rich broth",price:"$"},
+      {name:"T&K Seafood",desc:"Iconic green-shirt staff, giant grilled prawns, tom yum, oyster omelette",price:"$$"}
+    ]},
+    // DAY 1 — Asiatique Dinner (row 14 col 1)
+    "14-1":{area:"Asiatique The Riverfront",restaurants:[
+      {name:"Sirimahannop",desc:"Dining on a stunning ship replica — steaks, seafood, Thai fusion",price:"$$$"},
+      {name:"Wine I Love You",desc:"Live music, open-air riverside seating, 3-course set menu",price:"$$$"},
+      {name:"Happy Fish",desc:"Riverside European/Thai/seafood with great river views",price:"$$"},
+      {name:"Peppery Thai Bistro",desc:"Elevated authentic Thai cuisine, beautiful plating",price:"$$"}
+    ]},
+    // DAY 2 — Brekkie at Ratchathewi (row 3 col 2)
+    "3-2":{area:"Ratchathewi",cafes:[
+      {name:"CASA LAPIN",desc:"Specialty coffee, modern interior, great espresso",price:"$$"},
+      {name:"Mono Cafe",desc:"Scrambled eggs over rice with bacon, 100% Arabica coffee",price:"$"},
+      {name:"Piccolo Vicolo",desc:"Hidden alley cafe with greenery, quiet vibes, great lattes",price:"$$"}
+    ],restaurants:[
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Michelin Bib Gourmand Hainanese chicken rice",price:"$"},
+      {name:"On Lok Yun",desc:"Legendary 1933 breakfast — toast, soft-boiled eggs, Thai iced coffee",price:"$"}
+    ]},
+    // DAY 2 — Lunch near Grand Palace (row 7 col 2)
+    "7-2":{area:"Grand Palace / Tha Tien",restaurants:[
+      {name:"Supanniga Eating Room (Tha Tien)",desc:"Thai cuisine with Wat Arun views — must-try Isaan dishes",price:"$$"},
+      {name:"Ama Art & Eatery",desc:"Opposite Wat Pho — great Pad Thai and basil rice",price:"$"},
+      {name:"Err Urban Rustic Thai",desc:"Michelin Plate — retro shophouse, drinking snacks and Thai tapas",price:"$$"},
+      {name:"Krua Apsorn",desc:"Famous crab omelette, beloved by locals for decades",price:"$$"}
+    ]},
+    // DAY 2 — Pratunam Dinner (row 13 col 2)
+    "13-2":{area:"Pratunam / CentralWorld",restaurants:[
+      {name:"Uno Mas (54th Floor, Centara Grand)",desc:"Upmarket Spanish — tapas, lobster, oysters with stunning skyline views",price:"$$$"},
+      {name:"Red Sky Bar (Centara Grand)",desc:"Rooftop bar with 360° views — grilled meats, cocktails, free-flow drinks",price:"$$$"},
+      {name:"CentralWorld Food Court",desc:"Massive variety of Thai and international street food",price:"$"},
+      {name:"Platinum Fashion Mall Food Court",desc:"Cheap and cheerful local food, authentic Thai dishes",price:"$"},
+      {name:"Kaiton Pratunam Chicken Rice",desc:"Legendary late-night chicken rice, green pants staff, right in Pratunam",price:"$"}
+    ]},
+    // DAY 3 — Brekkie at Ratchathewi (row 2 col 3)
+    "2-3":{area:"Ratchathewi",cafes:[
+      {name:"CASA LAPIN",desc:"Specialty coffee, modern interior",price:"$$"},
+      {name:"Mono Cafe",desc:"Scrambled eggs, bacon, Arabica coffee",price:"$"}
+    ],restaurants:[
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Michelin Bib Gourmand, opens early",price:"$"}
+    ]},
+    // DAY 3 — Lunch at Ancient City (row 7 col 3)
+    "7-3":{area:"Ancient City (Muang Boran)",restaurants:[
+      {name:"Ancient City Food Court",desc:"Central food court inside the park — pad thai, som tam, curries",price:"$"},
+      {name:"Canal-side Food Stalls",desc:"Scattered around the park — boat noodles, grilled meats, Thai sweets",price:"$"},
+      {name:"Floating Market Zone",desc:"Recreated floating market area inside the park with local dishes",price:"$"}
+    ]},
+    // DAY 3 — Akara Sky Hanuman Dinner (row 14 col 3)
+    "14-3":{area:"Akara Sky Hanuman (61F, One City Centre)",restaurants:[
+      {name:"Akara Sky Hanuman Dome Restaurant",desc:"Refined Thai seafood — grilled lobster, Lobster Tom Yum Mama, green curry",price:"$$$"},
+      {name:"Hanuman Rooftop Garden Bar",desc:"360° city views, signature cocktails like 'Amazing Thailand' and 'Songkran' (~620 THB each)",price:"$$$"}
+    ],note:"Reservations recommended. Opens 16:30. Nightly cultural shows with Muay Thai and Thai dance at ~20:00. Sky-mirrored observation deck on 61F."},
+    // DAY 4 — Brekkie heading to Chatuchak (row 3 col 4)
+    "3-4":{area:"Ratchathewi → Chatuchak",cafes:[
+      {name:"CASA LAPIN (Ratchathewi)",desc:"Quick specialty coffee before heading out",price:"$$"},
+      {name:"Nana Coffee Roasters (Ari)",desc:"Award-winning roaster near Chatuchak — famous timber ring croissants",price:"$$"},
+      {name:"Glig Cafe (Ari)",desc:"Seoul-inspired minimalist cafe, great pour-over",price:"$$"},
+      {name:"Landhaus Bakery (Ari)",desc:"Authentic Austrian-Bavarian bakery, fresh bread and pastries",price:"$$"}
+    ],restaurants:[
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Quick Michelin Bib Gourmand breakfast before BTS",price:"$"},
+      {name:"Bar Storia (Ari)",desc:"All-day brunch in a photogenic European-vintage setting",price:"$$"}
+    ]},
+    // DAY 4 — Lunch at Chatuchak (row 7 col 4)
+    "7-4":{area:"Chatuchak Weekend Market",restaurants:[
+      {name:"Coco JJ Coconut Ice Cream",desc:"THE iconic Chatuchak treat — coconut ice cream in a husk with toppings (~50 THB)",price:"$"},
+      {name:"Big Shrimp Pad Thai",desc:"Always packed — massive shrimp pad thai cooked fresh",price:"$"},
+      {name:"King Octopus",desc:"Giant whole octopus grilled and sliced on the spot",price:"$"},
+      {name:"Moo Yang (Honey Roast Pork) stalls",desc:"Sweet-savory grilled pork skewers, multiple vendors",price:"$"},
+      {name:"Khanom Krok stalls",desc:"Crispy coconut pancakes cooked in round molds — a classic",price:"$"}
+    ]},
+    // DAY 4 — Khao San Road Dinner (row 12 col 4)
+    "12-4":{area:"Khao San Road",restaurants:[
+      {name:"Khao San Sek",desc:"Michelin Guide 2025 — build-your-own Thai menu in a beautiful townhouse",price:"$$$"},
+      {name:"Pad Thai Thip Samai",desc:"'The best pad thai in Bangkok' — queue is worth it, wrapped-in-egg version is a must",price:"$"},
+      {name:"Raan Jay Fai",desc:"Michelin-starred street food legend — famous crab omelette and drunken noodles (reserve ahead!)",price:"$$$"},
+      {name:"Praya Dining at Praya Palazzo",desc:"Michelin Guide Italian in a stunning riverside villa near Khao San",price:"$$$"}
+    ]},
+    // DAY 5 — Brekkie at Ratchathewi (row 2 col 5)
+    "2-5":{area:"Ratchathewi",cafes:[
+      {name:"CASA LAPIN",desc:"Specialty coffee, reliable every morning",price:"$$"},
+      {name:"Piccolo Vicolo",desc:"Green alley cafe, peaceful morning spot",price:"$$"}
+    ],restaurants:[
+      {name:"On Lok Yun",desc:"Classic Thai breakfast — toast, eggs, coffee",price:"$"},
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Michelin Bib Gourmand, opens early",price:"$"}
+    ]},
+    // DAY 5 — Early Lunch / Floating Market (row 6 col 5)
+    "6-5":{area:"Khlong Lat Mayom Floating Market",restaurants:[
+      {name:"Pla Pao (Salt-Crusted Grilled Fish)",desc:"THE must-try — whole snakehead fish grilled in salt crust with spicy sauce",price:"$"},
+      {name:"Hoi Tod (Crispy Oyster Omelette)",desc:"Classic Thai canal-side dish, fried crispy with mussels",price:"$"},
+      {name:"Boat Noodle stalls",desc:"Rich pork or beef broth noodles served canal-side (~30 THB/bowl)",price:"$"},
+      {name:"Kanom Jeen stalls",desc:"Cold rice vermicelli with curry — green curry or fish curry versions",price:"$"},
+      {name:"Foy Thong (Golden Threads)",desc:"Delicate Thai dessert — sweet egg yolk threads, unique to floating markets",price:"$"}
+    ]},
+    // DAY 5 — Free Time food (row 7 col 5)
+    "7-5":{area:"Seacon Bangkae / Return to Hotel",restaurants:[
+      {name:"Seacon Bangkae Food Court",desc:"Big mall food court with Thai, Japanese, Korean options",price:"$"},
+      {name:"MK Suki (Seacon Bangkae)",desc:"Popular Thai hot pot chain — great for groups",price:"$$"},
+      {name:"After You Dessert Cafe",desc:"Famous Thai dessert chain — Shibuya Honey Toast is a must",price:"$$"}
+    ]},
+    // DAY 6 — Last Breakfast (row 2 col 6)
+    "2-6":{area:"Ratchathewi (Last Breakfast)",cafes:[
+      {name:"CASA LAPIN",desc:"One last specialty coffee before the flight",price:"$$"},
+      {name:"Mono Cafe",desc:"Hearty scrambled eggs and bacon for the road",price:"$"}
+    ],restaurants:[
+      {name:"Go-Ang Pratunam Chicken Rice",desc:"Final Michelin Bib Gourmand chicken rice — a perfect goodbye",price:"$"},
+      {name:"On Lok Yun",desc:"Classic 1933 Thai breakfast — end the trip where it all began",price:"$"}
+    ]}
+  },
+  // personalExpenses: { [personId]: [{id, desc, amount, currency, category, date, note}] }
+  personalExpenses: {},
   expenses: [
     {id:"exp_preset_1",description:"Flight Booking (Roundtrip)",amount:44985.55,currency:"PHP",paidBy:"eduard",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"equal",customSplits:null,date:"2026-01-15",category:"transport",status:"paid",comments:""},
     {id:"exp_preset_2",description:"Airbnb",amount:26685.61,currency:"PHP",paidBy:"kerr",splitAmong:["eduard","kerr","justin","anwell","august"],splitType:"custom",customSplits:{eduard:5487.12,kerr:5187.12,justin:5487.12,anwell:5487.12,august:5487.12},date:"2026-01-20",category:"accommodation",status:"paid",comments:""}
@@ -635,7 +899,7 @@ const STORAGE_KEY = "bkk2026_v2";
 
 function loadData() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) { try { data = JSON.parse(saved); if (!data.payments || Array.isArray(data.payments)) data.payments = {}; return; } catch(e) {} }
+  if (saved) { try { data = JSON.parse(saved); if (!data.payments || Array.isArray(data.payments)) data.payments = {}; if (!data.personalExpenses || Array.isArray(data.personalExpenses)) data.personalExpenses = {}; return; } catch(e) {} }
   data = JSON.parse(JSON.stringify(DEFAULT_DATA));
   saveData();
 }
@@ -681,6 +945,7 @@ function updateCountdown() {
 function renderItinerary() {
   const icons={sleep:"\u{1F634}",travel:"\u{1F695}",activity:"\u{2B50}",eating:"\u{1F374}",free:"\u{1F3B2}",prep:"\u{1F9F3}",empty:""};
   const dirs=data.directions||{};
+  const food=data.foodGuide||{};
   const hdr=`<thead><tr><th></th>${data.itinerary.map(d=>`<th>${d.label}<div class="day-date">${new Date(d.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})}</div></th>`).join("")}</tr></thead>`;
   const rows=data.itinGrid.map((row,ri)=>{
     const time=row[0];
@@ -691,19 +956,24 @@ function renderItinerary() {
       const [act,type,span]=c;
       const icon=act?(icons[type]||""):"";
       const label=act?`${icon?icon+" ":""}${act}`:"";
-      const hasDir=!!dirs[ri+"-"+i];
-      const click=hasDir?` clickable" onclick="showDirections(${ri},${i})`:'"';
-      cells+=`<td${span>1?' rowspan="'+span+'"':''}><div class="slot ${type}${hasDir?' clickable':''}"${hasDir?' onclick="showDirections('+ri+','+i+')"':''}>${label}</div></td>`;
+      const key=ri+"-"+i;
+      const isClickable=!!dirs[key]||!!food[key];
+      cells+=`<td${span>1?' rowspan="'+span+'"':''}><div class="slot ${type}${isClickable?' clickable':''}"${isClickable?' onclick="showSlotInfo('+ri+','+i+')"':''}>${label}</div></td>`;
     }
     return `<tr><td class="itin-time">${time}</td>${cells}</tr>`;
   }).join("");
   document.getElementById("itineraryGrid").innerHTML=hdr+"<tbody>"+rows+"</tbody>";
 }
 
-function showDirections(row,col){
-  const d=(data.directions||{})[row+"-"+col];
-  if(!d)return;
-  const html=`
+function showSlotInfo(row,col){
+  const key=row+"-"+col;
+  const d=(data.directions||{})[key];
+  const f=(data.foodGuide||{})[key];
+  if(!d&&!f)return;
+  let html="";
+  // Directions section
+  if(d){
+    html+=`
     <div class="dir-header">
       <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;font-weight:600">\u{1F9ED} Getting There</div>
       <div class="dir-route">
@@ -720,6 +990,22 @@ function showDirections(row,col){
     <div class="dir-steps">
       <ol>${d.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
     </div>`;
+  }
+  // Food guide section
+  if(f){
+    const pc=p=>p==="$"?"p1":p==="$$"?"p2":"p3";
+    const renderCards=arr=>(arr||[]).map(r=>`<div class="food-card"><div><div class="food-name">${r.name}</div><div class="food-desc">${r.desc}</div></div><span class="food-price ${pc(r.price)}">${r.price}</span></div>`).join("");
+    html+=`<div style="padding:${d?'0':'24px'} 0 0"><div style="padding:${d?'0':'0'} 24px 4px;font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);font-weight:600">\u{1F37D}\u{FE0F} Where to Eat — ${f.area}</div></div>`;
+    if(f.cafes&&f.cafes.length){
+      html+=`<div class="food-section"><div class="food-section-title">\u2615 Coffee & Cafes</div>${renderCards(f.cafes)}</div>`;
+    }
+    if(f.restaurants&&f.restaurants.length){
+      html+=`<div class="food-section"><div class="food-section-title">\u{1F374} Restaurants & Street Food</div>${renderCards(f.restaurants)}</div>`;
+    }
+    if(f.note){
+      html+=`<div style="padding:0 24px 20px"><div class="food-note">\u{1F4A1} ${f.note}</div></div>`;
+    }
+  }
   document.getElementById("dirContent").innerHTML=html;
   document.getElementById("directionsModal").classList.add("show");
 }
@@ -727,24 +1013,531 @@ function closeDirections(){
   document.getElementById("directionsModal").classList.remove("show");
 }
 
-// Travelers
-let revealedPassports={};
-function renderTravelers() {
-  document.getElementById("travelersGrid").innerHTML=data.travelers.map(t=>{
-    const fn=[t.firstName,t.middleName,t.lastName].filter(Boolean).join(" ");
-    const masked=t.passportNumber?t.passportNumber.slice(0,-4).replace(/./g,"*")+t.passportNumber.slice(-4):"Not set";
-    const shown=revealedPassports[t.id];
-    return `<div class="traveler-card"><button class="traveler-edit-btn" onclick="openTravelerEdit('${t.id}')">Edit</button>
-      <div class="traveler-avatar">${getInitials(t.id)}</div><div class="traveler-name">${fn||t.id}</div>
-      <div class="traveler-detail"><label>Birthday</label><span>${t.birthDate||"Not set"}</span></div>
-      <div class="traveler-detail"><label>Passport</label><span><span class="value">${shown?(t.passportNumber||"Not set"):masked}</span>
-      ${t.passportNumber?`<button class="passport-toggle" onclick="togglePassport('${t.id}')">${shown?"Hide":"Show"}</button>`:""}</span></div></div>`;
-  }).join("");
+// ==================== MUST-TRY ====================
+const mustTryData = [
+  {
+    id:"ratchathewi", emoji:"🏠", name:"Ratchathewi / Pratunam", day:"Home Base", dayClass:"home",
+    tags:["Food","Cafes","Shopping","Local"],
+    desc:"Your Airbnb neighborhood — a surprisingly great local area with legendary chicken rice, cozy cafes, and easy access to Pratunam's massive fashion malls.",
+    sections:[
+      {title:"☕ Must-Try Cafes", items:[
+        {name:"CASA LAPIN", desc:"Specialty coffee temple — excellent espresso, minimalist interiors", price:"$$"},
+        {name:"Mono Cafe", desc:"Scrambled eggs over rice + bacon + 100% Arabica coffee — perfect morning combo", price:"$"},
+        {name:"Piccolo Vicolo", desc:"Hidden alley cafe, lush greenery, great lattes — worth hunting down", price:"$$"},
+        {name:"Caturday Cat Cafe", desc:"Cozy cat cafe near BTS Ratchathewi — unique experience with great drinks", price:"$$"}
+      ]},
+      {title:"🍴 Must-Eat Restaurants", items:[
+        {name:"Go-Ang Pratunam Chicken Rice", desc:"Michelin Bib Gourmand — legendary Hainanese chicken rice, lines form early, cash only", price:"$"},
+        {name:"On Lok Yun", desc:"Since 1933 — toast, soft-boiled eggs & Thai iced coffee. Bangkok's most classic breakfast", price:"$"},
+        {name:"Kaiton Pratunam Chicken Rice", desc:"Late-night chicken rice legend — unmistakable green-pants staff, open past midnight", price:"$"},
+        {name:"Platinum Fashion Mall Food Court", desc:"Dirt-cheap authentic Thai dishes inside the mall — local favorites, cash only", price:"$"}
+      ]},
+      {title:"🛍️ Shopping", items:[
+        {name:"Platinum Fashion Mall", desc:"5-floor fashion wholesale hub — clothes, accessories, everything cheap. 10 min walk from Airbnb", price:"$"},
+        {name:"Pratunam Market", desc:"Street-level clothing stalls, bags, and accessories — great for bargaining", price:"$"},
+        {name:"CentralWorld", desc:"Massive upscale mall 1 BTS stop away — international brands, food halls, cinema", price:"$$"},
+        {name:"Big C Supercenter", desc:"Thai supermarket gold — cheap snacks, Thai chips, seasonings to bring home", price:"$"}
+      ]},
+      {title:"📍 Instagrammable Spots", items:[
+        {name:"Piccolo Vicolo Alley", desc:"Green-draped hidden alley cafe — very photogenic entrance", price:"free"},
+        {name:"CentralWorld Plaza", desc:"Giant open-air plaza — great city shots especially at night", price:"free"},
+        {name:"Ratchathewi BTS Skywalk", desc:"Glass-covered skywalk connecting to Pratunam — clean lines and city views", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Pratunam Opening Hours", desc:"Platinum Mall: 8AM–8PM. CentralWorld: 10AM–10PM. Street stalls: all day", price:"tip"},
+        {name:"BTS Access", desc:"Ratchathewi (N1) is your home station. 1 stop to Siam (CEN), 1 stop to Phaya Thai (ARL)", price:"tip"}
+      ]}
+    ],
+    note:"Your Airbnb is walking distance from some of Bangkok's best value eats and most accessible shopping. Don't overlook this neighborhood!"
+  },
+  {
+    id:"chinatown", emoji:"🏮", name:"Chinatown (Yaowarat)", day:"Day 1", dayClass:"day1",
+    tags:["Michelin","Street Food","Night Market","Temple"],
+    desc:"Bangkok's most vibrant neighbourhood — neon-lit Yaowarat Road buzzing with street food vendors, Michelin-starred hawker stalls, century-old shophouses, and the energy of a place that never sleeps.",
+    sections:[
+      {title:"🍜 Michelin & Must-Eat", items:[
+        {name:"Lim Lao Ngow", desc:"Michelin Bib Gourmand — Kuay Jab rolled rice noodles in a peppery pork broth, open since 1966", price:"$"},
+        {name:"Jek Pui Curry Rice", desc:"70+ yr old Michelin Bib Gourmand — pre-made curries ladled over rice from giant pots", price:"$"},
+        {name:"Nai Ek Roll Noodle", desc:"Famous hand-rolled noodles since the 1960s, rich pork broth", price:"$"},
+        {name:"T&K Seafood", desc:"Iconic green-shirt staff — giant grilled prawns, tom yum, oyster omelette, always packed", price:"$$"},
+        {name:"Guay Jub Ouan Pochana", desc:"Another legendary bowl of rolled noodles — fan favorite for late nights", price:"$"},
+        {name:"Pad Thai Fai Ta Lu", desc:"Wok-charred pad thai from a tiny open kitchen — massive queues, worth it", price:"$"}
+      ]},
+      {title:"🧋 Trending Drinks & Desserts", items:[
+        {name:"Milk & Honey Boba", desc:"Hugely popular Thai-style milk tea and boba stalls along Yaowarat Road", price:"$"},
+        {name:"Mango Sticky Rice stalls", desc:"Classic Thai dessert available all along Yaowarat — Mamuang Khao Niaow", price:"$"},
+        {name:"Durian desserts", desc:"Durian pancakes, durian ice cream, and whole durian — it's wild", price:"$"}
+      ]},
+      {title:"🛕 Activities & Sights", items:[
+        {name:"Wat Mangkon Kamalawat", desc:"Bangkok's largest and most important Chinese temple — ornate interiors, incense, fortune sticks", price:"free"},
+        {name:"Sampeng Lane (Soi Wanit 1)", desc:"200-year-old market alleyway — wholesale goods, spices, fabrics, novelties. Extremely fun to browse", price:"free"},
+        {name:"Khlong Ong Ang Walkway", desc:"Fairy-light canopy walkway along the canal — magical at night, great for photos", price:"free"},
+        {name:"Chinatown Gate", desc:"Iconic red gate at the end of Yaowarat — the classic Chinatown photo backdrop", price:"free"},
+        {name:"Talat Noi neighbourhood", desc:"Adjacent area with colonial shophouses and street art — easily walkable from Chinatown", price:"free"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Yaowarat Road at Night", desc:"The neon-lit main strip at night — one of Bangkok's most photogenic scenes", price:"free"},
+        {name:"Chinatown Gate Arch", desc:"The big red gate — classic backdrop for Chinatown portraits", price:"free"},
+        {name:"Khlong Ong Ang Lights", desc:"Fairy light canopy over the canal walkway — dreamy evening photos", price:"free"},
+        {name:"Old Shophouse Facades", desc:"Peeling paint, lanterns, vintage signs — endless street photography opportunities", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Best Time to Go", desc:"Evenings (after 6PM) when street food vendors set up and the neon signs glow", price:"tip"},
+        {name:"Getting There", desc:"MRT Blue Line to Wat Mangkon (Chinatown station) — opens 2022, exits right into the action", price:"tip"},
+        {name:"Cash Only", desc:"Almost all street food stalls are cash only. Bring small bills (20s and 50s)", price:"tip"}
+      ]}
+    ],
+    note:"Go hungry. Yaowarat Road is one of Asia's greatest street food destinations. Best experienced on foot — just follow your nose."
+  },
+  {
+    id:"songwat", emoji:"🎨", name:"Song Wat + Talat Noi", day:"Day 1", dayClass:"day1",
+    tags:["Street Art","Cafes","Hidden Gem","History"],
+    desc:"Bangkok's coolest hidden quarter — a network of 200-year-old lanes packed with creative cafes, murals, vintage warehouses turned art spaces, and river views. Completely walkable from Chinatown.",
+    sections:[
+      {title:"☕ Cafes & Bars", items:[
+        {name:"Coffee Room Yaowarat", desc:"Specialty coffee in a beautifully restored shophouse — one of Bangkok's finest", price:"$$"},
+        {name:"Local Boys Coffee", desc:"Hip minimalist roastery, excellent pour-overs, very Instagrammable", price:"$$"},
+        {name:"e-ga Bangkok", desc:"Quirky art-cafe hybrid — mismatched vintage furniture, specialty drinks, gallery vibes", price:"$$"},
+        {name:"RISE Bar", desc:"Rooftop bar with stunning river views and Wat Arun silhouette — perfect at sunset", price:"$$$"},
+        {name:"The Old Town Knives & Cleavers Building Cafe", desc:"Atmospheric heritage warehouse cafe — thick walls, cool air, great coffee", price:"$$"}
+      ]},
+      {title:"🎭 Activities & Sights", items:[
+        {name:"Street Art Walk", desc:"Massive murals cover the walls of Talat Noi — free open-air gallery, new pieces added regularly", price:"free"},
+        {name:"'I Wanna Bangkok' Sign", desc:"The most famous street art installation in the area — iconic photo spot", price:"free"},
+        {name:"Talat Noi Community Walk", desc:"Explore the narrow sois on foot — heritage shophouses, Chinese shrines, river glimpses", price:"free"},
+        {name:"Wat Khaek (Sri Maha Mariamman)", desc:"Colorful Hindu temple in the area — extraordinary decorative facade", price:"free"},
+        {name:"The Peninsula Pier area", desc:"Walk down to the river edge for stunning views back toward the city", price:"free"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Song Wat Road Murals", desc:"Giant wall murals every few meters along Song Wat Road — endless content", price:"free"},
+        {name:"'I Wanna Bangkok' Sign", desc:"THE shot of this neighborhood — do it early before crowds", price:"free"},
+        {name:"RISE Rooftop", desc:"Sunset shots with Wat Arun and the Chao Phraya river from rooftop level", price:"$$$"},
+        {name:"Talat Noi Lanes", desc:"The narrow sois themselves are photogenic — colonial textures and local life", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Midday timing", desc:"Visit in the mid-afternoon when the light is good for street photography and cafes are quieter", price:"tip"},
+        {name:"Walking route", desc:"Start from Chinatown Gate → Song Wat Road → Talat Noi lanes → river viewpoint. 1-2 hours total", price:"tip"}
+      ]}
+    ],
+    note:"Most tourists skip this area — it's one of Bangkok's true hidden gems. Combine with Chinatown for a full Day 1 experience."
+  },
+  {
+    id:"grandpalace", emoji:"👑", name:"Grand Palace + Wat Pho", day:"Day 2", dayClass:"day2",
+    tags:["UNESCO","Temple","Massage","Iconic"],
+    desc:"Bangkok's most visited landmark — a dazzling complex of golden spires, emerald Buddhas, and ornate Thai architecture. Wat Pho next door houses the world-famous Reclining Buddha and the birthplace of Thai massage.",
+    sections:[
+      {title:"🏛️ Must-See Sights", items:[
+        {name:"Temple of the Emerald Buddha (Wat Phra Kaew)", desc:"Thailand's most sacred temple — the Emerald Buddha inside is only 66cm tall but of immense spiritual significance", price:"free"},
+        {name:"Grand Palace Complex", desc:"400-year-old royal complex — stunning Chakri Maha Prasat Hall, ornate Thai architecture throughout", price:"$$"},
+        {name:"Reclining Buddha at Wat Pho", desc:"46m long, 15m tall golden reclining Buddha — extraordinarily detailed mother-of-pearl feet soles", price:"$"},
+        {name:"Phra Mondop (Library)", desc:"Exquisite gilded library building decorated with ceramic tiles — one of Bangkok's most beautiful structures", price:"free"}
+      ]},
+      {title:"💆 Experiences", items:[
+        {name:"Wat Pho Traditional Thai Massage", desc:"Learn from where Thai massage was founded — 1-hour sessions available (300–450 THB). Book on-site", price:"$"},
+        {name:"Guided Temple Walk", desc:"Official guide services at the Grand Palace entrance — highly recommended for context and history", price:"$"},
+        {name:"Amulet Market (Tha Maharaj)", desc:"Fascinating market of Buddhist amulets and talismans just outside the complex — free to browse", price:"free"}
+      ]},
+      {title:"🍴 Where to Eat Nearby", items:[
+        {name:"Supanniga Eating Room (Tha Tien)", desc:"Refined Thai cuisine with a rooftop view of Wat Arun across the river — standout Isaan dishes", price:"$$"},
+        {name:"Err Urban Rustic Thai", desc:"Michelin Plate — retro shophouse, drinking snacks and Thai sharing plates", price:"$$"},
+        {name:"Krua Apsorn", desc:"Famous crab omelette beloved by locals and royalty for decades — queues are normal", price:"$$"},
+        {name:"Tha Tien street food stalls", desc:"Simple noodles, pad thai, mango sticky rice right outside the temple gates", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Grand Palace Main Gate", desc:"The iconic white-and-gold entrance — classic Bangkok shot", price:"$$"},
+        {name:"Wat Phra Kaew Yaksha Giants", desc:"The massive guardian demon statues at the entrance — striking portraits", price:"$$"},
+        {name:"Reclining Buddha feet detail", desc:"The intricate mother-of-pearl inlay on the Buddha's feet — extraordinary macro photography", price:"$"},
+        {name:"Tha Tien riverside", desc:"Looking across the river to Wat Arun — one of Bangkok's most iconic views", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Dress Code STRICTLY enforced", desc:"Shoulders and knees must be covered. Sarongs available for rent at the entrance (refundable deposit)", price:"tip"},
+        {name:"Go Early", desc:"Open 8:30AM. Arrive before 9AM to beat tour groups — it gets very crowded and very hot by midday", price:"tip"},
+        {name:"Entry Fee", desc:"Grand Palace + Wat Phra Kaew: 500 THB (foreigners). Wat Pho: 200 THB — buy separately", price:"tip"},
+        {name:"Tuk-tuk scam", desc:"Ignore any tuk-tuk drivers near the entrance saying 'it's closed today' — it's always open", price:"tip"}
+      ]}
+    ],
+    note:"Budget 3–4 hours minimum. The detail on every surface is extraordinary — slow down and look carefully at the mosaics, statues, and murals."
+  },
+  {
+    id:"watarun", emoji:"🌅", name:"Wat Arun (Temple of Dawn)", day:"Day 2", dayClass:"day2",
+    tags:["Temple","Sunset","River","Iconic"],
+    desc:"One of Thailand's most recognized landmarks — the 79m porcelain-covered prang (tower) of Wat Arun rises dramatically from the west bank of the Chao Phraya, especially spectacular at sunrise and sunset.",
+    sections:[
+      {title:"🏛️ Must-See", items:[
+        {name:"The Central Prang (Tower)", desc:"79 meters of porcelain-encrusted Buddhist tower — climb the steep steps for panoramic river views", price:"$"},
+        {name:"Chao Phraya River View", desc:"Standing at Wat Arun looking east at the Bangkok skyline — one of the city's great views", price:"$"},
+        {name:"Temple Grounds at Sunset", desc:"The prang turns gold in the late afternoon light — photographers dream shot", price:"$"},
+        {name:"Ceramic Detail Work", desc:"Thousands of Chinese porcelain fragments embedded into the tower surface — extraordinary up close", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Looking across from Tha Tien Pier", desc:"Classic Wat Arun full-view shot from the eastern bank — best at golden hour", price:"free"},
+        {name:"From inside Wat Arun", desc:"City skyline views looking east from the prang steps", price:"$"},
+        {name:"The ferry crossing", desc:"Short 5-min river crossing gives great water-level shots of the prang rising from the river", price:"$"},
+        {name:"Prang base up close", desc:"Extreme close-up of the porcelain mosaic work — abstract and stunning", price:"$"}
+      ]},
+      {title:"🚤 Getting There", items:[
+        {name:"Cross-river Ferry", desc:"From Tha Tien Pier (next to Wat Pho) — 5 min crossing, boats every 10–15 min, 6AM–9PM", price:"$"},
+        {name:"Entry Fee", desc:"100 THB for foreigners. Dress code enforced — sarongs available at entrance", price:"$"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Best Time", desc:"Late afternoon (4–5 PM) for golden light on the prang. Or sunrise for dramatic misty photos with few crowds", price:"tip"},
+        {name:"Combine with Grand Palace", desc:"Cross the river from Tha Tien after visiting Grand Palace and Wat Pho — they're all in the same area", price:"tip"}
+      ]}
+    ],
+    note:"The view of Wat Arun from across the river (at sunset!) is arguably Bangkok's single most beautiful sight. Don't miss it."
+  },
+  {
+    id:"ancientcity", emoji:"🏯", name:"Ancient City (Muang Boran)", day:"Day 3", dayClass:"day3",
+    tags:["Culture","Outdoor","History","Full Day"],
+    desc:"A sprawling 80-hectare open-air museum in Samut Prakan — 116 full-scale replicas of Thailand's most important temples and monuments, set in a map-shaped park. One of Thailand's greatest hidden treasures.",
+    sections:[
+      {title:"🗺️ Must-See Structures", items:[
+        {name:"Sanphet Prasat Palace", desc:"Exact replica of the original Ayutthaya palace — gold spires and teak interiors", price:"$$"},
+        {name:"Prasat Hin Phimai", desc:"Replica of the famous Khmer temple in Nakhon Ratchasima — stunning Angkor-era architecture", price:"$$"},
+        {name:"Ancient Town of Sukhothai", desc:"Life-size replica of Sukhothai's ancient core — wandering through feels like actual history", price:"$$"},
+        {name:"Erawan Museum (nearby)", desc:"Giant three-headed elephant museum nearby — incredible art collection inside", price:"$$"},
+        {name:"Floating Market Zone", desc:"A recreated floating market inside the park with local vendors and canal boats", price:"$"}
+      ]},
+      {title:"🚴 Activities", items:[
+        {name:"Rent a Bicycle", desc:"Bicycle rental inside the park (~50 THB) — essential for covering the 80 hectare grounds", price:"$"},
+        {name:"Golf Cart Rental", desc:"Electric golf carts available for rent — great for groups or if it's too hot to cycle", price:"$$"},
+        {name:"Guided Segway Tour", desc:"Segway tours of the park available — fun way to cover ground quickly", price:"$$"},
+        {name:"Cultural Performances", desc:"Live performances of traditional Thai dance and drama on weekends", price:"free"}
+      ]},
+      {title:"🍴 Food Inside the Park", items:[
+        {name:"Central Food Court", desc:"Main food court near the park entrance — pad thai, som tam, curries, and drinks", price:"$"},
+        {name:"Canal-side Stalls", desc:"Scattered food stalls throughout the park — boat noodles, grilled meats, Thai sweets", price:"$"},
+        {name:"Floating Market Food", desc:"Vendor boats serving local dishes along the canals inside the replica floating market zone", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Sanphet Prasat Reflection Pool", desc:"The palace reflected in the surrounding moat — stunning symmetry for photos", price:"$$"},
+        {name:"Khmer Temple Silhouette", desc:"The Prasat Hin Phimai replica photographed against the sky looks remarkably like the real thing", price:"$$"},
+        {name:"Ancient Town Street", desc:"Walking through the replica ancient town feels like a film set — endless photography", price:"$$"},
+        {name:"Early Morning Mist", desc:"Arrive right at opening (9AM) for atmospheric mist over the structures", price:"$$"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Entry Fee", desc:"700 THB (adult foreigners). Discounted to 350 THB after 4PM — great if doing a half-day afternoon visit", price:"tip"},
+        {name:"How to Get There", desc:"BTS to Kheha (E24 terminus) then Grab to the entrance (~15 min, 80–100 THB). Total ~1.5hrs from Ratchathewi", price:"tip"},
+        {name:"Time Required", desc:"Allow a full day (6+ hours) to see everything properly. It's genuinely huge", price:"tip"},
+        {name:"What to Bring", desc:"Sunscreen, water, and comfortable walking shoes. It's very exposed — hat essential", price:"tip"}
+      ]}
+    ],
+    note:"Massively underrated and often skipped by tourists. This is genuinely one of the best cultural experiences in all of Southeast Asia."
+  },
+  {
+    id:"chatuchak", emoji:"🛍️", name:"Chatuchak Weekend Market", day:"Day 4", dayClass:"day4",
+    tags:["Market","Shopping","Food","Massive"],
+    desc:"One of the world's largest weekend markets — 15,000+ stalls across 27 zones covering everything from vintage clothing and antiques to live animals, street food, and local design. Pure organized chaos.",
+    sections:[
+      {title:"🍜 Must-Try Food", items:[
+        {name:"Coco JJ Coconut Ice Cream", desc:"THE iconic Chatuchak experience — coconut ice cream served in a coconut husk with toppings (~50 THB). Queue is worth it", price:"$"},
+        {name:"King Octopus", desc:"Whole octopus grilled and sliced on the spot — spectacular spectacle and delicious", price:"$"},
+        {name:"Big Shrimp Pad Thai", desc:"Massive shrimp pad thai wok-fried fresh — always packed with good reason", price:"$"},
+        {name:"Moo Yang (Honey Roast Pork)", desc:"Sweet-savory grilled pork skewers, multiple vendors throughout the market", price:"$"},
+        {name:"Khanom Krok", desc:"Crispy coconut-cream pancakes cooked in round cast-iron molds — sweet/savory versions", price:"$"},
+        {name:"Thai Iced Tea stalls", desc:"Bright orange cha yen — everywhere, perfect for the heat", price:"$"}
+      ]},
+      {title:"🛍️ Shopping Highlights", items:[
+        {name:"Zones 2–6 (Clothing)", desc:"Vintage, streetwear, indie labels, custom pieces — best clothing zone in any market in Asia", price:"$"},
+        {name:"Zone 7 (Art & Crafts)", desc:"Local artists selling original prints, ceramics, jewellery, and handmade goods", price:"$"},
+        {name:"Zone 13 (Antiques)", desc:"Vintage Thai goods, Buddha statues, old coins, colonial-era items", price:"$$"},
+        {name:"Zone 26 (Books)", desc:"Secondhand books, vintage magazines, old maps — treasure-hunting paradise", price:"$"},
+        {name:"JJ Mall (indoor)", desc:"Air-conditioned indoor extension of Chatuchak — fashion, accessories, cafes. Great heat escape", price:"$"}
+      ]},
+      {title:"☕ Cafes", items:[
+        {name:"Nana Coffee Roasters", desc:"Award-winning roastery just outside Chatuchak — famous for their timber ring croissants and exceptional pour-over", price:"$$"},
+        {name:"Glig Cafe (Ari)", desc:"Seoul-inspired minimalist cafe a few stops south — great for a post-market coffee", price:"$$"},
+        {name:"Chatuchak Park Stalls", desc:"Multiple iced coffee and fresh fruit juice stalls throughout the market", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Coconut Ice Cream Shot", desc:"Coco JJ — the coconut shell + colorful toppings + holding it = perfect market food shot", price:"$"},
+        {name:"King Octopus in action", desc:"Video the whole octopus being sliced — dramatic and viral-worthy", price:"$"},
+        {name:"Chatuchak Market Clock Tower", desc:"The central clock tower is the landmark navigation point — great orientation shot", price:"free"},
+        {name:"Vintage clothing stalls", desc:"Racks upon racks of colorful vintage — styled shots in the clothing zone", price:"$"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Opening Hours", desc:"Saturday–Sunday only, 9AM–6PM. Gets extremely crowded 11AM–2PM — go early or late", price:"tip"},
+        {name:"Cash Only", desc:"Vast majority of vendors are cash only. Plenty of ATMs on site", price:"tip"},
+        {name:"Navigation", desc:"Get the free Chatuchak map at the entrance. Section signs are color-coded. Food is near the clock tower", price:"tip"},
+        {name:"Getting There", desc:"BTS Mo Chit (N8, Exit 1) or MRT Kamphaeng Phet (Exit 2) — MRT drops you right inside the market", price:"tip"}
+      ]}
+    ],
+    note:"Wear light clothing, bring cash, and go early before it gets unbearably hot. Budget 3–5 hours minimum. The market is genuinely enormous."
+  },
+  {
+    id:"bangsuejolun", emoji:"🎪", name:"Bang Sue / Ari + Ace Jolun", day:"Day 4", dayClass:"day4",
+    tags:["Street Art","Cool Kids","Cafes","Local Scene"],
+    desc:"Bangkok's trendiest local neighborhoods — Ari is the city's most coveted residential district lined with indie cafes, artisan bakeries and boutiques. Ace Jolun is a creative compound with street art, food vendors and design shops.",
+    sections:[
+      {title:"☕ Cafes & Bakeries", items:[
+        {name:"Nana Coffee Roasters", desc:"Award-winning roastery — their timber ring croissants are legendary, specialty pour-over coffee", price:"$$"},
+        {name:"Glig Cafe", desc:"Seoul-inspired minimalist cafe — great pour-over, very photogenic interior", price:"$$"},
+        {name:"Yellow Lane", desc:"Converted shophouse cafe famous for Japanese-style sandos (sandwiches) and good coffee", price:"$$"},
+        {name:"Landhaus Bakery", desc:"Authentic Austrian-Bavarian bakery — fresh-baked sourdough, pretzels, and pastries", price:"$$"},
+        {name:"Bar Storia", desc:"All-day brunch in a European-vintage setting — stunning decor, great food photos", price:"$$"}
+      ]},
+      {title:"🎨 Activities", items:[
+        {name:"Ace Jolun Creative Compound", desc:"Bangkok's hippest creative hub — street art compound with pop-up food stalls, design shops, weekend market", price:"free"},
+        {name:"Pearl Art Space", desc:"Contemporary art gallery in Ari — rotating exhibitions, free to browse", price:"free"},
+        {name:"Or Tor Kor Market", desc:"Premium fresh market right next to Chatuchak — high-quality fruits, ready-to-eat Thai food, famous for durian", price:"$"},
+        {name:"Ari Walking Street", desc:"Phaholyothin Soi 7 area — great street-level exploration with local shops and cafes", price:"free"}
+      ]},
+      {title:"🍴 Restaurants", items:[
+        {name:"Or Tor Kor Market Food Stalls", desc:"Premium prepared foods — northern Thai dishes, fresh seafood, tropical fruits", price:"$"},
+        {name:"Soul Food Mahanakorn", desc:"Beloved Thai comfort food restaurant in Ari — craft cocktails, excellent local dishes", price:"$$"},
+        {name:"Ace Jolun Food Vendors", desc:"Rotating food vendors inside the compound — typically great quality street food", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Ace Jolun Street Art", desc:"Entire compound covered in murals — Bangkok street art at its best", price:"free"},
+        {name:"Nana Coffee Roasters Timber Ring Croissant", desc:"The most photogenic pastry in Bangkok — get it before noon (sells out)", price:"$$"},
+        {name:"Yellow Lane Sando", desc:"Japanese-style egg sando or katsu sando — beloved food photography subject", price:"$$"},
+        {name:"Ari's cafe exteriors", desc:"The whole street is lined with photogenic converted shophouses", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Getting to Ari", desc:"BTS Ari (N5) — exit right into the neighborhood. Everything is walkable from the station", price:"tip"},
+        {name:"Ace Jolun Location", desc:"Near Phaholyothin Soi 2 (a short Grab from Ari BTS). Weekend events are especially lively", price:"tip"},
+        {name:"Or Tor Kor", desc:"Right next to Chatuchak MRT/BTS stations — easy to combine in one visit", price:"tip"}
+      ]}
+    ],
+    note:"Perfect for the late afternoon after Chatuchak. The Ari neighborhood gives a real glimpse of how cool Bangkok locals actually live."
+  },
+  {
+    id:"iconsiam", emoji:"🏙️", name:"ICONSIAM", day:"Day 4", dayClass:"day4",
+    tags:["Mall","Luxury","River","Must-See"],
+    desc:"Bangkok's most spectacular shopping mall — a 525,000 sqm riverside megadevelopment that feels more like a theme park. Home to SookSiam (indoor floating market), river water shows, and spectacular skyline views.",
+    sections:[
+      {title:"🌟 Must-Do Experiences", items:[
+        {name:"SookSiam Indoor Floating Market", desc:"Full-size traditional Thai floating market recreated indoors on the ground floor — regional food and crafts from all 77 provinces. Completely unique", price:"free"},
+        {name:"Chao Phraya River Waterfront", desc:"The outdoor riverside promenade — stunning views back at Bangkok skyline, especially at sunset", price:"free"},
+        {name:"Light and Water Show", desc:"Free nightly water and light show on the river — check times at the venue", price:"free"},
+        {name:"Glass Bridge", desc:"The iconic glass-floored bridge over the ground-floor water feature — great for photos", price:"free"}
+      ]},
+      {title:"🛍️ Shopping", items:[
+        {name:"ICONLUXE", desc:"Separate luxury wing — Hermes, Chanel, LV, Dior, Cartier, and more. Just window shopping is fun", price:"$$$"},
+        {name:"Thai Design Brands Zone", desc:"Dedicated section for Thai-designed fashion, accessories, and homewares — unique souvenirs", price:"$$"},
+        {name:"Takashimaya (ICONSIAM)", desc:"Japanese department store concept — great for quality products and food hall", price:"$$"},
+        {name:"Free Tourist Card", desc:"Get the ICONSIAM Tourist Privilege Card at the info desk — free discounts at many shops and restaurants", price:"free"}
+      ]},
+      {title:"🍴 Restaurants", items:[
+        {name:"Baan Khanitha", desc:"Legendary upscale Thai cuisine — refined royal Thai dishes in an elegant setting", price:"$$$"},
+        {name:"Fallabella Riverfront", desc:"European riverside dining with excellent views of the Chao Phraya", price:"$$$"},
+        {name:"SookSiam Food Stalls", desc:"Authentic regional Thai food from every province — excellent value, eat like a local", price:"$"},
+        {name:"ICONSIAM Food Hall", desc:"Curated food hall on the upper floors — Thai and international, better quality than average mall food", price:"$$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"SookSiam Gondola Boats", desc:"Actual wooden gondola boats floating inside the mall — unreal photo opportunity", price:"free"},
+        {name:"Chao Phraya at Sunset", desc:"The riverside promenade at golden hour — Bangkok skyline reflected in the water", price:"free"},
+        {name:"Glass Bridge Over Water", desc:"Standing on the glass floor bridge looking down at the water below", price:"free"},
+        {name:"ICONSIAM exterior at night", desc:"The illuminated facade reflected in the river — spectacular wide-angle photography", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"How to Get There", desc:"BTS to Saphan Taksin (S6), then take the free ICONSIAM shuttle boat (every 15 min, 16:00–23:30). Or BTS Gold Line to Charoen Nakhon", price:"tip"},
+        {name:"Tourist Card", desc:"Get the free tourist privilege card at the information desk on arrival — saves money at shops and restaurants", price:"tip"},
+        {name:"Opening Hours", desc:"10AM–10PM daily. Restaurants often open until midnight", price:"tip"}
+      ]}
+    ],
+    note:"Don't just treat this as a shopping mall — SookSiam alone is worth the trip. The riverside views at sunset are among Bangkok's best."
+  },
+  {
+    id:"khaosan", emoji:"🍻", name:"Khao San Road", day:"Day 4", dayClass:"day4",
+    tags:["Nightlife","Street Food","Backpacker","Michelin"],
+    desc:"Bangkok's most famous backpacker strip — a chaotic, neon-lit carnival of street food, bars, clothing stalls, and international travelers. Touristy? Yes. Worth experiencing? Absolutely.",
+    sections:[
+      {title:"🍴 Michelin & Must-Eat", items:[
+        {name:"Pad Thai Thip Samai", desc:"'The best Pad Thai in Bangkok' — wrapped in egg, ultra-thin noodles, 15 min walk away. Queue up", price:"$"},
+        {name:"Khao San Sek", desc:"Michelin Guide 2025 — build-your-own Thai set menu in a beautiful townhouse. Make a reservation", price:"$$$"},
+        {name:"Raan Jay Fai", desc:"Michelin-starred street food legend — famous crab omelette and drunken noodles. Reserve WEEKS ahead or queue from 2PM", price:"$$$"},
+        {name:"Praya Dining", desc:"Michelin Guide-listed Italian in a stunning colonial riverside villa near Khao San — elegant contrast", price:"$$$"}
+      ]},
+      {title:"🍹 Nightlife & Bars", items:[
+        {name:"Brick Bar", desc:"Legendary Khao San live music bar — Thai bands playing rock covers, great atmosphere", price:"$$"},
+        {name:"The Club (Khao San)", desc:"Bangkok's most iconic backpacker club — cheap buckets, packed dance floor, 2AM closing", price:"$$"},
+        {name:"Roof Bar Khao San", desc:"Rooftop bar above the street level — elevated views of the Khao San chaos below", price:"$$"},
+        {name:"Soi Rambuttri", desc:"The slightly calmer, cooler parallel street — better bars, more mature crowd, still very fun", price:"$$"}
+      ]},
+      {title:"🛍️ Street Shopping", items:[
+        {name:"Custom stamp souvenirs", desc:"Thai name stamps carved on the spot — a classic backpacker souvenir", price:"$"},
+        {name:"Harem pants and tie-dye", desc:"The quintessential Southeast Asia backpacker market clothing", price:"$"},
+        {name:"Thai boxing shorts", desc:"Genuine Muay Thai shorts for ~200 THB — actually high quality", price:"$"}
+      ]},
+      {title:"🛕 Sights Nearby", items:[
+        {name:"Wat Chana Songkhram", desc:"Peaceful temple directly opposite the chaos of Khao San — beautiful contrast", price:"free"},
+        {name:"Sanam Luang (Royal Field)", desc:"Large open ceremonial ground near the Grand Palace — 10 min walk", price:"free"},
+        {name:"Soi Rambuttri Area", desc:"The whole area around Rambuttri is full of atmospheric little cafes and guesthouses", price:"free"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Thip Samai Pad Thai", desc:"The famous egg-wrapped pad thai is a great food photo subject — shoot before eating", price:"$"},
+        {name:"Khao San Road at Night", desc:"The whole strip lit up at night — chaotic, colorful, cinematic", price:"free"},
+        {name:"Thai Boxing Shorts Market", desc:"Rows of Muay Thai shorts hanging in the market stalls — colorful and very Thai", price:"$"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Thip Samai Queue", desc:"Pad Thai Thip Samai opens at 5PM — arrive early or expect a 30-45 min queue. Worth it", price:"tip"},
+        {name:"Raan Jay Fai", desc:"Close to Khao San, closes when ingredients run out — try to go for early dinner, not late night", price:"tip"},
+        {name:"Stay safe", desc:"Ignore tuk-tuk offers near Khao San, keep bags in front, normal urban common sense applies", price:"tip"}
+      ]}
+    ],
+    note:"Even if you hate tourist traps — at least one night on Khao San Road is a Bangkok rite of passage. Lean into the chaos."
+  },
+  {
+    id:"asiatique", emoji:"🎡", name:"Asiatique The Riverfront", day:"Day 1", dayClass:"day1",
+    tags:["Nightlife","Shows","River","Shopping"],
+    desc:"Bangkok's most popular riverside night bazaar — a sprawling warehouse district transformed into an open-air shopping, dining, and entertainment complex. Free ferry from Sathorn Pier, free Ferris wheel views, nightly shows.",
+    sections:[
+      {title:"🎭 Must-Do Shows", items:[
+        {name:"Calypso Cabaret (Ladyboy Show)", desc:"World-famous Thai cabaret show — elaborate costumes, lip-sync performances, fantastic entertainment. Shows at 19:30 and 21:00", price:"$$"},
+        {name:"Muay Thai Live Show", desc:"Professional Muay Thai boxing show at the dedicated arena — Tue–Sun, multiple times nightly", price:"$$"},
+        {name:"Siam Niramit Bangkok", desc:"Grand-scale cultural performance — 150 performers, 500 costumes, spectacular stage effects", price:"$$$"}
+      ]},
+      {title:"🎡 Attractions", items:[
+        {name:"60m Observation Ferris Wheel", desc:"Ride the giant Ferris wheel for panoramic views over the Chao Phraya — a signature Asiatique experience", price:"$"},
+        {name:"Sirimahannop Ship", desc:"Full-size replica of a vintage ship permanently moored — houses restaurants and is extraordinarily photogenic at night", price:"free"},
+        {name:"1,500+ Shopping Stalls", desc:"Clothing, accessories, Thai crafts, souvenirs — wandering the warehouse corridors is entertaining itself", price:"free"}
+      ]},
+      {title:"🍴 Restaurants", items:[
+        {name:"Sirimahannop Restaurant", desc:"Dining aboard the ship replica — steaks, seafood, Thai fusion, stunning ambiance", price:"$$$"},
+        {name:"Wine I Love You", desc:"Live music, open-air riverside seating, 3-course set menu with wine pairings", price:"$$$"},
+        {name:"Happy Fish", desc:"European and Thai seafood with excellent river views", price:"$$"},
+        {name:"Peppery Thai Bistro", desc:"Elevated authentic Thai cuisine with beautiful plating", price:"$$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Sirimahannop at Night", desc:"The illuminated ship replica against the dark river — one of the most dramatic shots in Bangkok", price:"free"},
+        {name:"Ferris Wheel at Night", desc:"The glowing Ferris wheel reflected in the river — spectacular wide shots", price:"$"},
+        {name:"Riverside Promenade", desc:"Walking the riverside with the Bangkok skyline across the water", price:"free"},
+        {name:"Warehouse corridors", desc:"The lit-up night market corridors with shopfronts — very atmospheric and photogenic", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Getting There", desc:"BTS to Saphan Taksin (S6) → free Asiatique shuttle boat from Sathorn Pier (runs 16:00–23:30, every 30 min)", price:"tip"},
+        {name:"Opening Hours", desc:"Opens 17:00, most active 18:00–23:00. Last shuttle boat back ~23:30", price:"tip"},
+        {name:"Calypso Tickets", desc:"Book Calypso Cabaret tickets online in advance — shows sell out on weekends", price:"tip"},
+        {name:"Dinner Timing", desc:"Eat dinner at Asiatique before the 19:30 show — everything is walkable within the complex", price:"tip"}
+      ]}
+    ],
+    note:"Best visited in the evening — everything comes alive after dark. Make it a dinner + show night for the full experience."
+  },
+  {
+    id:"khlonglatmayom", emoji:"⛵", name:"Khlong Lat Mayom Floating Market", day:"Day 5", dayClass:"day5",
+    tags:["Floating Market","Local","Canal Food","Weekend Only"],
+    desc:"Bangkok's most beloved traditional floating market — a genuine local experience far from the tourist trail. Wooden boats loaded with food line the Khlong Lat Mayom canal, weekends only.",
+    sections:[
+      {title:"🍽️ Must-Try Canal Food", items:[
+        {name:"Pla Pao (Salt-Crusted Grilled Fish)", desc:"THE signature dish — whole snakehead fish encrusted in salt and grilled over charcoal, served with spicy dipping sauce. Unmissable", price:"$"},
+        {name:"Hoi Tod (Crispy Oyster Omelette)", desc:"Pan-fried oysters in a crispy egg batter — a canal-side classic", price:"$"},
+        {name:"Boat Noodles", desc:"Rich pork or beef broth noodles served from canal-side boats — ~30 THB per bowl, must eat 3+", price:"$"},
+        {name:"Kanom Jeen (Rice Vermicelli + Curry)", desc:"Cold rice noodles served with green or fish curry — quintessentially Thai, unique to markets like this", price:"$"},
+        {name:"Foy Thong (Golden Threads)", desc:"Delicate Thai dessert of sweet egg yolk threads spun into golden wisps — very traditional, very special", price:"$"},
+        {name:"Mango Sticky Rice", desc:"Classic khao niaow ma muang — glutinous rice with fresh mango and coconut cream from floating vendors", price:"$"}
+      ]},
+      {title:"🚣 Market Experience", items:[
+        {name:"Walk the Canal Boardwalk", desc:"The entire market lines the canal edges — walk the full length and back to see everything before choosing", price:"free"},
+        {name:"Boat Vendor Interaction", desc:"Vendors paddle wooden boats right to the bank — wave them over, point, pay cash", price:"free"},
+        {name:"Paddleboat Rental", desc:"Rent a small paddleboat to explore the canal from the water — unique perspective", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Salt-Crusted Fish on the Grill", desc:"The whole fish crusted in white salt on a charcoal grill — dramatic food photography", price:"$"},
+        {name:"Wooden Boats on the Canal", desc:"Overloaded wooden vendor boats on the canal — quintessential Thai floating market shot", price:"free"},
+        {name:"Golden Threads Dessert", desc:"Foy Thong — the intricate golden egg threads are visually extraordinary and unique", price:"$"},
+        {name:"Canal Reflections", desc:"Early morning when the market opens, the canal is mirror-calm — perfect reflection shots", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"Weekends Only", desc:"Saturday and Sunday only, 8AM–5PM. Opens early — go before 11AM to beat the crowds", price:"tip"},
+        {name:"Getting There", desc:"Option A: BTS Bang Wa (S12 terminus) then taxi. Option B: Free shuttle from MRT Bang Khun Non (Exit 3) weekends only. Option C: Direct Grab (~200 THB)", price:"tip"},
+        {name:"Cash Only", desc:"Bring small Thai baht bills. No card or phone pay accepted at most stalls", price:"tip"},
+        {name:"Mosquito Repellent", desc:"It's a canal market — bring repellent especially for morning visits", price:"tip"}
+      ]}
+    ],
+    note:"This is the real deal. Khlong Lat Mayom is what floating markets used to be before tourist dollars changed them. Go early, eat everything."
+  },
+  {
+    id:"pratunam", emoji:"🏬", name:"Pratunam / CentralWorld Area", day:"Day 2", dayClass:"day2",
+    tags:["Shopping","Malls","Rooftop","Sky Bars"],
+    desc:"Bangkok's commercial core — from Platinum Fashion Mall's floor-to-ceiling cheap fashion to CentralWorld's 8 floors of international brands, capped with rooftop bars and sky-high restaurants at dizzying views.",
+    sections:[
+      {title:"🛍️ Shopping", items:[
+        {name:"Platinum Fashion Mall", desc:"5-floor wholesale fashion paradise — clothes from 100 THB, accessories, bags. Hugely popular with Thais and Asian tourists", price:"$"},
+        {name:"CentralWorld", desc:"One of Southeast Asia's largest malls — 500+ stores, Isetan, Uniqlo, Nike, cinemas, and an enormous food hall", price:"$$"},
+        {name:"Big C Extra Pratunam", desc:"Huge Thai supermarket — souvenir snacks, instant noodles, sauces, all the things to bring home", price:"$"},
+        {name:"Amari Watergate Shopping", desc:"Designer boutiques and beauty brands in an upscale hotel setting", price:"$$$"},
+        {name:"Pratunam Street Market", desc:"Street-level market stalls for clothing, bags, and accessories — great bargaining spot", price:"$"}
+      ]},
+      {title:"☁️ Rooftop Bars & Sky Dining", items:[
+        {name:"Red Sky Bar (Centara Grand)", desc:"55th floor 360° rooftop bar — stunning Bangkok skyline views, craft cocktails, grilled meats", price:"$$$"},
+        {name:"Uno Mas (Centara Grand, 54F)", desc:"Spanish tapas and seafood at 54th floor with spectacular skyline panorama", price:"$$$"},
+        {name:"Zenith Rooftop Bar (Hotel Indigo)", desc:"Rooftop pool bar with views over CentralWorld and Lumpini Park", price:"$$$"},
+        {name:"Above Eleven", desc:"Tropic-themed rooftop bar + Nikkei restaurant, great cocktails", price:"$$$"}
+      ]},
+      {title:"🍴 Must-Eat", items:[
+        {name:"Kaiton Pratunam Chicken Rice", desc:"The most famous late-night chicken rice in Bangkok — green-pants staff, open till 2AM, right in Pratunam", price:"$"},
+        {name:"Go-Ang Pratunam Chicken Rice", desc:"Michelin Bib Gourmand — arguably better, opens morning. Queue from 7AM", price:"$"},
+        {name:"CentralWorld Food Hall", desc:"Massive variety of quality Thai and international dishes — sit-down level above the food court", price:"$$"},
+        {name:"Platinum Food Court", desc:"Dirt cheap authentic Thai — pad krapao, boat noodles, mango sticky rice", price:"$"}
+      ]},
+      {title:"📸 Instagrammable Spots", items:[
+        {name:"Red Sky Bar Rooftop", desc:"Bangkok skyline photography from 55 floors up — golden hour and night shots are extraordinary", price:"$$$"},
+        {name:"CentralWorld Main Atrium", desc:"The enormous glass atrium — architectural photography and crowd shots", price:"free"},
+        {name:"Platinum Mall exterior", desc:"The dense Pratunam market area at ground level — very Bangkok urban energy", price:"free"}
+      ]},
+      {title:"💡 Tips", items:[
+        {name:"From Ratchathewi", desc:"Walk 10–15 min south to Pratunam, or 1 BTS stop to Chit Lom (E1) for CentralWorld/Erawan", price:"tip"},
+        {name:"Rooftop Dress Code", desc:"Smart casual required for Red Sky and sky bars. No flip-flops or shorts", price:"tip"},
+        {name:"Platinum Hours", desc:"8AM–8PM. Gets very crowded on weekends — weekday mornings are best for browsing", price:"tip"}
+      ]}
+    ],
+    note:"Your Airbnb is walking distance from Pratunam — a massive advantage. Take advantage and pop in anytime for snacks or last-minute shopping."
+  }
+];
+
+function renderMustTry() {
+  const grid = document.getElementById("mustTryGrid");
+  if (!grid) return;
+  grid.innerHTML = mustTryData.map(area => `
+    <div class="musttry-card ${area.dayClass}" onclick="showMustArea('${area.id}')">
+      <div class="musttry-card-emoji">${area.emoji}</div>
+      <div class="musttry-card-name">${area.name}</div>
+      <div class="musttry-card-day">${area.day}</div>
+      <div class="musttry-card-tags">${area.tags.map(t=>`<span class="musttry-tag">${t}</span>`).join("")}</div>
+    </div>
+  `).join("");
 }
-function togglePassport(id){revealedPassports[id]=!revealedPassports[id];renderTravelers();}
-function openTravelerEdit(id){const t=data.travelers.find(x=>x.id===id);document.getElementById("editTravelerId").value=id;document.getElementById("editFirstName").value=t.firstName;document.getElementById("editMiddleName").value=t.middleName;document.getElementById("editLastName").value=t.lastName;document.getElementById("editBirthDate").value=t.birthDate;document.getElementById("editPassport").value=t.passportNumber;document.getElementById("travelerModal").classList.add("show");}
-function closeTravelerModal(){document.getElementById("travelerModal").classList.remove("show");}
-function saveTraveler(){const id=document.getElementById("editTravelerId").value;const t=data.travelers.find(x=>x.id===id);t.firstName=document.getElementById("editFirstName").value.trim();t.middleName=document.getElementById("editMiddleName").value.trim();t.lastName=document.getElementById("editLastName").value.trim();t.birthDate=document.getElementById("editBirthDate").value.trim();t.passportNumber=document.getElementById("editPassport").value.trim();saveData();renderTravelers();renderExpenseForm();closeTravelerModal();showToast("Traveler updated!");}
+
+function showMustArea(id) {
+  const area = mustTryData.find(a => a.id === id);
+  if (!area) return;
+  const pc = p => p==="$"?"p1":p==="$$"?"p2":p==="$$$"?"p3":p==="free"?"pfree":"tip";
+  const renderItems = items => items.map(item => `
+    <div class="mustarea-item">
+      <div class="mustarea-item-left">
+        <div class="mustarea-item-name">${item.name}</div>
+        <div class="mustarea-item-desc">${item.desc}</div>
+      </div>
+      <span class="mustarea-badge ${pc(item.price)}">${item.price==="free"?"Free":item.price==="tip"?"Tip":item.price}</span>
+    </div>
+  `).join("");
+  const sectionsHtml = area.sections.map(s => `
+    <div class="mustarea-section">
+      <div class="mustarea-section-title">${s.title}</div>
+      ${renderItems(s.items)}
+    </div>
+  `).join("");
+  const html = `
+    <div class="mustarea-hero">
+      <div class="mustarea-hero-top">
+        <div class="mustarea-emoji">${area.emoji}</div>
+        <div><div class="mustarea-title">${area.name}</div><div class="mustarea-day">${area.day}</div></div>
+      </div>
+      <div class="mustarea-desc">${area.desc}</div>
+    </div>
+    <div class="mustarea-body">
+      ${sectionsHtml}
+      ${area.note?`<div class="mustarea-note">💡 ${area.note}</div>`:""}
+    </div>
+  `;
+  document.getElementById("mustAreaContent").innerHTML = html;
+  document.getElementById("mustAreaModal").classList.add("show");
+}
+
+function closeMustArea() {
+  document.getElementById("mustAreaModal").classList.remove("show");
+}
 
 // Expense form
 let splitType="equal";
@@ -828,8 +1621,9 @@ function selectPersonTab(id) {
 }
 
 function renderExpenses() {
-  // Table
-  document.getElementById("expenseTableBody").innerHTML = data.expenses.map(exp => `
+  // ── Expense table with total row ──
+  const totalPhp = data.expenses.reduce((s, e) => s + convertToPhp(e.amount, e.currency), 0);
+  const rows = data.expenses.map(exp => `
     <tr>
       <td><span class="cat-icon">${CAT_ICONS[exp.category]||""}</span>${exp.description}</td>
       <td class="amount-cell">${formatMoney(exp.amount,exp.currency)}</td>
@@ -839,33 +1633,185 @@ function renderExpenses() {
       <td><span class="status-badge status-${exp.status}" onclick="toggleStatus('${exp.id}')">${exp.status}</span></td>
       <td><div class="actions-cell"><button class="btn btn-secondary btn-xs" onclick="editExpense('${exp.id}')">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteExpense('${exp.id}')">Del</button></div></td>
     </tr>`).join("");
+  const totalRow = `<tr class="expense-total-row">
+    <td colspan="4" class="expense-total-label">&#127758; Total Group Expenses</td>
+    <td colspan="3" class="expense-total-value">${formatMoney(totalPhp)}</td>
+  </tr>`;
+  document.getElementById("expenseTableBody").innerHTML = rows + totalRow;
 
-  // Summary cards
+  // ── Compute balances ──
   const rawBalances = {};
-  data.travelers.forEach(t => { rawBalances[t.id] = {paid:0,owed:0}; });
+  data.travelers.forEach(t => { rawBalances[t.id] = {paid:0, owed:0}; });
   data.expenses.forEach(exp => {
     const php = convertToPhp(exp.amount, exp.currency);
-    rawBalances[exp.paidBy].paid += php;
+    if (rawBalances[exp.paidBy]) rawBalances[exp.paidBy].paid += php;
     exp.splitAmong.forEach(id => {
+      if (!rawBalances[id]) return;
       let share;
       if (exp.splitType==="custom"&&exp.customSplits) share=convertToPhp(exp.customSplits[id]||0,exp.currency);
       else share=php/exp.splitAmong.length;
       rawBalances[id].owed += share;
     });
   });
+
+  // ── Summary cards (clickable) ──
+  // Net after accounting for payments already marked paid
   document.getElementById("summaryGrid").innerHTML = data.travelers.map(t => {
-    const b=rawBalances[t.id], net=b.paid-b.owed;
-    const cls=net>0.01?"net-positive":net<-0.01?"net-negative":"net-zero";
-    const barCls=net>0.01?"positive":net<-0.01?"negative":"zero";
-    return `<div class="summary-card"><div class="accent-bar ${barCls}"></div><div class="summary-avatar">${getInitials(t.id)}</div>
+    const b = rawBalances[t.id];
+    // "Total still owed to you" = your paid amount minus shares already settled back to you
+    const debtsOwedToMe = [];
+    data.expenses.forEach(exp => {
+      if (exp.paidBy !== t.id) return;
+      const php = convertToPhp(exp.amount, exp.currency);
+      exp.splitAmong.forEach(debtor => {
+        if (debtor === t.id) return;
+        let share;
+        if (exp.splitType==="custom"&&exp.customSplits) share=convertToPhp(exp.customSplits[debtor]||0,exp.currency);
+        else share=php/exp.splitAmong.length;
+        if (share < 0.01) return;
+        const pk = debtor+":"+exp.id;
+        debtsOwedToMe.push({share, paid: isDebtPaid(pk)});
+      });
+    });
+    const totalRecoverable = debtsOwedToMe.reduce((s,d)=>s+d.share,0);
+    const totalRecovered   = debtsOwedToMe.filter(d=>d.paid).reduce((s,d)=>s+d.share,0);
+    const totalStillOwed   = totalRecoverable - totalRecovered;
+
+    // How much this person still owes others (unpaid debts)
+    const myDebts = getDebtsForPerson(t.id);
+    const iStillOwe = myDebts.filter(d=>!isDebtPaid(d.paymentKey)).reduce((s,d)=>s+d.amount,0);
+    const fullySettled = iStillOwe < 0.01;
+    const barCls = totalStillOwed>0.01?"positive":!fullySettled?"negative":"zero";
+
+    return `<div class="summary-card" onclick="openPayerModal('${t.id}')">
+      <div class="accent-bar ${barCls}"></div>
+      <div class="summary-avatar">${getInitials(t.id)}</div>
       <div class="summary-name">${getNameShort(t.id)}</div>
-      <div class="summary-row"><span class="label">Paid</span><span>${formatMoney(b.paid)}</span></div>
-      <div class="summary-row"><span class="label">Share</span><span>${formatMoney(b.owed)}</span></div>
-      <div class="summary-net ${cls}">${net>=0?"+":"-"}${formatMoney(Math.abs(net)).slice(4)}</div></div>`;
+      <div class="summary-row"><span class="label">Paid by ${getNameShort(t.id)}</span><span style="font-weight:600">${formatMoney(b.paid)}</span></div>
+      <div class="summary-row"><span class="label">Their share</span><span>${formatMoney(b.owed)}</span></div>
+      ${b.paid>0.01?`<div class="summary-row" style="margin-top:4px;padding-top:6px;border-top:1px solid var(--border)"><span class="label" style="color:var(--text-secondary)">Still owed back</span><span style="color:${totalStillOwed>0.01?'var(--orange)':'var(--green)'};">${formatMoney(totalStillOwed)}</span></div>`:''}
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);font-weight:600">Still owes</span>
+        <span style="font-size:1rem;font-weight:700;font-family:'SF Mono','Fira Code','Courier New',monospace;color:${fullySettled?'var(--green)':'var(--red)'};">${fullySettled?'PHP 0.00':formatMoney(iStillOwe)}</span>
+      </div>
+      <div style="font-size:0.58rem;color:var(--text-dim);text-align:center;margin-top:6px;opacity:0.7;">tap for details</div>
+    </div>`;
   }).join("");
 
-  // Who Owes Whom — per person
+  // ── Who Owes Whom ──
   renderWhoOwesWhom();
+}
+
+// ── Payer Detail Modal ──
+function openPayerModal(payerId) {
+  const payer = data.travelers.find(t=>t.id===payerId);
+  if (!payer) return;
+  const payerName = getNameShort(payerId);
+
+  // Collect all expenses paid by this person
+  const myExpenses = data.expenses.filter(e=>e.paidBy===payerId);
+
+  // Stats
+  const totalPaidOut = myExpenses.reduce((s,e)=>s+convertToPhp(e.amount,e.currency),0);
+  // How much this person owes others
+  const myDebts = getDebtsForPerson(payerId);
+  const totalIOwe = myDebts.reduce((s,d)=>s+d.amount,0);
+  const totalIPaid = myDebts.filter(d=>isDebtPaid(d.paymentKey)).reduce((s,d)=>s+d.amount,0);
+  const totalIStillOwe = totalIOwe - totalIPaid;
+
+  let html = `<div class="payer-hero">
+    <div class="dir-route" style="margin-bottom:8px">
+      <div class="summary-avatar" style="width:40px;height:40px;font-size:0.9rem;margin:0">${getInitials(payerId)}</div>
+      <div><div class="payer-hero-name">${[payer.firstName,payer.lastName].filter(Boolean).join(" ")||payerName}</div>
+      <div class="payer-hero-sub">Expense breakdown &amp; settlement summary</div></div>
+    </div>
+    <div class="payer-stats">
+      <div class="payer-stat">
+        <div class="payer-stat-label">Total Paid Out</div>
+        <div class="payer-stat-value" style="color:var(--amber)">${formatMoney(totalPaidOut)}</div>
+      </div>
+      <div class="payer-stat">
+        <div class="payer-stat-label">I Owe Others</div>
+        <div class="payer-stat-value" style="color:var(--red)">${formatMoney(totalIStillOwe)}</div>
+      </div>
+      <div class="payer-stat">
+        <div class="payer-stat-label">I've Paid Back</div>
+        <div class="payer-stat-value" style="color:var(--green)">${formatMoney(totalIPaid)}</div>
+      </div>
+    </div>
+  </div>
+  <div class="payer-body">`;
+
+  if (myExpenses.length === 0) {
+    html += `<div class="no-debts" style="margin:20px 0">&#128179; ${payerName} hasn't paid for any group expenses yet.</div>`;
+  } else {
+    html += `<div class="payer-section-title">&#128176; Expenses Paid by ${payerName}</div>`;
+    myExpenses.forEach(exp => {
+      const phpAmt = convertToPhp(exp.amount, exp.currency);
+      // build settlement rows for debtors on this expense
+      const debtors = exp.splitAmong.filter(id=>id!==payerId);
+      let settleRows = "";
+      let settledTotal = 0;
+      let unsettledTotal = 0;
+      debtors.forEach(debtorId=>{
+        let share;
+        if(exp.splitType==="custom"&&exp.customSplits) share=convertToPhp(exp.customSplits[debtorId]||0,exp.currency);
+        else share=phpAmt/exp.splitAmong.length;
+        if(share<0.01)return;
+        const pk = debtorId+":"+exp.id;
+        const paid = isDebtPaid(pk);
+        if(paid) settledTotal+=share; else unsettledTotal+=share;
+        settleRows+=`<div class="payer-settle-row">
+          <span class="payer-settle-who"><strong>${getNameShort(debtorId)}</strong> → ${payerName}</span>
+          <span style="display:flex;align-items:center;gap:6px">
+            <span class="payer-settle-amount">${formatMoney(share)}</span>
+            <span class="payer-settle-status ${paid?'paid':'unpaid'}">${paid?'PAID':'NOT PAID'}</span>
+          </span>
+        </div>`;
+      });
+      // self-share row
+      let selfShare=0;
+      if(exp.splitAmong.includes(payerId)){
+        if(exp.splitType==="custom"&&exp.customSplits) selfShare=convertToPhp(exp.customSplits[payerId]||0,exp.currency);
+        else selfShare=phpAmt/exp.splitAmong.length;
+      }
+      const footerCls = unsettledTotal<0.01?"settled":settledTotal>0?"partial":"none";
+      const footerLabel = unsettledTotal<0.01?"\u2705 Fully settled":`${formatMoney(settledTotal)} settled / ${formatMoney(unsettledTotal)} pending`;
+      html+=`<div class="payer-exp-block">
+        <div class="payer-exp-header">
+          <span class="cat-icon">${CAT_ICONS[exp.category]||""}</span>
+          <span class="payer-exp-title">${exp.description}</span>
+          <span class="payer-exp-amount">${formatMoney(exp.amount,exp.currency)}</span>
+        </div>
+        ${selfShare>0.01?`<div class="payer-settle-row" style="background:rgba(255,255,255,0.015)"><span class="payer-settle-who" style="color:var(--text-dim)">Your own share</span><span class="payer-settle-amount" style="color:var(--text-dim)">${formatMoney(selfShare)}</span></div>`:""}
+        ${settleRows}
+        ${debtors.length>0?`<div class="payer-exp-footer"><span class="footer-label">${footerLabel}</span><span class="footer-val ${footerCls}">${formatMoney(settledTotal+unsettledTotal)} total owed back</span></div>`:""}
+      </div>`;
+    });
+  }
+
+  // Bottom section: what THIS person owes others
+  if (myDebts.length > 0) {
+    html += `<div class="payer-section-title" style="margin-top:24px">&#128197; ${payerName}'s Outstanding Debts</div>`;
+    myDebts.forEach(d=>{
+      const paid = isDebtPaid(d.paymentKey);
+      html+=`<div class="payer-settle-row" style="background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:6px;border:1px solid var(--border)">
+        <span class="payer-settle-who"><strong>${payerName}</strong> → ${getNameShort(d.owedTo)} <span style="color:var(--text-dim);font-size:0.7rem">(${d.description})</span></span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span class="payer-settle-amount">${formatMoney(d.amount)}</span>
+          <span class="payer-settle-status ${paid?'paid':'unpaid'}">${paid?'PAID':'NOT PAID'}</span>
+        </span>
+      </div>`;
+    });
+  }
+
+  html += `</div>`;
+  document.getElementById("payerModalContent").innerHTML = html;
+  document.getElementById("payerModal").classList.add("show");
+}
+
+function closePayerModal() {
+  document.getElementById("payerModal").classList.remove("show");
 }
 
 function renderWhoOwesWhom() {
@@ -898,9 +1844,9 @@ function renderWhoOwesWhom() {
       detailsHtml += `<div class="no-debts">\u2705 ${getNameShort(t.id)} doesn't owe anyone!</div>`;
     } else {
       detailsHtml += `<div class="person-summary-bar">
-        <div class="psb-item"><div class="psb-label">Total Owed</div><div class="psb-value" style="color:var(--red)">${formatMoney(totalAll)}</div></div>
-        <div class="psb-item"><div class="psb-label">Paid</div><div class="psb-value" style="color:var(--green)">${formatMoney(totalPaid)}</div></div>
-        <div class="psb-item"><div class="psb-label">Remaining</div><div class="psb-value" style="color:${totalUnpaid<0.01?'var(--green)':'var(--amber)'}">${formatMoney(totalUnpaid)}</div></div>
+        <div class="psb-item"><div class="psb-label">Total Share</div><div class="psb-value" style="color:var(--red)">${formatMoney(totalAll)}</div></div>
+        <div class="psb-item"><div class="psb-label">Already Paid</div><div class="psb-value" style="color:var(--green)">${formatMoney(totalPaid)}</div></div>
+        <div class="psb-item"><div class="psb-label">Still Owe</div><div class="psb-value" style="color:${totalUnpaid<0.01?'var(--green)':'var(--amber)'}">${formatMoney(totalUnpaid)}</div></div>
       </div>`;
 
       debts.forEach(d => {
@@ -910,7 +1856,7 @@ function renderWhoOwesWhom() {
             <div class="debt-icon">${CAT_ICONS[d.category]||"\u{1F4B2}"}</div>
             <div class="debt-info">
               <div class="debt-desc">${d.description}</div>
-              <div class="debt-sub">Owed to <strong>${getNameShort(d.owedTo)}</strong></div>
+              <div class="debt-sub">Your share — pay back <strong>${getNameShort(d.owedTo)}</strong></div>
             </div>
             <div class="debt-amount${paid?" paid":""}">${formatMoney(d.amount)}</div>
             <div class="debt-actions">
@@ -943,7 +1889,211 @@ function resetData(){if(!confirm("Reset ALL data to defaults? This cannot be und
 
 document.getElementById("rateInput").addEventListener("change",function(){const r=parseFloat(this.value);if(r>0){data.meta.exchangeRate=r;document.getElementById("settingsRate").value=r;saveData();renderExpenses();}});
 
-function renderAll(){document.getElementById("rateInput").value=data.meta.exchangeRate;document.getElementById("settingsRate").value=data.meta.exchangeRate;renderItinerary();renderTravelers();renderExpenseForm();renderExpenses();}
+// ==================== PERSONAL EXPENSES ====================
+const PE_CATS = {
+  food:      {label:"🍜 Food & Drinks",   color:"rgba(246,173,85,0.12)",  text:"#f6ad55"},
+  shopping:  {label:"🛍️ Shopping",        color:"rgba(183,148,244,0.12)", text:"#c4a8f7"},
+  transport: {label:"🚗 Transport",        color:"rgba(99,179,237,0.12)",  text:"#7cc4f5"},
+  activity:  {label:"🎟️ Activities",      color:"rgba(104,211,145,0.12)", text:"#7ee8a8"},
+  beauty:    {label:"💆 Health & Beauty",  color:"rgba(252,129,129,0.12)", text:"#fc8181"},
+  other:     {label:"📦 Other",            color:"rgba(160,160,190,0.1)",  text:"#9898b0"}
+};
+
+let peSelectedPerson = null;
+let peEditId = null;
+
+function getPeList(personId) {
+  if (!data.personalExpenses) data.personalExpenses = {};
+  if (!data.personalExpenses[personId]) data.personalExpenses[personId] = [];
+  return data.personalExpenses[personId];
+}
+
+function renderPersonalExpenses() {
+  const tabsEl   = document.getElementById("pePersonTabs");
+  const panelsEl = document.getElementById("pePanels");
+  if (!tabsEl || !panelsEl) return;
+
+  if (!peSelectedPerson) peSelectedPerson = data.travelers[0]?.id || null;
+
+  // Tabs
+  tabsEl.innerHTML = data.travelers.map(t =>
+    `<button class="pe-person-tab${peSelectedPerson===t.id?" active":""}" onclick="peSwitchPerson('${t.id}')">${getInitials(t.id)} ${getNameShort(t.id)}</button>`
+  ).join("");
+
+  // Panels
+  panelsEl.innerHTML = data.travelers.map(t => {
+    const list = getPeList(t.id);
+    const totalPhp = list.reduce((s,e) => s + convertToPhp(e.amount, e.currency), 0);
+    const totalThb = list.filter(e=>e.currency==="THB").reduce((s,e)=>s+e.amount,0);
+    const totalPhpOnly = list.filter(e=>e.currency==="PHP").reduce((s,e)=>s+e.amount,0);
+    const catTotals = {};
+    list.forEach(e => {
+      const php = convertToPhp(e.amount, e.currency);
+      catTotals[e.category] = (catTotals[e.category]||0) + php;
+    });
+    const topCat = Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0];
+
+    // Build category breakdown chips
+    const catChips = Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([cat,amt]) => {
+      const c = PE_CATS[cat]||PE_CATS.other;
+      return `<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:12px;font-size:0.68rem;font-weight:600;background:${c.color};color:${c.text};margin:2px;">${c.label.split(" ").slice(0,2).join(" ")} <span style="opacity:0.8">${formatMoney(amt)}</span></span>`;
+    }).join("");
+
+    // Form id scoped to person
+    const fid = `pe_${t.id}`;
+
+    return `<div class="pe-panel${peSelectedPerson===t.id?" active":""}" data-pe-person="${t.id}">
+
+      <!-- Stats bar -->
+      <div class="pe-summary-bar">
+        <div class="pe-stat">
+          <div class="pe-stat-label">Total Spent</div>
+          <div class="pe-stat-value" style="color:var(--teal)">${formatMoney(totalPhp)}</div>
+        </div>
+        <div class="pe-stat">
+          <div class="pe-stat-label">in THB</div>
+          <div class="pe-stat-value" style="color:var(--text-secondary)">${totalThb.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})} ฿</div>
+        </div>
+        <div class="pe-stat">
+          <div class="pe-stat-label">Entries</div>
+          <div class="pe-stat-value" style="color:var(--text-secondary)">${list.length}</div>
+        </div>
+        <div class="pe-stat">
+          <div class="pe-stat-label">Top Category</div>
+          <div class="pe-stat-value" style="color:var(--text-secondary);font-size:0.75rem;">${topCat?(PE_CATS[topCat[0]]||PE_CATS.other).label.split(" ").slice(0,2).join(" "):"—"}</div>
+        </div>
+      </div>
+
+      ${list.length>1?`<div style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:4px">${catChips}</div>`:""}
+
+      <!-- Add / Edit form -->
+      <div class="pe-add-form">
+        <h4 id="${fid}_formTitle">&#43; Add Personal Expense</h4>
+        <input type="hidden" id="${fid}_editId">
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>Description</label><input type="text" id="${fid}_desc" placeholder="e.g. Chang beer at 7-Eleven"></div>
+          <div class="form-group"><label>Amount</label><input type="number" id="${fid}_amount" step="0.01" min="0" placeholder="0.00"></div>
+          <div class="form-group" style="flex:0.5;min-width:80px"><label>Currency</label>
+            <select id="${fid}_currency"><option value="THB">THB</option><option value="PHP">PHP</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Category</label>
+            <select id="${fid}_cat">
+              ${Object.entries(PE_CATS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join("")}
+            </select>
+          </div>
+          <div class="form-group"><label>Date</label><input type="date" id="${fid}_date" value="${new Date().toISOString().slice(0,10)}"></div>
+          <div class="form-group" style="flex:2"><label>Note <span style="color:var(--text-dim);font-weight:400">(optional)</span></label><input type="text" id="${fid}_note" placeholder="e.g. Chatuchak souvenir"></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn btn-teal" onclick="peSave('${t.id}')">Save</button>
+          <button class="btn btn-secondary" id="${fid}_cancelBtn" style="display:none" onclick="peCancel('${t.id}')">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="pe-table-wrap">
+        ${list.length===0
+          ? `<div class="pe-empty">&#128683; No personal expenses yet — add your first one above!</div>`
+          : `<table class="pe-table">
+              <thead><tr>
+                <th>Description</th><th>Category</th><th>Amount</th><th>In PHP</th><th>Date</th><th>Note</th><th>Actions</th>
+              </tr></thead>
+              <tbody>
+                ${list.map(e => {
+                  const c = PE_CATS[e.category]||PE_CATS.other;
+                  return `<tr>
+                    <td style="font-weight:500">${e.desc}</td>
+                    <td><span class="pe-cat-badge" style="background:${c.color};color:${c.text}">${c.label.split(" ").slice(0,2).join(" ")}</span></td>
+                    <td class="amount-cell">${e.currency==="THB"?e.amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+" ฿":formatMoney(e.amount,"PHP")}</td>
+                    <td class="amount-cell" style="color:var(--teal)">${formatMoney(convertToPhp(e.amount,e.currency))}</td>
+                    <td style="color:var(--text-dim);font-size:0.78rem">${e.date}</td>
+                    <td style="color:var(--text-dim);font-size:0.75rem;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.note||"—"}</td>
+                    <td><div class="actions-cell">
+                      <button class="btn btn-secondary btn-xs" onclick="peEdit('${t.id}','${e.id}')">Edit</button>
+                      <button class="btn btn-danger btn-xs" onclick="peDel('${t.id}','${e.id}')">Del</button>
+                    </div></td>
+                  </tr>`;
+                }).join("")}
+              </tbody>
+              <tfoot><tr class="pe-total-row">
+                <td colspan="3" class="pe-total-label">&#127760; Total Personal Spend</td>
+                <td class="pe-total-value" colspan="4">${formatMoney(totalPhp)}</td>
+              </tr></tfoot>
+            </table>`
+        }
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function peSwitchPerson(id) {
+  peSelectedPerson = id;
+  peEditId = null;
+  renderPersonalExpenses();
+}
+
+function peSave(personId) {
+  const fid = `pe_${personId}`;
+  const desc   = document.getElementById(`${fid}_desc`).value.trim();
+  const amount = parseFloat(document.getElementById(`${fid}_amount`).value);
+  const currency = document.getElementById(`${fid}_currency`).value;
+  const cat    = document.getElementById(`${fid}_cat`).value;
+  const date   = document.getElementById(`${fid}_date`).value;
+  const note   = document.getElementById(`${fid}_note`).value.trim();
+  const editId = document.getElementById(`${fid}_editId`).value;
+
+  if (!desc) { showToast("Enter a description", true); return; }
+  if (!amount || amount <= 0) { showToast("Enter a valid amount", true); return; }
+
+  const list = getPeList(personId);
+  if (editId) {
+    const entry = list.find(e=>e.id===editId);
+    if (entry) Object.assign(entry, {desc, amount, currency, category:cat, date, note});
+  } else {
+    list.push({id:"pe_"+Date.now(), desc, amount, currency, category:cat, date, note});
+  }
+  if (!data.personalExpenses) data.personalExpenses = {};
+  data.personalExpenses[personId] = list;
+  saveData();
+  renderPersonalExpenses();
+  showToast(editId ? "Entry updated!" : "Expense added!");
+}
+
+function peEdit(personId, entryId) {
+  const list  = getPeList(personId);
+  const entry = list.find(e=>e.id===entryId);
+  if (!entry) return;
+  peSelectedPerson = personId;
+  renderPersonalExpenses(); // ensure panel is rendered
+  const fid = `pe_${personId}`;
+  document.getElementById(`${fid}_editId`).value   = entry.id;
+  document.getElementById(`${fid}_desc`).value     = entry.desc;
+  document.getElementById(`${fid}_amount`).value   = entry.amount;
+  document.getElementById(`${fid}_currency`).value = entry.currency;
+  document.getElementById(`${fid}_cat`).value      = entry.category;
+  document.getElementById(`${fid}_date`).value     = entry.date;
+  document.getElementById(`${fid}_note`).value     = entry.note||"";
+  document.getElementById(`${fid}_formTitle`).innerHTML = "&#9998; Edit Expense";
+  document.getElementById(`${fid}_cancelBtn`).style.display = "";
+  document.querySelector(`[data-pe-person="${personId}"] .pe-add-form`).scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function peCancel(personId) {
+  peEditId = null;
+  renderPersonalExpenses();
+}
+
+function peDel(personId, entryId) {
+  if (!confirm("Delete this entry?")) return;
+  data.personalExpenses[personId] = getPeList(personId).filter(e=>e.id!==entryId);
+  saveData();
+  renderPersonalExpenses();
+  showToast("Entry deleted");
+}
+
+function renderAll(){document.getElementById("rateInput").value=data.meta.exchangeRate;document.getElementById("settingsRate").value=data.meta.exchangeRate;renderItinerary();renderExpenseForm();renderExpenses();renderPersonalExpenses();renderMustTry();}
 
 // ==================== GOOGLE SHEETS SYNC ====================
 const GS_CONFIG_KEY = "bkk2026_gsconfig";
