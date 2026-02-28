@@ -260,39 +260,42 @@ input, select, textarea { font-family:inherit; }
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  border-top: 2px solid var(--amber);
+  border-top: 1px solid rgba(242,194,78,0.22);
   border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--glass-shine), var(--shadow-lg), 0 0 0 0.5px rgba(242,194,78,0.1) inset;
+  padding: 16px 20px;
+  box-shadow: var(--glass-shine), var(--shadow-lg);
   transition: transform .2s ease, box-shadow .2s ease;
 }
-.flight-card:hover { transform:translateY(-2px); box-shadow:var(--glass-shine), var(--shadow-lg), 0 0 30px rgba(242,194,78,0.08); }
+.flight-card:hover { transform:translateY(-2px); box-shadow:var(--glass-shine), var(--shadow-lg), 0 0 24px rgba(242,194,78,0.07); }
 .flight-header { display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .flight-summary { align-items:center; }
 .flight-summary-left {
-  width:34px; height:34px; border-radius:12px;
+  width:34px; height:34px; border-radius:10px;
   display:flex; align-items:center; justify-content:center;
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(242,194,78,0.08);
+  border:1px solid rgba(242,194,78,0.2);
   color:var(--amber);
   flex-shrink:0;
 }
 .flight-summary-main { flex:1; min-width:0; }
 .flight-summary-top {
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  display:flex; align-items:center; gap:7px;
   font-size:0.9rem; font-weight:700; letter-spacing:-0.2px;
 }
-.flight-summary-time { color:var(--text-secondary); font-size:0.78rem; font-weight:600; }
-.flight-summary-sub { margin-top:2px; font-size:0.7rem; color:var(--text-dim); }
+.flight-summary-main .flight-route { font-size:inherit; letter-spacing:inherit; margin:0; }
+.flight-summary-sep { color:var(--text-dim); font-weight:400; font-size:0.85rem; }
+.flight-summary-time { color:var(--text); font-size:0.9rem; font-weight:700; letter-spacing:-0.2px; }
+.flight-summary-sub { margin-top:3px; font-size:0.72rem; color:var(--text-dim); letter-spacing:0.1px; }
+.flight-body { margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.07); }
 .flight-toggle {
-  width:38px; height:38px; border-radius:14px;
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.12);
-  color:var(--text-secondary); cursor:pointer;
+  width:32px; height:32px; border-radius:10px;
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--text-dim); cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  transition:all .2s ease;
+  transition:all .2s ease; flex-shrink:0;
 }
-.flight-toggle:hover { color:var(--text); border-color:rgba(255,255,255,0.2); }
+.flight-toggle:hover { color:var(--text); background:rgba(255,255,255,0.07); border-color:rgba(255,255,255,0.18); }
 .flight-card.collapsed .flight-body { display:none; }
 .flight-card.collapsed .flight-toggle { transform:rotate(-90deg); }
 .flight-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:2.5px; color:var(--amber); margin-bottom:8px; font-weight:600; }
@@ -2361,15 +2364,15 @@ tr:hover td { background:rgba(242,194,78,0.04); }
   .tab-content#tab-overview .itinerary-legend { display:none; }
   .flights { grid-template-columns:1fr; }
   .flight-card { border-radius:26px; padding:14px 16px; border-top:none; background:rgba(255,255,255,0.04); }
-  .flight-header { align-items:flex-start; }
+  .flight-header { align-items:center; }
   .flight-label { letter-spacing:0.18em; font-size:0.6rem; color:#f5c24c; }
   .flight-route { font-size:0.9rem; }
   .flight-num { font-size:0.7rem; }
-  .flight-toggle { width:34px; height:34px; border-radius:12px; }
+  .flight-toggle { width:32px; height:32px; border-radius:10px; }
   .flight-summary { align-items:center; }
-  .flight-summary-left { width:36px; height:36px; border-radius:14px; }
-  .flight-summary-top { font-size:0.9rem; }
-  .flight-summary-time { font-size:0.72rem; }
+  .flight-summary-left { width:34px; height:34px; border-radius:10px; }
+  .flight-summary-top { font-size:0.88rem; }
+  .flight-summary-time { font-size:0.88rem; }
   .flight-summary-sub { font-size:0.68rem; }
   .flight-sub { margin-top:12px; padding-top:12px; }
   .flight-sub .flight-route { font-size:0.95rem; }
@@ -2645,6 +2648,7 @@ tr:hover td { background:rgba(242,194,78,0.04); }
           <div class="flight-summary-main">
             <div class="flight-summary-top">
               <span class="flight-route">MNL &rarr; BKK</span>
+              <span class="flight-summary-sep">&middot;</span>
               <span class="flight-summary-time">11:45 PM</span>
             </div>
             <div class="flight-summary-sub">Mar 24, 2026 &middot; 5J 931</div>
@@ -3296,6 +3300,7 @@ async function silentSync() {
   finally { isSyncing = false; }
 }
 function showToast(msg, isError) { const t=document.getElementById("toast"); t.textContent=msg; t.className="toast show"+(isError?" error":""); setTimeout(()=>t.className="toast",2800); }
+function escapeHtml(str) { return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 function formatMoney(n,curr) { return (curr||"PHP")+" "+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function convertToPhp(amount,currency) { return currency==="PHP"?amount:amount*data.meta.exchangeRate; }
 function getNameShort(id) { const t=data.travelers.find(t=>t.id===id); return t?t.firstName.split(" ")[0]:id; }
@@ -4200,7 +4205,7 @@ function renderExpenses() {
   const totalPhp = data.expenses.reduce((s, e) => s + convertToPhp(e.amount, e.currency), 0);
   const rows = data.expenses.map(exp => `
     <tr>
-      <td><span class="cat-icon">${CAT_ICONS[exp.category]||""}</span>${exp.description}</td>
+      <td><span class="cat-icon">${CAT_ICONS[exp.category]||""}</span>${escapeHtml(exp.description)}</td>
       <td class="amount-cell">${formatMoney(exp.amount,exp.currency)}</td>
       <td>${getNameShort(exp.paidBy)}</td>
       <td style="font-size:0.78rem;color:var(--text-secondary)">${exp.splitAmong.map(id=>getNameShort(id)).join(", ")}</td>
@@ -4222,7 +4227,7 @@ function renderExpenses() {
         <div class="group-expense-main">
           <div class="group-expense-icon">${CAT_ICONS[exp.category]||"&#128176;"}</div>
           <div style="min-width:0;">
-            <div class="group-expense-title">${exp.description}</div>
+            <div class="group-expense-title">${escapeHtml(exp.description)}</div>
             <div class="group-expense-sub">Paid by ${getNameShort(exp.paidBy)} • ${exp.date}</div>
           </div>
         </div>
@@ -4435,7 +4440,7 @@ function openPayerModal(payerId) {
         <div class="payer-exp-header">
           <span class="payer-exp-icon">${CAT_ICONS[exp.category]||"\u{1F4B2}"}</span>
           <span style="flex:1;min-width:0;">
-            <div class="payer-exp-title">${exp.description}</div>
+            <div class="payer-exp-title">${escapeHtml(exp.description)}</div>
             <div class="payer-exp-sub">${exp.date}</div>
           </span>
           <span style="text-align:right;">
@@ -4459,7 +4464,7 @@ function openPayerModal(payerId) {
           <span class="payer-settle-avatar">${getInitials(d.owedTo)}</span>
           <span>
             <div class="payer-settle-who">To ${getNameShort(d.owedTo)}</div>
-            <div class="payer-settle-sub">${d.description}</div>
+            <div class="payer-settle-sub">${escapeHtml(d.description)}</div>
           </span>
         </span>
         <span style="display:flex;align-items:center;gap:6px">
@@ -4520,7 +4525,7 @@ function renderWhoOwesWhom() {
           <div class="debt-item${paid?" is-paid":""}">
             <div class="debt-icon">${CAT_ICONS[d.category]||"\u{1F4B2}"}</div>
             <div class="debt-info">
-              <div class="debt-desc">${d.description}</div>
+              <div class="debt-desc">${escapeHtml(d.description)}</div>
               <div class="debt-sub">Your share — pay back <strong>${getNameShort(d.owedTo)}</strong></div>
             </div>
             <div class="debt-amount${paid?" paid":""}">${formatMoney(d.amount)}</div>
@@ -4682,7 +4687,7 @@ function renderPersonalExpenses() {
             <div class="pe-expense-left">
               <div class="pe-expense-icon">${c.label.split(" ")[0]}</div>
               <div style="min-width:0">
-                <div class="pe-expense-name">${e.desc}</div>
+                <div class="pe-expense-name">${escapeHtml(e.desc)}</div>
                 <div class="pe-expense-meta">${fmtDate(e.date)} • ${c.label.split(" ").slice(1,2).join(" ")||"Other"}</div>
               </div>
             </div>
@@ -4847,22 +4852,30 @@ function renderAll(){document.getElementById("rateInput").value=data.meta.exchan
 const GS_CONFIG_KEY = "bkk2026_gsconfig";
 const SYNC_SHEET_NAME = "SyncData";
 const SYNC_INTERVAL_MS = 30000; // 30 seconds
-// ⬇️ FILL IN YOUR CREDENTIALS HERE before deploying — friends will auto-sync with no setup needed
+// Credentials loaded at runtime from /api/config (Vercel env vars) — never hardcoded in source
 let gsConfig = {
-  spreadsheetId: "19ElCtLGd5Po6ByqtFdFwcA5X7Dowxsh2wm7w8lr2l-w",
-  apiKey:         "AIzaSyDFLMC24AlylHs-o8xjNbtncp_e-L0huUk",
-  webAppUrl:      "https://script.google.com/macros/s/AKfycbwNv93BFoUNhPqatochkwxF9Qbp3SoVMZiPLA_KVoGhPetDUsXmRK2OtqI2RgB0_jhZUQ/exec",
-  syncToken:      "bkk2026"
+  spreadsheetId: "",
+  apiKey:        "",
+  webAppUrl:     "",
+  syncToken:     ""
 };
 let autoSyncEnabled = false;
 let autoSyncTimer = null;
 let lastSyncTime = null;
 let isSyncing = false;
 
-function loadGsConfig() {
+async function loadGsConfig() {
+  // 1. Fetch server-side credentials from Vercel API route (keeps secrets out of source)
+  try {
+    const res = await fetch('/api/config');
+    if (res.ok) {
+      const cfg = await res.json();
+      if (cfg.spreadsheetId) gsConfig = Object.assign({}, gsConfig, cfg);
+    }
+  } catch(e) {} // gracefully skip if running locally without a server
+  // 2. localStorage overrides server config (allows manual user customisation)
   try {
     const saved = localStorage.getItem(GS_CONFIG_KEY);
-    // Merge: baked defaults supply values, localStorage overrides any that were manually changed
     if (saved) gsConfig = Object.assign({}, gsConfig, JSON.parse(saved));
   } catch(e) {}
   document.getElementById("spreadsheetId").value = gsConfig.spreadsheetId || "";
@@ -5034,16 +5047,15 @@ function toggleAutoSync() {
 }
 
 loadData();renderAll();updateCountdown();setInterval(updateCountdown,1000);
-loadGsConfig();
-// Auto-start sync if credentials are baked in — friends need zero setup
-const _hasCreds = gsConfig.spreadsheetId && !gsConfig.spreadsheetId.includes("PASTE")
-               && gsConfig.apiKey && !gsConfig.apiKey.includes("PASTE")
-               && gsConfig.webAppUrl && !gsConfig.webAppUrl.includes("PASTE");
-if (_hasCreds) {
-  manualSync(); // pull latest on page load — one-time initial sync
-  autoSyncEnabled = true;
-  updateSyncStatusUI();
-}
+(async () => {
+  await loadGsConfig();
+  const _hasCreds = gsConfig.spreadsheetId && gsConfig.apiKey && gsConfig.webAppUrl;
+  if (_hasCreds) {
+    manualSync(); // pull latest on page load — one-time initial sync
+    autoSyncEnabled = true;
+    updateSyncStatusUI();
+  }
+})();
 
 // Collapse flight details by default on mobile
 if (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) {
