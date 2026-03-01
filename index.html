@@ -181,8 +181,8 @@ input, select, textarea { font-family:inherit; }
   position:fixed; left:0; right:0; bottom:0; z-index:120;
 }
 .mobile-nav-inner {
-  margin:0 auto 18px; max-width:430px; padding:10px 12px;
-  border-radius:28px;
+  margin:0 auto 10px; max-width:430px; padding:8px 10px;
+  border-radius:26px;
   background: rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.12);
   backdrop-filter: blur(26px) saturate(160%);
@@ -194,30 +194,30 @@ input, select, textarea { font-family:inherit; }
   display:flex; align-items:flex-end; justify-content:space-between; gap:4px;
 }
 .mobile-tab {
-  flex:1; min-width:64px;
-  display:flex; flex-direction:column; align-items:center; gap:6px;
+  flex:1; min-width:52px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
   background:transparent; border:none; color:var(--text-dim);
   font-size:0.6rem; font-weight:800; letter-spacing:0.16em; text-transform:uppercase;
-  padding:6px 4px 4px; cursor:pointer;
+  padding:4px 4px 2px; cursor:pointer;
   transition:transform .2s ease, color .2s ease;
 }
 .mobile-tab .mobile-icon {
-  width:42px; height:42px; border-radius:16px;
+  width:36px; height:36px; border-radius:13px;
   display:flex; align-items:center; justify-content:center;
   background:rgba(255,255,255,0.03);
   border:1px solid rgba(255,255,255,0.12);
   color:var(--text-secondary);
   transition:all .2s ease;
 }
-.mobile-tab.active { color:var(--amber); transform:translateY(-12px); }
+.mobile-tab.active { color:var(--amber); transform:translateY(-8px); }
 .mobile-tab.active .mobile-icon {
   color:var(--amber);
   border-color: rgba(242,194,78,0.35);
   background: rgba(242,194,78,0.08);
-  box-shadow: 0 0 18px rgba(242,194,78,0.18);
+  box-shadow: 0 0 14px rgba(242,194,78,0.18);
 }
 .mobile-tab .mobile-icon {
-  width:42px; height:42px; border-radius:16px;
+  width:36px; height:36px; border-radius:13px;
 }
 
 .content { max-width:1240px; margin:0 auto; padding:20px; }
@@ -2357,7 +2357,7 @@ tr:hover td { background:rgba(242,194,78,0.04); }
   .header-title span { font-size:0.6rem; letter-spacing:0.2em; color:#f5c24c; }
   .header-rate { border-radius:16px; padding:6px 10px; background:rgba(255,255,255,0.04); }
   .header-rate input { width:44px; font-size:0.75rem; }
-  .content { padding:16px; padding-bottom:120px; max-width:430px; margin:0 auto; }
+  .content { padding:16px; padding-bottom:96px; max-width:430px; margin:0 auto; }
   .tabs { display:none; }
   .mobile-nav { display:block; }
   .tab-content#tab-overview .section-title { display:none; }
